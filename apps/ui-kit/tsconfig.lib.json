@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "declaration": true,
+    "noEmit": true,
+    "outDir": "dist",
+    "rootDir": "lib",
+    "baseUrl": "lib",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+  },
+  "include": ["lib"],
+  "exclude": ["src", "dist", "node_modules"]
+}

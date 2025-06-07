@@ -1,0 +1,55 @@
+import { resolve } from 'path';
+import path from 'path';
+
+import svg from '@neodx/svg/vite';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
+
+const root = path.resolve(__dirname, 'lib');
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      '@lib': root,
+    },
+  },
+  build: {
+    lib: {
+      entry: resolve(__dirname, './lib/index.ts'),
+      formats: ['es'],
+      fileName: 'index',
+    },
+    copyPublicDir: false,
+    rollupOptions: {
+      external: ['react', 'react/jsx-runtime', 'classnames', 'tailwindcss'],
+      output: {
+        assetFileNames: 'style.css',
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM',
+          tailwindcss: 'tailwindcss',
+        },
+      },
+    },
+  },
+  plugins: [
+    react(),
+
+    dts({
+      tsconfigPath: resolve(__dirname, 'tsconfig.lib.json'),
+      outDir: 'dist',
+      entryRoot: 'lib',
+      include: ['lib'],
+    }),
+
+    svg({
+      root: 'assets/sprites',
+      output: 'public/sprites',
+      metadata: 'lib/sprite.h.ts',
+      group: true,
+      resetColors: false,
+      fileName: '{name}.svg',
+    }),
+  ],
+});
