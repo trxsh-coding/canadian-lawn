@@ -1,0 +1,23 @@
+@font-face {
+  font-family: GolosBold;
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url('../../assets/fonts/GolosBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: GolosRegular;
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url('../../assets/fonts/GolosRegular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: Gothic;
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url('../../assets/fonts/MursGothic.woff2') format('woff2');
+}

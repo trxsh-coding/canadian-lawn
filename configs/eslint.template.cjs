@@ -110,7 +110,7 @@ module.exports = ({ tsFilesPlugins = [] } = {}) => ({
     },
     {
       ...commonForTypeScript,
-      files: ['./vite.config.ts', './next.config.mjs', './tailwind.config.ts', '.storybook/**/*'],
+      files: ['./vite.config.ts', '.storybook/**/*'],
       parserOptions: {
         ecmaVersion: 'latest',
         project: './tsconfig.node.json',

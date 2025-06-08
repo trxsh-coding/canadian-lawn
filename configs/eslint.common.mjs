@@ -36,11 +36,7 @@ export const createConfig = (options = {}) => {
         globals: globals.browser,
         parserOptions: {
           ecmaVersion: 'latest',
-          project: [
-            './tsconfig.json',
-            './tsconfig.app.json',
-            './tsconfig.lib.json',
-          ],
+          project: ['./tsconfig.json', './tsconfig.app.json', './tsconfig.lib.json'],
           sourceType: 'module',
           ecmaFeatures: {
             jsx: true,
@@ -56,10 +52,7 @@ export const createConfig = (options = {}) => {
       },
       rules: {
         ...reactHooks.configs.recommended.rules,
-        'react-refresh/only-export-components': [
-          'warn',
-          { allowConstantExport: true },
-        ],
+        'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
         'eol-last': ['error', 'always'],
         'prettier/prettier': ['error', { endOfLine: 'auto' }],
         'no-console': 'error',
@@ -67,15 +60,7 @@ export const createConfig = (options = {}) => {
         'import/order': [
           'error',
           {
-            groups: [
-              'builtin',
-              'external',
-              'internal',
-              'object',
-              'parent',
-              'sibling',
-              'index',
-            ],
+            groups: ['builtin', 'external', 'internal', 'object', 'parent', 'sibling', 'index'],
             pathGroups: [
               {
                 pattern: '@/**',
@@ -101,12 +86,7 @@ export const createConfig = (options = {}) => {
       },
     },
     {
-      files: [
-        'vite.config.ts',
-        'next.config.mjs',
-        'tailwind.config.ts',
-        '.storybook/**/*',
-      ],
+      files: ['vite.config.ts', '.storybook/**/*'],
       languageOptions: {
         parserOptions: {
           ecmaFeatures: 'latest',

@@ -6,13 +6,12 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import tailwindcss from '@tailwindcss/vite';
-
-const root = path.resolve(__dirname, 'lib');
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   resolve: {
     alias: {
-      '@lib': root,
+      '@lib': path.resolve(__dirname, 'lib'),
     },
   },
   build: {
@@ -37,6 +36,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    tsconfigPaths(),
 
     dts({
       tsconfigPath: resolve(__dirname, 'tsconfig.lib.json'),

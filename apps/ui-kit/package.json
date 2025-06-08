@@ -16,9 +16,12 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "watch": "vite build --watch",
+    "build": "tsc -b ./tsconfig.lib.json && vite build",
     "preview": "vite preview",
+    "check:eslint": "eslint --max-warnings 0 .",
+    "check:tsc": "tsc -b ./tsconfig.lib.json --noEmit",
+    "check:all": "yarn check:eslint && yarn check:tsc",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -50,6 +53,7 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }

@@ -4,9 +4,9 @@
     "declaration": true,
     "outDir": "dist",
     "rootDir": "lib",
-    "baseUrl": "lib",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@lib/*": ["lib/*"]
     },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

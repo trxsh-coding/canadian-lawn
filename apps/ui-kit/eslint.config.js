@@ -1,4 +1,4 @@
-import { createConfig } from 'configs/eslint.common.mjs';
+import { createConfig } from '../../configs/eslint.common.mjs';
 
 export default createConfig({
   parserOptions: {

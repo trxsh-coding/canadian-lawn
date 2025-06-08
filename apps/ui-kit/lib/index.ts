@@ -1,1 +1,3 @@
-export * as Typography from './components/Typography';
+import './styles/style.css';
+
+export * from './components/Typography';

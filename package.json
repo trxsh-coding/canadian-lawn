@@ -11,6 +11,10 @@
     "lint": "eslint '**/*.{js,ts,jsx,tsx}'",
     "format": "prettier --write '**/*.{js,ts,jsx,tsx,css,md}'",
     "build:ui": "yarn workspace @canadian-lawn/ui-kit build",
+    "start:ui": "yarn workspace @canadian-lawn/ui-kit dev",
+    "start:cart": "yarn workspace @canadian-lawn/cart dev",
+    "start:storybook": "yarn workspace @canadian-lawn/ui-kit storybook",
+    "watch:ui": "yarn workspace @canadian-lawn/ui-kit watch",
     "prepare": "husky",
     "lint-staged": "lint-staged"
   },
@@ -24,6 +28,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0",
     "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.12",
     "typescript": "^5.8.3"
   }
 }
