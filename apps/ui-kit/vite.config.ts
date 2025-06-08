@@ -5,6 +5,7 @@ import svg from '@neodx/svg/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import tailwindcss from '@tailwindcss/vite';
 
 const root = path.resolve(__dirname, 'lib');
 
@@ -35,6 +36,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    tailwindcss(),
 
     dts({
       tsconfigPath: resolve(__dirname, 'tsconfig.lib.json'),
