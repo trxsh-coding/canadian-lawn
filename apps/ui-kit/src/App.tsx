@@ -1,10 +1,9 @@
 import './App.css';
 import { Typography } from '@/lib/components/Typography';
-import '@/lib/styles/style.css';
 
 function App() {
   return (
-    <div className="App space-y-4 p-4">
+    <div className="App ui:bg-secondaryRed space-y-4 p-4">
       <Typography view="heading1" color="primary" Element="h1">
         Заголовок Heading1 — primary
       </Typography>

@@ -1,11 +1,11 @@
-import type { IconProps } from './Icon.types';
+import type { IconProps } from '@/lib';
 
 export const Icon = ({
   name,
   className,
   viewBox,
-  width = 16,
-  height = 16,
+  width = 24,
+  height = 24,
   ...props
 }: IconProps) => {
   const [spriteName, iconName] = name.split('/');

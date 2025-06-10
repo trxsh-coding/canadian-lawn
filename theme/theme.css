@@ -1,17 +1,19 @@
-@import 'tailwindcss';
-
 @theme {
   /* Colors */
   --color-primary: #154000;
   --color-secondary: #112204;
   --color-tertiary: #df0027;
   --color-baseBg: #ebe9f3;
+  --color-baseSecondaryBg: #F2F1F6;
   --color-baseWhite: #fcfdfc;
   --color-baseBlack: #060606;
   --color-baseGrey: #575757;
   --color-baseSilvery: #c3ced9;
   --color-secondaryGrey: #969696;
   --color-secondaryRed: #fd4a4a;
+
+  /* Borders */
+  --radius-sm: 15px;
 
   /* Fonts */
   --font-golosBold: 'GolosBold', sans-serif;

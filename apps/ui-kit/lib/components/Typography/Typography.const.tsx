@@ -5,32 +5,35 @@ import {
   type TypographyViewsKeys,
   type TypographyWeightKeys,
   type TypographyWhiteSpaceKeys,
-} from './Typography.types';
+} from '@/lib';
 
 export const colors: TypographyColorsKeys = {
-  'current-color': 'text-current',
-  primary: 'text-base-black',
-  secondary: 'text-secondary',
-  tertiary: 'text-tertiary',
-  'base-bg': 'text-base-bg',
-  'base-white': 'text-base-white',
-  'base-grey': 'text-base-grey',
-  'secondary-grey': 'text-base-grey',
-  'secondary-red': 'text-secondary-red',
+  'current-color': 'ui:text-current',
+  primary: 'ui:text-baseBlack',
+  secondary: 'ui:text-secondary',
+  tertiary: 'ui:text-tertiary',
+  'base-bg': 'ui:ui:text-baseBg',
+  'base-white': 'ui:text-baseWhite',
+  'base-grey': 'ui:text-baseGrey',
+  'secondary-grey': 'ui:text-baseGrey',
+  'secondary-red': 'ui:text-secondaryRed',
 };
 
 export const views: TypographyViewsKeys = {
   heading1:
-    'text-xl leading-[120%] uppercase tracking-[-4%] font-gothic lg:text-9 lg:leading-[117%]',
-  heading2: 'text-lg leading-normal uppercase font-gothic lg:text lg:text-8 lg:leading-[130%]',
-  heading3: 'text-sm leading-[126%] uppercase font-gothic lg:text-lg lg:leading-[130%]',
-  button: 'text-xs font-semibold lg:text-md',
-  regular: 'text-xl leading-[140%] tracking-[-4%] lg:text-sm',
-  'card-header': 'text-sm font-semibold lg:text-sm',
-  'card-price': 'text-sm leading-[110%] font-semibold lg:text-lg lg:leading-[100%]',
-  small: 'text-xs font-semibold lg:text-sm',
-  large1: 'text-xl font-semibold lg:text-[25px]',
-  large2: 'text-lg leading-[120%] uppercase tracking-[-4%] lg:text-[33px] lg:leading-[122%]',
+    'ui:text-xl ui:leading-[120%] ui:uppercase ui:tracking-[-4%] ui:font-gothic lg:ui:text-9 lg:ui:leading-[117%]',
+  heading2:
+    'ui:text-lg ui:leading-normal ui:uppercase ui:font-gothic lg:ui:text lg:ui:text-8 lg:ui:leading-[130%]',
+  heading3:
+    'ui:text-sm ui:leading-[126%] ui:uppercase ui:font-gothic lg:ui:text-lg lg:ui:leading-[130%]',
+  button: 'ui:text-xs ui:font-semibold lg:ui:text-md',
+  regular: 'ui:text-[12px] ui:leading-[130%] ui:tracking-[-4%] lg:ui:text-sm',
+  'card-header': 'ui:text-sm ui:font-semibold lg:ui:text-sm',
+  'card-price': 'ui:text-sm ui:leading-[110%] ui:font-semibold lg:ui:text-lg lg:ui:leading-[100%]',
+  small: 'ui:text-xs ui:font-semibold lg:ui:text-sm',
+  large1: 'ui:text-xl ui:font-semibold lg:ui:text-[25px]',
+  large2:
+    'ui:text-lg ui:leading-[120%] ui:uppercase ui:tracking-[-4%] lg:ui:text-[33px] lg:ui:leading-[122%]',
 };
 
 export const weights: TypographyWeightKeys = {
@@ -39,19 +42,20 @@ export const weights: TypographyWeightKeys = {
   medium: 'font-medium',
   semibold: 'font-semibold',
 };
+
 export const families: TypographyFamilyKeys = {
-  gothic: 'font-gothic',
-  golos: 'font-golosRegular',
-  golosBold: 'font-golosBold',
+  gothic: 'ui:font-gothic',
+  golos: 'ui:font-golosRegular',
+  golosBold: 'ui:font-golosBold',
 };
 
 export const textAligns: TypographyAlignTextKeys = {
-  center: 'text-center',
-  left: 'text-left',
-  right: 'text-right',
+  center: 'ui:text-center',
+  left: 'ui:text-left',
+  right: 'ui:text-right',
 };
 
 export const whiteSpaces: TypographyWhiteSpaceKeys = {
-  'pre-line': 'whitespace-pre-line',
-  nowrap: 'whitespace-nowrap',
+  'pre-line': 'ui:whitespace-pre-line',
+  nowrap: 'ui:whitespace-nowrap',
 };

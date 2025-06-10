@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-import type { SpritesMap } from '../../../lib/sprite.h';
+import type { SpritesMap } from '@/lib/sprite.h';
 
 export type IconName = {
   [Key in keyof SpritesMap]: `${Key}/${SpritesMap[Key]}`;

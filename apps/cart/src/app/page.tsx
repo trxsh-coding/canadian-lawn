@@ -1,5 +1,5 @@
-import { Typography } from '@canadian-lawn/ui-kit';
+import { MainLayout } from '@/components/sections/Main';
 
 export default function Home() {
-  return <Typography> Хай </Typography>;
+  return <MainLayout />;
 }

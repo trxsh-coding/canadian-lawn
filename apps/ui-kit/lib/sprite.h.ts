@@ -1,43 +1,55 @@
 export interface SpritesMap {
-  sprite:
+  common:
     | 'arrow'
     | 'back-arrow'
     | 'box'
+    | 'cart'
     | 'check'
     | 'cross'
     | 'download'
     | 'grass'
     | 'info'
-    | 'menu'
-    | 'plus-menu'
-    | 'share';
-}
-export const SPRITES_META: {
-  sprite: Array<
-    | 'arrow'
-    | 'back-arrow'
-    | 'box'
-    | 'check'
-    | 'cross'
-    | 'download'
-    | 'grass'
-    | 'info'
+    | 'logo'
     | 'menu'
     | 'plus-menu'
     | 'share'
+    | 'zoom';
+  navigation: 'coin' | 'grass' | 'star' | 'tractor' | 'volt';
+}
+export const SPRITES_META: {
+  common: Array<
+    | 'arrow'
+    | 'back-arrow'
+    | 'box'
+    | 'cart'
+    | 'check'
+    | 'cross'
+    | 'download'
+    | 'grass'
+    | 'info'
+    | 'logo'
+    | 'menu'
+    | 'plus-menu'
+    | 'share'
+    | 'zoom'
   >;
+  navigation: Array<'coin' | 'grass' | 'star' | 'tractor' | 'volt'>;
 } = {
-  sprite: [
+  common: [
     'arrow',
     'back-arrow',
     'box',
+    'cart',
     'check',
     'cross',
     'download',
     'grass',
     'info',
+    'logo',
     'menu',
     'plus-menu',
     'share',
+    'zoom',
   ],
+  navigation: ['coin', 'grass', 'star', 'tractor', 'volt'],
 };

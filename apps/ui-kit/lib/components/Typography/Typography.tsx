@@ -32,7 +32,7 @@ export const Typography = ({
   view = 'regular',
   color = 'primary',
   weight,
-  family,
+  family = 'golos',
   Element = 'div',
   ellipsis,
   textAlign,
@@ -44,11 +44,11 @@ export const Typography = ({
       {...props}
       className={cnMerge(
         colors[color],
-        view ? views[view] : '[font-size:inherit]',
-        family ? families[family] : '[font-golosRegular]',
+        view ? views[view] : 'ui:[font-size:inherit]',
+        family ? families[family] : 'ui:[font-golosRegular]',
         weight && weights[weight],
-        ellipsis && 'ui-block ui-truncate',
-        textAlign ? textAligns[textAlign] : '[text-align:inherit]',
+        ellipsis && 'ui:block ui:truncate',
+        textAlign ? textAligns[textAlign] : 'ui:[text-align:inherit]',
         whiteSpace && whiteSpaces[whiteSpace],
         className
       )}

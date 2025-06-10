@@ -17,23 +17,23 @@ export const createConfig = (options = {}) => {
         '*.cjs',
         '*.mjs',
         '*.h.ts',
+        'strapi.d.ts',
         '*.config.js',
         ...(options.ignores ?? []),
       ],
     },
     {
       files: ['*.mdx'],
-      languageOptions: {
-        parser: 'eslint-mdx',
-        plugins: ['import', 'prettier'],
-      },
+      languageOptions: { parser: 'eslint-mdx', plugins: ['import', 'prettier'] },
     },
     {
       extends: [js.configs.recommended, ...tseslint.configs.recommended],
       files: ['**/*.{ts,tsx}'],
       languageOptions: {
         ecmaVersion: 2020,
-        globals: globals.browser,
+        globals: Object.fromEntries(
+          Object.entries(globals.browser).map(([key, value]) => [key.trim(), value])
+        ),
         parserOptions: {
           ecmaVersion: 'latest',
           project: ['./tsconfig.json', './tsconfig.app.json', './tsconfig.lib.json'],
@@ -86,18 +86,11 @@ export const createConfig = (options = {}) => {
       },
     },
     {
-      files: ['vite.config.ts', '.storybook/**/*'],
+      files: ['vite.config.ts', 'next.config.mjs', '.storybook/**/*'],
       languageOptions: {
-        parserOptions: {
-          ecmaFeatures: 'latest',
-          project: './tsconfig.node.json',
-        },
+        parserOptions: { ecmaFeatures: 'latest', project: './tsconfig.node.json' },
       },
-      plugins: {
-        prettier: eslintPrettier,
-        import: eslintImport,
-        sonarjs: sonarJs,
-      },
+      plugins: { prettier: eslintPrettier, import: eslintImport, sonarjs: sonarJs },
     }
   );
 };

@@ -1,6 +1,6 @@
-import type { StorybookConfig } from '@storybook/react-vite';
-
 import { join, dirname } from 'path';
+
+import type { StorybookConfig } from '@storybook/react-vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 /**
@@ -33,4 +33,5 @@ const config: StorybookConfig = {
     },
   },
 };
+
 export default config;
