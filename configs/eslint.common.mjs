@@ -36,7 +36,7 @@ export const createConfig = (options = {}) => {
         ),
         parserOptions: {
           ecmaVersion: 'latest',
-          project: ['./tsconfig.json', './tsconfig.app.json', './tsconfig.lib.json'],
+          project: ['./tsconfig.json', './tsconfig.app.json'],
           sourceType: 'module',
           ecmaFeatures: {
             jsx: true,
@@ -55,7 +55,7 @@ export const createConfig = (options = {}) => {
         'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
         'eol-last': ['error', 'always'],
         'prettier/prettier': ['error', { endOfLine: 'auto' }],
-        'no-console': 'error',
+        'no-console': ['warn', { allow: ['warn', 'error'] }],
         'import/no-cycle': ['error', { maxDepth: '∞' }],
         'import/order': [
           'error',

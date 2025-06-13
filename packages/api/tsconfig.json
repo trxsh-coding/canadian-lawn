@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "types": ["node", "@tanstack/react-query"],
+    "incremental": false,
+    "baseUrl": ".",
+    "paths": {
+      "@api/*": ["src/api/*"],
+      "@/*": ["src/*"],
+      "@types/*": ["src/types/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@config/*": ["src/config/*"]
+    }
+  },
+  "include": ["src", "tsup.config.ts"],
+  "exclude": ["dist", "node_modules"],
+}

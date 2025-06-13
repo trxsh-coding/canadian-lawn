@@ -19,4 +19,14 @@
   --font-golosBold: 'GolosBold', sans-serif;
   --font-golosRegular: 'GolosRegular', sans-serif;
   --font-gothic: 'Gothic', sans-serif;
+
+  /* Breakpoints */
+  --breakpoint-xs: 390px;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+
+  /* Spacing */
+  --spacing-section: 60px;
 }

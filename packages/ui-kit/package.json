@@ -1,0 +1,66 @@
+{
+  "name": "@canadian-lawn/ui-kit",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "watch": "vite build --watch",
+    "build": "tsc -b ./tsconfig.lib.json && vite build",
+    "preview": "vite preview",
+    "check:eslint": "eslint --max-warnings 0 .",
+    "check:tsc": "tsc -b ./tsconfig.lib.json --noEmit",
+    "check:all": "yarn check:eslint && yarn check:tsc",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.8",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.0",
+    "@neodx/svg": "^0.7.1",
+    "@storybook/addon-essentials": "^9.0.0-alpha.12",
+    "@storybook/addon-onboarding": "^9.0.6",
+    "@storybook/react-vite": "^9.0.6",
+    "@svgr/webpack": "^8.1.0",
+    "@tailwindcss/vite": "^4.1.8",
+    "@types/node": "^22.15.30",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "classnames": "^2.5.1",
+    "eslint": "^9.25.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "eslint-plugin-storybook": "^9.0.5",
+    "globals": "^16.0.0",
+    "next": "^15.3.3",
+    "storybook": "^9.0.6",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss": "^4.1.8",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.30.1",
+    "vite": "^6.3.5",
+    "vite-plugin-dts": "^4.5.4",
+    "vite-plugin-static-copy": "^3.0.0",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "peerDependencies": {
+    "next": "^15.3.3"
+  }
+}

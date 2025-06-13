@@ -4,21 +4,27 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "lint": "eslint '**/*.{js,ts,jsx,tsx}'",
     "format": "prettier --write '**/*.{js,ts,jsx,tsx,css,md}'",
     "build:ui": "yarn workspace @canadian-lawn/ui-kit build",
+    "build:web": "yarn workspace @canadian-lawn/web build",
+    "build:api": "yarn workspace @canadian-lawn/api build",
     "start:ui": "yarn workspace @canadian-lawn/ui-kit dev",
-    "start:cart": "yarn workspace @canadian-lawn/cart dev",
+    "start:strapi": "yarn workspace @canadian-lawn/backend develop",
+    "start:web": "yarn workspace @canadian-lawn/web dev",
     "start:storybook": "yarn workspace @canadian-lawn/ui-kit storybook",
     "watch:ui": "yarn workspace @canadian-lawn/ui-kit watch",
     "prepare": "husky",
     "lint-staged": "lint-staged"
   },
   "devDependencies": {
+    "dotenv": "^16.5.0",
     "eslint": "^9.28.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.31.0",

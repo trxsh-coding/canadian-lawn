@@ -1,0 +1,7 @@
+@import '../../../../theme/theme.css';
+@import 'tailwindcss';
+@import '@canadian-lawn/ui-kit/style.css';
+
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
