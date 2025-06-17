@@ -1,4 +1,4 @@
-import { type ClickActionProps, type IconName } from '@/lib';
+import { type BaseClickableProps, type IconName } from '@/lib';
 
 export type ButtonColor =
   | 'primary'
@@ -21,7 +21,11 @@ export type ButtonProps = React.PropsWithChildren<
     iconName?: IconName;
     iconPos?: 'left' | 'right';
     iconClassName?: string;
+    iconWrapperClassName?: string;
     effect?: 'ripple' | 'none';
     buttonType?: ButtonType;
-  } & Exclude<ClickActionProps, 'onTouchStart'>
+    htmlType?: NativeButtonType;
+  } & Exclude<BaseClickableProps<'button'>, 'onTouchStart'>
 >;
+
+export type NativeButtonType = 'button' | 'submit' | 'reset';

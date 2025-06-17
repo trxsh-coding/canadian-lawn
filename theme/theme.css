@@ -1,3 +1,4 @@
+
 @theme {
   /* Colors */
   --color-primary: #154000;
@@ -13,7 +14,9 @@
   --color-secondaryRed: #fd4a4a;
 
   /* Borders */
+  --radius-lg: 25px;
   --radius-sm: 15px;
+  --radius-xs: 8px;
 
   /* Fonts */
   --font-golosBold: 'GolosBold', sans-serif;
@@ -25,7 +28,8 @@
   --breakpoint-sm: 480px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1440px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1440px;
 
   /* Spacing */
   --spacing-section: 60px;

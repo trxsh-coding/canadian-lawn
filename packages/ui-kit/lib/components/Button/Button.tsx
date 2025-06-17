@@ -10,13 +10,15 @@ export const Button = ({
   iconName,
   iconPos = 'right',
   iconClassName,
+  iconWrapperClassName,
   buttonType = 'button',
+  htmlType = 'button',
   ...clickActionProps
 }: ButtonProps) => {
   const Content = () => {
     if (iconName || buttonType === 'text') {
       return (
-        <>
+        <div className={cn('ui:gap-1 ui:flex ui:flex-row', iconWrapperClassName)}>
           {children}
           <Icon
             className={cn(
@@ -27,7 +29,7 @@ export const Button = ({
             )}
             name={iconName ? iconName : 'common/arrow'}
           />
-        </>
+        </div>
       );
     }
     return children;
@@ -35,9 +37,11 @@ export const Button = ({
 
   return (
     <BaseClickable
+      as="button"
+      type={htmlType}
       className={cn(
         'ui:flex ui:cursor-pointer ui:items-center ui:justify-center ui:transition-colors ui:text-center ui:outline-none',
-        buttonType === 'button' && 'ui:px-[30px] ui:rounded-sm ui:h-10',
+        buttonType === 'button' && 'ui:px-[30px] ui:rounded-xs ui:h-10',
         loading && 'ui:pointer-events-none ui:cursor-none',
         color === 'primary' && 'ui:text-baseWhite ui:bg-tertiary',
         width === 'fill' && 'ui:max-w-full',

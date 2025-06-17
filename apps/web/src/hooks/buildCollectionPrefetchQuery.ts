@@ -1,23 +1,45 @@
 import { QueryClient, useQuery } from '@tanstack/react-query';
-import { ZodType } from 'zod';
-import { CollectionResponse, fetchCollectionBuilder } from '@canadian-lawn/api';
+import { z, ZodSchema } from 'zod';
+import { ResponseType, createFetchBuilder, FetchMode } from '@canadian-lawn/api';
 
 type QueryBuilderParams = {
-  endpoint: string;
-  populate?: Record<string, unknown | boolean>;
+  populate?: string[];
   params?: Record<string, unknown>;
+  filters?: Record<string, unknown>;
+  limit?: number;
 };
 
-export function buildCollectionPrefetchQuery<T>(
-  schema: ZodType,
-  queryKey: readonly string[],
-  queryParams: QueryBuilderParams
-) {
-  const queryFn = (): Promise<CollectionResponse<T>> =>
-    fetchCollectionBuilder<T>(schema, queryParams.endpoint, queryParams.populate).fetch();
+type BuildCollectionType<S extends ZodSchema, M extends FetchMode> = {
+  schema: S;
+  endpoint: string;
+  queryKey: string[];
+  mode: M;
+  params?: QueryBuilderParams;
+};
+
+export function buildCollectionPrefetchQuery<S extends ZodSchema, M extends FetchMode>({
+  schema,
+  queryKey,
+  mode,
+  params,
+  endpoint,
+}: BuildCollectionType<S, M>) {
+  type SchemaType<S extends ZodSchema> = z.infer<S>;
+  console.log(params?.filters);
+  let builder = createFetchBuilder(schema, endpoint, mode);
+
+  if (params?.populate) builder = builder.withPopulate(params.populate);
+
+  if (params?.params) builder = builder.withParams(params.params);
+
+  if (params?.filters) builder = builder.withFilters(params.filters);
+
+  if (params?.limit) builder = builder.withLimit(params.limit);
+
+  const queryFn = () => builder.fetch();
 
   const useHook = () => {
-    return useQuery<CollectionResponse<T>>({
+    return useQuery<ResponseType<SchemaType<S>, M>>({
       queryKey,
       queryFn,
     });

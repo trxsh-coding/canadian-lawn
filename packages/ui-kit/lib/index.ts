@@ -11,3 +11,7 @@ export * from './components/Button';
 export * from './components/BaseClickable';
 
 export * from './components/Card';
+
+export * from './components/Input';
+
+export * from './components/PartnerCard';

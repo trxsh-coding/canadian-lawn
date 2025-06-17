@@ -1,4 +1,12 @@
-export const ROUTES = {
+export type RoutesType = {
+  [key: string]: {
+    url: string;
+    name: string;
+    desktopHide?: boolean;
+  };
+};
+
+export const ROUTES: RoutesType = {
   home: {
     url: '/',
     name: 'Главная',
@@ -30,5 +38,6 @@ export const ROUTES = {
   profile: {
     url: '/profile',
     name: 'Профиль',
+    desktopHide: true,
   },
 };

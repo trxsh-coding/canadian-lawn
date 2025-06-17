@@ -10,3 +10,5 @@ export const paginationSchema = z.object({
 export const metaSchema = z.object({
   pagination: paginationSchema,
 });
+
+export type Meta = z.infer<typeof metaSchema>;

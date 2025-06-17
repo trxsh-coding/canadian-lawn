@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "partners",
+  "info": {
+    "singularName": "partner",
+    "pluralName": "partners",
+    "displayName": "Partner"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "location": {
+      "type": "customField",
+      "customField": "plugin::google-maps.location-picker"
+    },
+    "working_hours": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "how_to_get": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "open_on_weekends": {
+      "type": "boolean"
+    },
+    "rank": {
+      "type": "integer"
+    },
+    "isFeature": {
+      "type": "boolean"
+    },
+    "partners_type": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::partners-type.partners-type"
+    }
+  }
+}

@@ -30,7 +30,7 @@ export const Typography = ({
   children,
   className,
   view = 'regular',
-  color = 'primary',
+  color = 'current-color',
   weight,
   family = 'golos',
   Element = 'div',

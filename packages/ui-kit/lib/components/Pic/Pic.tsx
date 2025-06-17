@@ -11,6 +11,7 @@ export type PicProps = React.PropsWithChildren<{
   shape?: 'fill' | 'circle';
   fade?: boolean;
   skeleton?: React.ReactNode;
+  withBackdrop?: boolean;
 }>;
 
 export const Pic = ({
@@ -22,6 +23,7 @@ export const Pic = ({
   shape,
   skeleton,
   children,
+  withBackdrop,
 }: PicProps) => {
   const [loaded, setLoaded] = React.useState(false);
 
@@ -33,7 +35,7 @@ export const Pic = ({
   );
 
   const imgClassName = cn(
-    'ui:object-center ui:absolute ui:top-0 ui:right-0 ui:w-full ui:h-full',
+    'ui:object-center ui:relative ui:w-full ui:h-full',
     fit === 'cover' && 'ui:object-cover',
     fit === 'contain' && 'ui:object-contain'
   );
@@ -42,7 +44,7 @@ export const Pic = ({
 
   return (
     <div className={containerClassName}>
-      {src && (
+      {src && withBackdrop && (
         <div
           className="ui:absolute ui:top-0 ui:left-0 ui:w-full ui:h-full ui:z-0"
           style={{

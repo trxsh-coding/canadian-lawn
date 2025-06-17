@@ -56,7 +56,7 @@ export default defineConfig({
     }),
 
     viteStaticCopy({
-      targets: [{ src: './public/sprites/*.svg', dest: '../../../apps/cart/public/sprites' }],
+      targets: [{ src: './public/sprites/*.svg', dest: '../../../apps/web/public/sprites' }],
     }),
   ],
 });

@@ -4,7 +4,7 @@
   "info": {
     "singularName": "technique",
     "pluralName": "techniques",
-    "displayName": "technique"
+    "displayName": "Technique"
   },
   "options": {
     "draftAndPublish": true

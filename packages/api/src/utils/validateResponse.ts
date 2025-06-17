@@ -1,11 +1,11 @@
-import { ZodSchema } from 'zod';
+import { z } from 'zod';
 
-export function validateResponse<T>(schema: ZodSchema<T>, data: T): T {
+export function validateResponse<S extends z.ZodTypeAny>(schema: S, data: unknown): z.infer<S> {
   const result = schema.safeParse(data);
-
   if (!result.success) {
-    console.error('API validation error', result.error);
-    throw new Error(`Validation failed: ${result.error.message}`);
+    console.log(result);
+    console.error('Validation error:', result.error.format());
+    throw new Error('Validation failed');
   }
   return result.data;
 }

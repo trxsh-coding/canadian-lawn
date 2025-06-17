@@ -1,62 +1,41 @@
-import { type LinkProps, default as Link } from 'next/link';
-import React from 'react';
+import type {
+  ElementType,
+  ComponentPropsWithoutRef,
+  PropsWithChildren,
+  CSSProperties,
+} from 'react';
 
 import cn from '@/lib/utils/cnMerge';
 
-/**
- * Универсальные экшен пропсы для всего кликабельного
- * Если ничего не будет передано в Element, будем считать, что это 'div'
- */
-export type ClickActionProps = {
+type SharedProps = {
+  className?: string;
+  style?: CSSProperties;
+  testId?: string;
   withHoverOpacity?: boolean;
-} & (
-  | ({
-      Element: typeof Link;
-      href: string;
-      onClick?: React.MouseEventHandler;
-      onMouseDown?: React.MouseEventHandler;
-      onTouchStart?: React.TouchEventHandler;
-      nextLinkProps?: Pick<LinkProps, 'prefetch'>;
-    } & Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'rel' | 'target' | 'tabIndex'>)
-  | ({
-      Element: 'a';
-      onClick?: React.MouseEventHandler;
-      onMouseDown?: React.MouseEventHandler;
-      onTouchStart?: React.TouchEventHandler;
-    } & Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'rel' | 'href' | 'target' | 'tabIndex'>)
-  | ({
-      Element?: 'button' | 'div';
-      onClick?: React.MouseEventHandler;
-      onMouseDown?: React.MouseEventHandler;
-      onTouchStart?: React.TouchEventHandler;
-    } & Pick<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'disabled' | 'tabIndex'>)
-);
+};
 
-export type BaseClickableProps = React.PropsWithChildren<
-  {
-    className?: string;
-    testId?: string;
-    style?: React.CSSProperties;
-    nextLinkProps?: Pick<LinkProps, 'prefetch'>;
-  } & ClickActionProps
+export type BaseClickableProps<T extends ElementType = 'div'> = PropsWithChildren<
+  SharedProps & {
+    as?: T;
+  } & ComponentPropsWithoutRef<T>
 >;
 
-export const BaseClickable = ({
-  Element = 'div',
-  withHoverOpacity = true,
+export function BaseClickable<T extends ElementType = 'div'>({
+  as,
   className,
-  nextLinkProps,
+  style,
   testId,
-  ...props
-}: BaseClickableProps) => {
+  withHoverOpacity = true,
+  ...rest
+}: BaseClickableProps<T>) {
+  const Component = as || 'div';
+
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    <Element
+    <Component
       data-testid={testId}
+      style={style}
       className={cn('ui:no-underline', withHoverOpacity && 'ui:cursor-pointer', className)}
-      {...props}
-      {...nextLinkProps}
+      {...rest}
     />
   );
-};
+}

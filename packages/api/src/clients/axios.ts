@@ -1,5 +1,6 @@
 import { ENV } from '@config/env';
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import qs from 'qs';
 
 export const apiClient = axios.create({
   baseURL: ENV.STRAPI_HOST ?? 'http://localhost:1337/api',
@@ -8,6 +9,7 @@ export const apiClient = axios.create({
   },
   timeout: 10000,
   withCredentials: true,
+  paramsSerializer: (params) => qs.stringify(params, { encode: true, arrayFormat: 'indices' }),
 });
 
 apiClient.interceptors.request.use(

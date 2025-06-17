@@ -14,8 +14,9 @@ export interface SpritesMap {
     | 'menu'
     | 'plus-menu'
     | 'share'
+    | 'text-logo'
     | 'zoom';
-  navigation: 'coin' | 'grass' | 'star' | 'tractor' | 'volt';
+  navigation: 'coin' | 'grass' | 'profile' | 'star' | 'tractor' | 'volt';
 }
 export const SPRITES_META: {
   common: Array<
@@ -33,9 +34,10 @@ export const SPRITES_META: {
     | 'menu'
     | 'plus-menu'
     | 'share'
+    | 'text-logo'
     | 'zoom'
   >;
-  navigation: Array<'coin' | 'grass' | 'star' | 'tractor' | 'volt'>;
+  navigation: Array<'coin' | 'grass' | 'profile' | 'star' | 'tractor' | 'volt'>;
 } = {
   common: [
     'arrow-button',
@@ -52,7 +54,8 @@ export const SPRITES_META: {
     'menu',
     'plus-menu',
     'share',
+    'text-logo',
     'zoom',
   ],
-  navigation: ['coin', 'grass', 'star', 'tractor', 'volt'],
+  navigation: ['coin', 'grass', 'profile', 'star', 'tractor', 'volt'],
 };

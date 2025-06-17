@@ -340,10 +340,97 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiContactRequestContactRequest extends Struct.CollectionTypeSchema {
+  collectionName: 'contact_requests';
+  info: {
+    displayName: 'Contact Request';
+    pluralName: 'contact-requests';
+    singularName: 'contact-request';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    email: Schema.Attribute.Email;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::contact-request.contact-request'> &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.String;
+    name: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPartnerPartner extends Struct.CollectionTypeSchema {
+  collectionName: 'partners';
+  info: {
+    displayName: 'Partner';
+    pluralName: 'partners';
+    singularName: 'partner';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    how_to_get: Schema.Attribute.String;
+    isFeature: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::partner.partner'> &
+      Schema.Attribute.Private;
+    location: Schema.Attribute.JSON &
+      Schema.Attribute.CustomField<'plugin::google-maps.location-picker'>;
+    logo: Schema.Attribute.Media<'images' | 'files'>;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    open_on_weekends: Schema.Attribute.Boolean;
+    partners_type: Schema.Attribute.Relation<'oneToOne', 'api::partners-type.partners-type'>;
+    phone: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    rank: Schema.Attribute.Integer;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    website: Schema.Attribute.String;
+    working_hours: Schema.Attribute.String;
+  };
+}
+
+export interface ApiPartnersTypePartnersType extends Struct.CollectionTypeSchema {
+  collectionName: 'partners_types';
+  info: {
+    displayName: 'Partners Type';
+    pluralName: 'partners-types';
+    singularName: 'partners-type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    description: Schema.Attribute.RichText;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::partners-type.partners-type'> &
+      Schema.Attribute.Private;
+    media: Schema.Attribute.Media<'images' | 'files', true>;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    rank: Schema.Attribute.Integer;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+  };
+}
+
 export interface ApiTechniqueTechnique extends Struct.CollectionTypeSchema {
   collectionName: 'techniques';
   info: {
-    displayName: 'technique';
+    displayName: 'Technique';
     pluralName: 'techniques';
     singularName: 'technique';
   };
@@ -438,6 +525,45 @@ export interface PluginContentReleasesReleaseAction extends Struct.CollectionTyp
     publishedAt: Schema.Attribute.DateTime;
     release: Schema.Attribute.Relation<'manyToOne', 'plugin::content-releases.release'>;
     type: Schema.Attribute.Enumeration<['publish', 'unpublish']> & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+  };
+}
+
+export interface PluginGoogleMapsConfig extends Struct.SingleTypeSchema {
+  collectionName: 'google_maps_configs';
+  info: {
+    displayName: 'Google Maps Config';
+    pluralName: 'configs';
+    singularName: 'config';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    defaultLatitude: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<''>;
+    defaultLongitude: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<''>;
+    googleMapsKey: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<''>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'plugin::google-maps.config'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
   };
@@ -749,9 +875,9 @@ export interface PluginUsersPermissionsUser extends Struct.CollectionTypeSchema 
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
+    avatar: Schema.Attribute.Media<'images' | 'files'>;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
@@ -795,9 +921,13 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::contact-request.contact-request': ApiContactRequestContactRequest;
+      'api::partner.partner': ApiPartnerPartner;
+      'api::partners-type.partners-type': ApiPartnersTypePartnersType;
       'api::technique.technique': ApiTechniqueTechnique;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::google-maps.config': PluginGoogleMapsConfig;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::review-workflows.workflow': PluginReviewWorkflowsWorkflow;
       'plugin::review-workflows.workflow-stage': PluginReviewWorkflowsWorkflowStage;

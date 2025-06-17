@@ -19,6 +19,8 @@
     "start:strapi": "yarn workspace @canadian-lawn/backend develop",
     "start:web": "yarn workspace @canadian-lawn/web dev",
     "start:storybook": "yarn workspace @canadian-lawn/ui-kit storybook",
+    "start:bot": "yarn workspace @canadian-lawn/bot dev",
+    "start:dev": "yarn workspace @canadian-lawn/backend dev && yarn workspace @canadian-lawn/web &&yarn workspace @canadian-lawn/ui-kit watch",
     "watch:ui": "yarn workspace @canadian-lawn/ui-kit watch",
     "prepare": "husky",
     "lint-staged": "lint-staged"
@@ -33,6 +35,7 @@
     "eslint-plugin-sonarjs": "^3.0.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0",
+    "next": "^15.3.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.12",
     "tailwindcss": "^4.1.8",

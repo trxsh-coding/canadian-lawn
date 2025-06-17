@@ -8,6 +8,7 @@ export type TypographyView =
   | 'card-header'
   | 'card-price'
   | 'small'
+  | 'tiny'
   | 'large2';
 
 export type TypographyViewsKeys = { [key in TypographyView]: string };
@@ -20,6 +21,7 @@ export type TypographyColor =
   | 'base-white'
   | 'base-bg'
   | 'base-grey'
+  | 'base-black'
   | 'secondary-red'
   | 'secondary-grey';
 

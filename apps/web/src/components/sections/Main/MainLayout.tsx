@@ -1,19 +1,22 @@
 'use client';
 
-import { Preview } from '@/components/sections/Main/Preview';
 import React from 'react';
+
+import { Preview } from '@/components/sections/Main/Preview';
 import { Tractors } from '@/components/sections/Main/Tractors';
-import { useTechnique } from '@/hooks/useTechnique';
+import { Feedback } from '@/components/sections/Main/Feedback';
+import { Footer } from '@/components/layout/Footer';
+import { Partners } from '@/components/sections/Main/Partners';
 
 export const MainLayout = () => {
-  const { useHook } = useTechnique();
-
-  const { data } = useHook();
-
   return (
-    <div className="gap-section bg-baseSecondaryBg flex flex-col">
+    <div className="bg-baseSecondaryBg flex flex-col">
       <Preview />
-      {data && <Tractors items={data.data} className="mt-section" />}
+      <Tractors className="mt-section" />
+      <Partners />
+      <Tractors className="mt-section" />
+      <Feedback />
+      <Footer />
     </div>
   );
 };

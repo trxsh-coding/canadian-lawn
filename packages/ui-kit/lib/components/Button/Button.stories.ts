@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
-import { Spinner } from '../Icon/Spinner';
+import { Spinner } from '@/lib';
 
-import { Button } from './Button';
+import { Button } from '@/lib';
 
 const meta = {
   title: 'Components/Button',
@@ -48,7 +48,7 @@ const meta = {
       control: 'select',
       options: ['left', 'right'],
     },
-    Element: {
+    as: {
       control: 'select',
       options: ['div', 'a', 'button'],
     },

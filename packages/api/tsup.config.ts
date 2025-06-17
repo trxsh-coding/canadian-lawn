@@ -1,5 +1,6 @@
 import * as path from 'node:path';
 
+import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import aliasPlugin from 'esbuild-plugin-alias';
 import { defineConfig } from 'tsup';
 
@@ -19,6 +20,7 @@ export default defineConfig({
     return format === 'esm' ? { js: '.mjs' } : { js: '.cjs' };
   },
   esbuildPlugins: [
+    NodeModulesPolyfillPlugin(),
     aliasPlugin({
       '@config': path.resolve(__dirname, 'src/config'),
       '@api': path.resolve(__dirname, 'src/api'),
