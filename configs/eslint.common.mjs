@@ -57,6 +57,7 @@ export const createConfig = (options = {}) => {
         'prettier/prettier': ['error', { endOfLine: 'auto' }],
         'no-console': ['warn', { allow: ['warn', 'error'] }],
         'import/no-cycle': ['error', { maxDepth: '∞' }],
+        'no-irregular-whitespace': 'off',
         'import/order': [
           'error',
           {

@@ -32,6 +32,7 @@ export default [
       },
     },
     rules: {
+      'no-irregular-whitespace': 'off',
       'prettier/prettier': 'error',
     },
   },
