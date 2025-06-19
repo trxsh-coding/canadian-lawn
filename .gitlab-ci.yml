@@ -1,18 +1,46 @@
-deploy_stage:
-  stage: deploy
-  image: node:20-alpine
-  variables:
-    DEPLOY_DIR: /var/www/canadian-lawn/staging
+stages:
+  - install
+  - build
+  - deploy
+
+default:
+  image: node:20
   before_script:
-    - apk add --no-cache openssh
+    - apt update && apt install -y openssh-client rsync
     - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-    - chmod 600 ~/.ssh/id_ed25519
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - chmod 700 ~/.ssh
     - ssh-keyscan -H 158.160.181.102 >> ~/.ssh/known_hosts
+
+install-deps:
+  stage: install
   script:
-    - yarn install
+    - corepack enable
+    - yarn install --immutable
+
+build-web:
+  stage: build
+  script:
     - yarn workspace @canadian-lawn/web build
-    - scp -r apps/web/.next apps/web/public apps/web/package.json apps/web/next.config.js orest@158.160.181.102:$DEPLOY_DIR
-    - ssh orest@158.160.181.102 "cd $DEPLOY_DIR && pm2 restart canadian-lawn-stage || pm2 start 'yarn start' --name canadian-lawn-stage"
+  artifacts:
+    paths:
+      - apps/web/.next
+      - apps/web/public
+      - apps/web/package.json
+    expire_in: 1h
+  only:
+    - stage
+
+deploy-stage:
+  stage: deploy
+  script:
+    - rsync -az --delete apps/web/.next/ orest@158.160.181.102:/var/www/canadian-lawn/web/.next/
+    - rsync -az --delete apps/web/public/ orest@158.160.181.102:/var/www/canadian-lawn/web/public/
+    - rsync -az apps/web/package.json orest@158.160.181.102:/var/www/canadian-lawn/web/
+    - ssh orest@158.160.181.102 '
+      cd /var/www/canadian-lawn/web &&
+      yarn install --production &&
+      pm2 restart canadian-web || pm2 start "yarn start" --name canadian-web
+      '
   only:
     - stage
