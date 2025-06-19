@@ -1,0 +1,18 @@
+deploy_stage:
+  stage: deploy
+  image: node:20-alpine
+  variables:
+    DEPLOY_DIR: /var/www/canadian-lawn/staging
+  before_script:
+    - apk add --no-cache openssh
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - ssh-keyscan -H 158.160.181.102 >> ~/.ssh/known_hosts
+  script:
+    - yarn install
+    - yarn workspace @canadian-lawn/web build
+    - scp -r apps/web/.next apps/web/public apps/web/package.json apps/web/next.config.js orest@158.160.181.102:$DEPLOY_DIR
+    - ssh orest@158.160.181.102 "cd $DEPLOY_DIR && pm2 restart canadian-lawn-stage || pm2 start 'yarn start' --name canadian-lawn-stage"
+  only:
+    - stage
