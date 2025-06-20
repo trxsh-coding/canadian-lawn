@@ -36,11 +36,12 @@ export const createConfig = (options = {}) => {
         ),
         parserOptions: {
           ecmaVersion: 'latest',
-          project: ['./tsconfig.json', './tsconfig.app.json'],
+          project: ['./tsconfig.json'],
           sourceType: 'module',
           ecmaFeatures: {
             jsx: true,
           },
+          ...options.parserOptions,
         },
       },
       plugins: {
@@ -49,6 +50,7 @@ export const createConfig = (options = {}) => {
         sonarjs: sonarJs,
         'react-hooks': reactHooks,
         'react-refresh': reactRefresh,
+        ...options.plugins,
       },
       rules: {
         ...reactHooks.configs.recommended.rules,
@@ -79,6 +81,7 @@ export const createConfig = (options = {}) => {
           { blankLine: 'always', prev: '*', next: 'export' },
         ],
         'sonarjs/cognitive-complexity': ['error', 25],
+        ...options.rules,
       },
       settings: {
         react: {
@@ -87,11 +90,20 @@ export const createConfig = (options = {}) => {
       },
     },
     {
-      files: ['vite.config.ts', 'next.config.mjs', '.storybook/**/*'],
+      files: ['vite.config.ts', 'next.config.mjs'],
       languageOptions: {
         parserOptions: { ecmaFeatures: 'latest', project: './tsconfig.node.json' },
       },
       plugins: { prettier: eslintPrettier, import: eslintImport, sonarjs: sonarJs },
+    },
+    {
+      files: ['.storybook/**/*'],
+      languageOptions: {
+        parserOptions: {
+          ecmaVersion: 'latest',
+          sourceType: 'module',
+        },
+      },
     }
   );
 };

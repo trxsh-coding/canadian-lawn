@@ -1,5 +1,6 @@
-import { safeLaunch } from './utils';
 import { bot } from '@/bot';
+
+import { safeLaunch } from './utils';
 
 safeLaunch(bot).catch((err) => {
   console.error('Bot failed to start:', err);

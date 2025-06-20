@@ -1,7 +1,11 @@
 import { join, dirname } from 'path';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import type { StorybookConfig } from '@storybook/react-vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -16,19 +20,19 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-onboarding'),
     getAbsolutePath('@storybook/addon-essentials'),
   ],
-  viteFinal: async (config) => {
-    config.plugins = config.plugins || [];
-    config.plugins.push(tsconfigPaths());
-    return {
-      ...config,
-      base: '/',
-    };
+  core: {
+    builder: {
+      name: '@storybook/builder-vite',
+      options: {
+        viteConfigPath: '../vite.config.js',
+      },
+    },
   },
   framework: {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {
       builder: {
-        viteConfigPath: join(process.cwd(), 'vite.config.ts'),
+        viteConfigPath: join(__dirname, '../vite.config.ts'),
       },
     },
   },

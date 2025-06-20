@@ -1,5 +1,6 @@
 import React from 'react';
 import { NumericFormat, PatternFormat } from 'react-number-format';
+
 import { formatTypes } from '@/lib';
 import type { ComponentInputProps, InputFormat, PatternInputProps } from '@/lib';
 import { BaseInput } from '@/lib/components/Input/BaseInput';

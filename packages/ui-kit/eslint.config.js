@@ -1,7 +1,11 @@
 import { createConfig } from '../../configs/eslint.common.mjs';
 
 export default createConfig({
+  ignores: ['lib/sprite.h.ts'],
+  files: ['.storybook/**/*'],
   parserOptions: {
-    project: './tsconfig.json',
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: './tsconfig.storybook.json',
   },
 });

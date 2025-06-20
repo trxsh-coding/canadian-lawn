@@ -5,10 +5,13 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": ["apps/*", "packages/*"],
+    "nohoist": [
+      "**/eslint-config-next",
+      "**/eslint-config-next/**"
+    ]
+  },
   "scripts": {
     "lint": "eslint '**/*.{js,ts,jsx,tsx}'",
     "format": "prettier --write '**/*.{js,ts,jsx,tsx,css,md}'",

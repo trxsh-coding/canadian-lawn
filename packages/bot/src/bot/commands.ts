@@ -1,5 +1,5 @@
-import { Telegraf } from 'telegraf';
 import { ENV, telegramService } from '@canadian-lawn/api';
+import { Telegraf } from 'telegraf';
 
 export const bot = new Telegraf(ENV.TELEGRAM_BOT_TOKEN, {
   telegram: { webhookReply: false },

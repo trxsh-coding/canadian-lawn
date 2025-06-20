@@ -1,8 +1,9 @@
-import { Card } from '@/lib/components/Card';
-import TestImage from '@/assets/images/test2.jpeg';
-import { Input } from '@/lib/components/Input';
 import React from 'react';
+
+import TestImage from '@/assets/images/test2.jpeg';
 import { Button } from '@/lib';
+import { Card } from '@/lib/components/Card';
+import { Input } from '@/lib/components/Input';
 import { PartnerCard } from '@/lib/components/PartnerCard';
 
 function App() {

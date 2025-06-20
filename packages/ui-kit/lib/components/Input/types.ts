@@ -1,6 +1,7 @@
-import type { PatternFormatProps, NumericFormatProps } from 'react-number-format';
-import type { IconName, TypographyView } from '@/lib';
 import type { ChangeEvent } from 'react';
+import type { PatternFormatProps, NumericFormatProps } from 'react-number-format';
+
+import type { IconName, TypographyView } from '@/lib';
 
 export const formatTypes: InputMaskKeys = {
   card: '#### #### #### ####',
