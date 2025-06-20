@@ -33,6 +33,10 @@ build-web:
   stage: build
   script:
     - yarn workspace @canadian-lawn/web build
+    - echo "📦 Проверка содержимого apps/web:"
+    - ls -la apps/web
+    - echo "📦 Проверка .next:"
+    - ls -la apps/web/.next || echo ".next не найден"
   artifacts:
     paths:
       - apps/web/.next
