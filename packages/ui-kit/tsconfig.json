@@ -7,7 +7,6 @@
       "@components/*": ["lib/components/*"]
     }
   },
-  "include": ["src", ".storybook"],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" },
