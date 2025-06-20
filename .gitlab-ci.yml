@@ -4,34 +4,40 @@ stages:
   - deploy
 
 default:
-  image: node:20
+  image: node:20.12
   before_script:
     - corepack enable
+    - yarn config set cache-folder .yarn-cache
+    - yarn cache clean
     - apt update && apt install -y openssh-client rsync
     - mkdir -p ~/.ssh
     - eval "$(ssh-agent -s)"
     - echo "$SSH_PRIVATE_KEY" | ssh-add -
     - chmod 700 ~/.ssh
     - ssh-keyscan -H 158.160.181.102 >> ~/.ssh/known_hosts
-    - yarn install
+    - yarn install --frozen-lockfile
 
   cache:
     paths:
       - .yarn-cache
+    key: ${CI_COMMIT_REF_SLUG}
 
-build-web:
+build-all:
   stage: build
   script:
-    - yarn workspace @canadian-lawn/web build
-    - echo "📦 Проверка содержимого apps/web:"
-    - ls -la apps/web
-    - echo "📦 Проверка .next:"
-    - ls -la apps/web/.next || echo ".next не найден"
+    - echo "🏗 Запускаем yarn build:all"
+    - yarn build:all
+    - echo "📦 Проверка артефактов"
+    - ls -la apps/web/.next || echo "❌ .next не найден"
+    - ls -la packages/ui-kit/dist || echo "❌ dist ui-kit не найден"
+    - ls -la packages/api/dist || echo "❌ dist api не найден"
   artifacts:
     paths:
       - apps/web/.next
       - apps/web/public
       - apps/web/package.json
+      - packages/ui-kit/dist
+      - packages/api/dist
     expire_in: 1h
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
@@ -39,6 +45,7 @@ build-web:
 deploy-stage:
   stage: deploy
   script:
+    - echo "🚀 Деплой frontend"
     - rsync -az --delete apps/web/.next/ orest@158.160.181.102:/var/www/canadian-lawn/web/.next/
     - rsync -az --delete apps/web/public/ orest@158.160.181.102:/var/www/canadian-lawn/web/public/
     - rsync -az apps/web/package.json orest@158.160.181.102:/var/www/canadian-lawn/web/
