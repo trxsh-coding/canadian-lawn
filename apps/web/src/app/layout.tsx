@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import React from 'react';
 
-import { QueryConnector } from '@/connector/QueryConnector';
+import Providers from '@/connector/QueryProvider';
 
 export const metadata: Metadata = {
   title: 'Газоны Канады',
@@ -28,7 +28,7 @@ export default function RootLayout({
         <title>Газоны Канады</title>
       </head>
       <body>
-        <QueryConnector>{children}</QueryConnector>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

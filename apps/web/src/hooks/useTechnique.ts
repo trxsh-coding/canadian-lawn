@@ -1,6 +1,7 @@
 import { ENDPOINTS, FetchMode, Technique, techniqueSchema } from '@canadian-lawn/api';
-import { buildCollectionPrefetchQuery } from '@/hooks/buildCollectionPrefetchQuery';
 import { z } from 'zod';
+
+import { buildCollectionPrefetchQuery } from '@/hooks/buildCollectionPrefetchQuery';
 
 const queryKey = 'technique';
 

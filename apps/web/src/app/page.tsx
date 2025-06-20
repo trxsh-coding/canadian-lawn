@@ -1,27 +1,23 @@
-import { MainLayout } from '@/components/sections/Main';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { getSsrQueryClient } from '@/config/queryClientConfig';
-import { useTechnique } from '@/hooks/useTechnique';
-import { useUsers } from '@/hooks/useUsers';
+import { QueryClient } from '@tanstack/react-query';
+
+import { MainLayout } from '@/components/sections/Main';
+import { usePartners as partnersQuery } from '@/hooks/usePartners';
+import { useTechnique as techniqueQuery } from '@/hooks/useTechnique';
+import { useUsers as usersQuery } from '@/hooks/useUsers';
 import { featureFilter, partnerLimit, roleFilter } from '@/utils/filters';
-import { usePartners } from '@/hooks/usePartners';
 
 export const revalidate = 1000;
 
 export default async function Home() {
-  const queryClient = getSsrQueryClient();
-
-  const technique = useTechnique();
-  const user = useUsers(roleFilter);
-  const partner = usePartners({
+  const queryClient = new QueryClient();
+  await techniqueQuery().prefetch(queryClient);
+  await usersQuery(roleFilter).prefetch(queryClient);
+  await partnersQuery({
     filter: featureFilter,
     limit: partnerLimit,
-  });
+  }).prefetch(queryClient);
 
-  await technique.prefetch(queryClient);
-  await user.prefetch(queryClient);
-  const data = await partner.prefetch(queryClient);
-  console.log({ data });
   const dehydratedState = dehydrate(queryClient);
 
   return (

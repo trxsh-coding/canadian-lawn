@@ -1,9 +1,10 @@
 'use client';
 
+import { Button, Typography } from '@canadian-lawn/ui-kit';
+
+import Grass from '@/assets/img/preview-grass.png';
 import { Constraints } from '@/components/layout/Constraints';
 import { Header } from '@/components/layout/Header';
-import { Button, Typography } from '@canadian-lawn/ui-kit';
-import Grass from '@/assets/img/preview-grass.png';
 import { NavLinks } from '@/components/layout/NavLinks';
 
 export const Preview = () => {

@@ -1,19 +1,19 @@
 'use client';
 
-import React from 'react';
-
-import Logo from '@/assets/img/logo.svg';
 import { Button } from '@canadian-lawn/ui-kit';
 import { useToggle } from '@reactuses/core';
 import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+
+import Logo from '@/assets/img/logo.svg';
+import { NavItem } from '@/components/layout/NavItem';
 import { ROUTES } from '@/config/routes';
 import cn from '@/utils/cnMerge';
-import { NavItem } from '@/components/layout/NavItem';
 
 export const Header: React.FC = () => {
   const [isOpen, setOpen] = useToggle(false);
 
-  const handleOpen = React.useCallback(() => setOpen(!isOpen), [isOpen]);
+  const handleOpen = React.useCallback(() => setOpen(!isOpen), [isOpen, setOpen]);
 
   const NavLinks = ({ className }: { className?: string }) =>
     Object.values(ROUTES).map(({ url, name, desktopHide }, index) => (

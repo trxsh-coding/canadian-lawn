@@ -1,6 +1,7 @@
-import { ENDPOINTS, FetchMode, Partner, partnerSchema } from '@canadian-lawn/api';
-import { buildCollectionPrefetchQuery } from '@/hooks/buildCollectionPrefetchQuery';
+import { ENDPOINTS, FetchMode, partnerSchema, PartnerInput } from '@canadian-lawn/api';
 import { z } from 'zod';
+
+import { buildCollectionPrefetchQuery } from '@/hooks/buildCollectionPrefetchQuery';
 
 const queryKey = 'partners';
 
@@ -10,7 +11,7 @@ type usePartnersProps = {
 };
 
 export const usePartners = ({ filter, limit }: usePartnersProps = {}) =>
-  buildCollectionPrefetchQuery<z.ZodEffects<z.ZodType<Partner>>, FetchMode.COLLECTION>({
+  buildCollectionPrefetchQuery<z.ZodType<PartnerInput>, FetchMode.COLLECTION>({
     endpoint: ENDPOINTS.common.partners,
     schema: partnerSchema,
     queryKey: [queryKey],

@@ -1,5 +1,6 @@
 import { BaseClickable, Button, Typography } from '@canadian-lawn/ui-kit';
 import Link from 'next/link';
+
 import { NavLinksItems, type NavLinkType } from '@/components/layout/NavLinks/config';
 
 export const NavLinks = () => {

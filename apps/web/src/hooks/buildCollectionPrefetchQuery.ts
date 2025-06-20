@@ -1,6 +1,6 @@
+import { ResponseType, createFetchBuilder, FetchMode } from '@canadian-lawn/api';
 import { QueryClient, useQuery } from '@tanstack/react-query';
 import { z, ZodSchema } from 'zod';
-import { ResponseType, createFetchBuilder, FetchMode } from '@canadian-lawn/api';
 
 type QueryBuilderParams = {
   populate?: string[];
@@ -25,7 +25,6 @@ export function buildCollectionPrefetchQuery<S extends ZodSchema, M extends Fetc
   endpoint,
 }: BuildCollectionType<S, M>) {
   type SchemaType<S extends ZodSchema> = z.infer<S>;
-  console.log(params?.filters);
   let builder = createFetchBuilder(schema, endpoint, mode);
 
   if (params?.populate) builder = builder.withPopulate(params.populate);

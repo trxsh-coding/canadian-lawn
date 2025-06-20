@@ -1,5 +1,6 @@
-import { Constraints } from '@/components/layout/Constraints';
 import { Button, Typography } from '@canadian-lawn/ui-kit';
+
+import { Constraints } from '@/components/layout/Constraints';
 import cn from '@/utils/cnMerge';
 
 type SectionWrapperProps = {
@@ -12,6 +13,7 @@ type SectionWrapperProps = {
   headlineClassName?: string;
   backgroundColor?: 'white' | 'green' | 'light-green' | 'inherit';
 };
+
 export const SectionWrapper = ({
   headline,
   children,

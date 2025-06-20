@@ -26,8 +26,6 @@ export const partnerSchema = z
     partnerType: partner_type, // Renamed to camelCase
   }));
 
-console.log(partnerSchema);
-
 export type Partner = z.infer<typeof partnerSchema>;
 
 export type PartnerInput = z.input<typeof partnerSchema>;

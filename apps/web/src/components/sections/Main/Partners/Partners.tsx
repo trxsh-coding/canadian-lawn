@@ -1,8 +1,12 @@
+'use client';
+
+import { PartnerCard } from '@canadian-lawn/ui-kit';
+import React from 'react';
+
+import { Container } from '@/components/layout/Container';
+import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { usePartners } from '@/hooks/usePartners';
 import { featureFilter, partnerLimit } from '@/utils/filters';
-import { Container } from '@/components/layout/Container';
-import { PartnerCard } from '@canadian-lawn/ui-kit';
-import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { getImageUrl } from '@/utils/image';
 
 export const Partners: React.FunctionComponent = () => {
@@ -10,9 +14,11 @@ export const Partners: React.FunctionComponent = () => {
     limit: partnerLimit,
     filter: featureFilter,
   });
-  const { data: partnersData } = partners();
+  const { data: partnersData, isError, isLoading } = partners();
 
-  console.log('partnersData', partnersData);
+  if (isLoading) return <div>Loading...</div>;
+
+  if (isError) return null;
 
   return (
     <Container backgroundColor="light-green">
@@ -22,8 +28,9 @@ export const Partners: React.FunctionComponent = () => {
         className="text-baseWhite"
       >
         <div className="flex w-full flex-col gap-3 md:flex-row md:gap-5">
-          {partnersData?.data.map(({ name, logo }) => (
+          {partnersData?.data.map(({ name, logo, id }) => (
             <PartnerCard
+              key={id}
               className="flex-1 grow"
               title={name}
               image={getImageUrl(logo?.url || '')}

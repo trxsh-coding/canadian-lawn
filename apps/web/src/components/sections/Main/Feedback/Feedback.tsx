@@ -1,8 +1,11 @@
-import { useForm, Controller } from 'react-hook-form';
-import { SectionWrapper } from '@/components/layout/SectionWrapper';
+'use client';
+
 import { Button, Input, Pic, Typography } from '@canadian-lawn/ui-kit';
 import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
+
 import { Container } from '@/components/layout/Container';
+import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { useUsers } from '@/hooks/useUsers';
 import { getImageUrl } from '@/utils/image';
 
@@ -21,11 +24,17 @@ export const Feedback = () => {
   } = useForm<FormValues>();
   const { useHook: useUserHook } = useUsers();
 
-  const { data: userData } = useUserHook();
+  const { data: userData, isError, isLoading } = useUserHook();
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
   };
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (isError) {
+    return null;
+  }
 
   return (
     <Container className="bg-primary">

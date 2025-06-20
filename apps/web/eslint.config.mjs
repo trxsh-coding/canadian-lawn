@@ -1,4 +1,4 @@
-import { createConfig } from 'configs/eslint.common.mjs';
+import { createConfig } from '../../configs/eslint.common.mjs';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { FlatCompat } from '@eslint/eslintrc';

@@ -1,22 +1,30 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    loader: 'imgix',
+    path: '',
+  },
   webpack(config) {
-    const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'));
-
-    config.module.rules.push(
-      {
-        ...fileLoaderRule,
-        test: /\.svg$/i,
-        resourceQuery: /url/,
-      },
-      {
-        test: /\.svg$/i,
-        issuer: fileLoaderRule.issuer,
-        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] },
-        use: ['@svgr/webpack'],
-      }
+    const fileLoaderRule = config.module.rules.find(
+      (rule) => rule.test?.test?.('.svg') && rule.type === 'asset/resource'
     );
 
-    fileLoaderRule.exclude = /\.svg$/i;
+    if (fileLoaderRule) {
+      fileLoaderRule.exclude = /\.svg$/i;
+    }
+
+    config.module.rules.push({
+      test: /\.svg$/i,
+      resourceQuery: /url/,
+      type: 'asset/resource',
+    });
+
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      resourceQuery: { not: [/url/] },
+      use: ['@svgr/webpack'],
+    });
 
     return config;
   },

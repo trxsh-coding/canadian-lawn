@@ -22,12 +22,15 @@
     "start:bot": "yarn workspace @canadian-lawn/bot dev",
     "start:dev": "yarn workspace @canadian-lawn/backend dev && yarn workspace @canadian-lawn/web &&yarn workspace @canadian-lawn/ui-kit watch",
     "watch:ui": "yarn workspace @canadian-lawn/ui-kit watch",
+    "build:all": "yarn build:ui && yarn build:api && yarn build:web",
     "prepare": "husky",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "precommit": "yarn lint-staged && yarn build:all"
   },
   "devDependencies": {
     "dotenv": "^16.5.0",
     "eslint": "^9.28.0",
+    "eslint-config-next": "^15.3.4",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.4.1",
@@ -35,7 +38,6 @@
     "eslint-plugin-sonarjs": "^3.0.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0",
-    "next": "^15.3.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.12",
     "tailwindcss": "^4.1.8",

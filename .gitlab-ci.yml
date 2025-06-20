@@ -1,4 +1,5 @@
 stages:
+  - verify
   - install
   - build
   - deploy
@@ -11,12 +12,20 @@ default:
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - chmod 700 ~/.ssh
     - ssh-keyscan -H 158.160.181.102 >> ~/.ssh/known_hosts
+    - corepack enable
+    - yarn install --immutable
+
+verify:
+  stage: verify
+  script:
+    - yarn format:check
+    - yarn lint
+    - yarn build:all
 
 install-deps:
   stage: install
   script:
-    - corepack enable
-    - yarn install --immutable
+    - echo "Already installed in before_script"
 
 build-web:
   stage: build

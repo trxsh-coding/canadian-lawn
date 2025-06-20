@@ -15,8 +15,8 @@
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "dependencies": {
-    "@canadian-lawn/api": "*",
     "@amicaldo/strapi-google-maps": "^2.0.2",
+    "@canadian-lawn/api": "*",
     "@strapi/design-system": "^1.19.0",
     "@strapi/plugin-cloud": "5.15.1",
     "@strapi/plugin-documentation": "^5.15.1",

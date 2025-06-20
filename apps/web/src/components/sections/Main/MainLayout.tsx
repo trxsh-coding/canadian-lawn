@@ -1,12 +1,11 @@
 'use client';
-
 import React from 'react';
 
+import { Footer } from '@/components/layout/Footer';
+import { Feedback } from '@/components/sections/Main/Feedback';
+import { Partners } from '@/components/sections/Main/Partners';
 import { Preview } from '@/components/sections/Main/Preview';
 import { Tractors } from '@/components/sections/Main/Tractors';
-import { Feedback } from '@/components/sections/Main/Feedback';
-import { Footer } from '@/components/layout/Footer';
-import { Partners } from '@/components/sections/Main/Partners';
 
 export const MainLayout = () => {
   return (

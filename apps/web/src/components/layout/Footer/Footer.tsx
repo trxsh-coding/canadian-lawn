@@ -1,7 +1,9 @@
+import { Typography } from '@canadian-lawn/ui-kit';
+
+import Logo from '@/assets/img/logo.svg';
 import { Container } from '@/components/layout/Container';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
-import Logo from '@/assets/img/logo.svg';
-import { Typography } from '@canadian-lawn/ui-kit';
+
 export const Footer = () => {
   return (
     <div className="bg-primary">
