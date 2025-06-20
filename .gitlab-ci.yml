@@ -10,8 +10,8 @@ default:
     - yarn cache clean
     - apt update && apt install -y openssh-client rsync
     - mkdir -p ~/.ssh
-    - eval "$(ssh-agent -s)"          # ← 🔑 запускаем ssh-agent
-    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    - eval "$(ssh-agent -s)"
+    - echo "$SSH_PRIVATE_KEY" | head -n 5 | ssh-add -
     - chmod 700 ~/.ssh
     - ssh-keyscan -H 158.160.181.102 >> ~/.ssh/known_hosts
     - corepack enable
