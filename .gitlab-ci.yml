@@ -25,7 +25,8 @@ default:
 verify:
   stage: verify
   script:
-    - yarn precommit
+    - yarn check:web
+    - yarn build:all
 
 install-deps:
   stage: install

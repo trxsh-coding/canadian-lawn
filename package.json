@@ -23,6 +23,7 @@
     "start:dev": "yarn workspace @canadian-lawn/backend dev && yarn workspace @canadian-lawn/web &&yarn workspace @canadian-lawn/ui-kit watch",
     "watch:ui": "yarn workspace @canadian-lawn/ui-kit watch",
     "build:all": "yarn build:ui && yarn build:api && yarn build:web",
+    "check:web": "yarn workspace @canadian-lawn/web lint",
     "prepare": "husky",
     "lint-staged": "lint-staged",
     "precommit": "yarn lint-staged && yarn build:all"
