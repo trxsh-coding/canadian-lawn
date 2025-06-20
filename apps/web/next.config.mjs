@@ -4,6 +4,10 @@ const nextConfig = {
     loader: 'imgix',
     path: '',
   },
+  eslint: {
+    dirs: ['src'],
+    ignoreDuringBuilds: true,
+  },
   webpack(config) {
     const fileLoaderRule = config.module.rules.find(
       (rule) => rule.test?.test?.('.svg') && rule.type === 'asset/resource'

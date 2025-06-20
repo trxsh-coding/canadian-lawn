@@ -35,7 +35,7 @@ const commonForTypeScript = {
  * Переиспользуем конфиг таким образом вместо нативного extends,
  * поскольку с extends есть проблемы при организации монорепозитория и секции overrides
  **/
-module.exports = ({ tsFilesPlugins = [] } = {}) => ({
+export default ({ tsFilesPlugins = [] } = {}) => ({
   root: true,
   ignorePatterns: [
     'dist',

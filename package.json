@@ -31,12 +31,12 @@
   "devDependencies": {
     "dotenv": "^16.5.0",
     "eslint": "^9.28.0",
-    "eslint-config-next": "^15.3.4",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.4.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-sonarjs": "^3.0.2",
+    "@typescript-eslint/parser": "^8.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0",
     "prettier": "^3.5.3",
