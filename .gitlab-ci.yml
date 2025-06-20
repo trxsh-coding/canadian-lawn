@@ -25,9 +25,7 @@ default:
 verify:
   stage: verify
   script:
-    - yarn format:check
-    - yarn lint
-    - yarn build:all
+    - yarn precommit
 
 install-deps:
   stage: install
