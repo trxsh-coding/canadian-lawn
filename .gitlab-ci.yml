@@ -1,5 +1,4 @@
 stages:
-  - verify
   - install
   - build
   - deploy
@@ -18,20 +17,9 @@ default:
     - ssh-keyscan -H 158.160.181.102 >> ~/.ssh/known_hosts
     - yarn install --immutable
 
-
   cache:
     paths:
       - .yarn-cache
-
-verify:
-  stage: verify
-  script:
-    - yarn build:all
-
-install-deps:
-  stage: install
-  script:
-    - echo "Already installed in before_script"
 
 build-web:
   stage: build
@@ -47,8 +35,8 @@ build-web:
       - apps/web/public
       - apps/web/package.json
     expire_in: 1h
-  only:
-    - stage
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
 
 deploy-stage:
   stage: deploy
@@ -61,5 +49,5 @@ deploy-stage:
       yarn install --production &&
       pm2 restart canadian-web || pm2 start "yarn start" --name canadian-web
       '
-  only:
-    - stage
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
