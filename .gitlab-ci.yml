@@ -15,8 +15,12 @@ default:
     - chmod 700 ~/.ssh
     - ssh-keyscan -H 158.160.181.102 >> ~/.ssh/known_hosts
     - corepack enable
+    - yarn config set cache-folder .yarn-cache
     - yarn install --immutable
 
+  cache:
+    paths:
+      - .yarn-cache
 
 verify:
   stage: verify
