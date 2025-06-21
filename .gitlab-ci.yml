@@ -7,7 +7,7 @@ default:
   image: node:22.16
   before_script:
     - corepack enable
-    - corepack prepare yarn@1.2.2 --activate
+    - corepack prepare yarn@1.22.22 --activate
     - yarn
 
 build-all:
