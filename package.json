@@ -6,11 +6,7 @@
   "license": "MIT",
   "type": "module",
   "workspaces": {
-    "packages": ["apps/*", "packages/*"],
-    "nohoist": [
-      "**/eslint-config-next",
-      "**/eslint-config-next/**"
-    ]
+    "packages": ["apps/*", "packages/*"]
   },
   "scripts": {
     "lint": "eslint '**/*.{js,ts,jsx,tsx}'",
@@ -46,5 +42,6 @@
     "prettier-plugin-tailwindcss": "^0.6.12",
     "tailwindcss": "^4.1.8",
     "typescript": "^5.8.3"
-  }
+  },
+  "packageManager": "yarn@1.2.2"
 }

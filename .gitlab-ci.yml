@@ -7,20 +7,8 @@ default:
   image: node:22.16
   before_script:
     - corepack enable
-    - corepack prepare yarn@4.0.1 --activate
-    - yarn --version
-    - apt update && apt install -y openssh-client rsync
-    - mkdir -p ~/.ssh
-    - eval "$(ssh-agent -s)"
-    - echo "$SSH_PRIVATE_KEY" | ssh-add -
-    - chmod 700 ~/.ssh
-    - ssh-keyscan -H 158.160.181.102 >> ~/.ssh/known_hosts
+    - corepack prepare yarn@1.2.2 --activate
     - yarn
-
-  cache:
-    paths:
-      - .yarn-cache
-    key: ${CI_COMMIT_REF_SLUG}
 
 build-all:
   stage: build
@@ -42,20 +30,5 @@ build-all:
       - packages/ui-kit/dist
       - packages/api/dist
     expire_in: 1h
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
-
-deploy-stage:
-  stage: deploy
-  script:
-    - echo "🚀 Деплой frontend"
-    - rsync -az --delete apps/web/.next/ orest@158.160.181.102:/var/www/canadian-lawn/web/.next/
-    - rsync -az --delete apps/web/public/ orest@158.160.181.102:/var/www/canadian-lawn/web/public/
-    - rsync -az apps/web/package.json orest@158.160.181.102:/var/www/canadian-lawn/web/
-    - ssh orest@158.160.181.102 '
-      cd /var/www/canadian-lawn/web &&
-      yarn install --production &&
-      pm2 restart canadian-web || pm2 start "yarn start" --name canadian-web
-      '
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
