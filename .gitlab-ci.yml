@@ -14,7 +14,7 @@ build_ui_kit:
     - corepack enable
     - yarn set version 4.9.2
     - yarn install --no-immutable
-    - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/webs
+    - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web
 
   script:
     - yarn build:ui
