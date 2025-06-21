@@ -1,4 +1,4 @@
-build_ui_kit:
+build_web:
   stage: build
   image: node:22
 
@@ -11,20 +11,50 @@ build_ui_kit:
       - node_modules/
 
   before_script:
+    - apt update && apt install -y openssh-client rsync
+    - mkdir -p ~/.ssh
+    - eval "$(ssh-agent -s)"
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -H 158.160.181.102 >> ~/.ssh/known_hosts
     - corepack enable
     - yarn set version 4.9.2
     - yarn install --no-immutable
     - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web
 
   script:
-    - yarn build:ui
-    - echo "📦 Проверка dist/"
-    - ls -la packages/ui-kit/dist || echo "❌ dist кита не найден"
-    - yarn build:api
-    - ls -la packages/api/dist || echo "❌ dist апи не найден"
-    - yarn build:web
-    - ls -la packages/web/dist || echo "❌ dist апи не найден"
+    - echo "🔨 Build UI Kit"
+    - yarn build:ui || (echo "❌ UI Kit build failed" && exit 1)
+    - test -d packages/ui-kit/dist || (echo "❌ dist/ui-kit не найден" && exit 1)
 
+    - echo "🔨 Build API"
+    - yarn build:api || (echo "❌ API build failed" && exit 1)
+    - test -d packages/api/dist || (echo "❌ dist/api не найден" && exit 1)
+
+    - echo "🔨 Build Web"
+    - yarn build:web || (echo "❌ Web build failed" && exit 1)
+    - test -d apps/web/.next || (echo "❌ .next не найден" && exit 1)
+
+    - echo "🚀 Deploy to server"
+    - rsync -az --delete apps/web/.next/ orest@158.160.181.102:/var/www/canadian-lawn/web/.next/
+    - rsync -az --delete apps/web/public/ orest@158.160.181.102:/var/www/canadian-lawn/web/public/
+    - rsync -az apps/web/package.json orest@158.160.181.102:/var/www/canadian-lawn/web/
+    - ssh orest@158.160.181.102 '
+      cd /var/www/canadian-lawn/web &&
+      yarn install --production &&
+      pm2 restart canadian-web || pm2 start "yarn start" --name canadian-web
+      '
+    - echo "✅ Deploy complete"
 
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
+
+  artifacts:
+    when: always
+    expire_in: 1h
+    paths:
+      - packages/ui-kit/dist
+      - packages/api/dist
+      - apps/web/.next
+      - apps/web/public
+      - apps/web/package.json
