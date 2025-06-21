@@ -7,8 +7,11 @@ default:
   image: node:22.16
   before_script:
     - corepack enable
+    - corepack prepare yarn@4.0.1 --activate
     - yarn config set cache-folder .yarn-cache
     - yarn cache clean
+    - yarn --version
+    - yarn install --immutable
     - apt update && apt install -y openssh-client rsync
     - mkdir -p ~/.ssh
     - eval "$(ssh-agent -s)"
