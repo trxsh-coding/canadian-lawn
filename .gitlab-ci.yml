@@ -11,12 +11,6 @@ build_web:
       - node_modules/
 
   before_script:
-    - apt update && apt install -y openssh-client rsync
-    - mkdir -p ~/.ssh
-    - eval "$(ssh-agent -s)"
-    - echo "$SSH_PRIVATE_KEY" | ssh-add -
-    - chmod 700 ~/.ssh
-    - ssh-keyscan -H 158.160.181.102 >> ~/.ssh/known_hosts
     - corepack enable
     - yarn set version 4.9.2
     - yarn install --no-immutable
@@ -35,22 +29,18 @@ build_web:
     - yarn build:web || (echo "❌ Web build failed" && exit 1)
     - test -d apps/web/.next || (echo "❌ .next не найден" && exit 1)
 
-    - echo "🚀 Deploy to server"
-    - echo "$ENV_FILE" > .env
-    - rsync .env orest@158.160.181.102:/var/www/canadian-lawn/web/
-    - rsync -az --delete apps/web/.next/ orest@158.160.181.102:/var/www/canadian-lawn/web/.next/
-    - rsync -az --delete apps/web/public/ orest@158.160.181.102:/var/www/canadian-lawn/web/public/
-    - rsync -az apps/web/package.json orest@158.160.181.102:/var/www/canadian-lawn/web/
-    - ssh orest@158.160.181.102 '
-      cd /var/www/canadian-lawn/web &&
-      yarn install --production &&
-      pm2 restart canadian-web || pm2 start "yarn start" --name canadian-web
-      '
-    - echo "✅ Deploy complete"
+    - echo "🚀 Copy to mounted folder"
+    - cp -r apps/web/.next /mnt/www/canadian-lawn-front/.next
+    - cp -r apps/web/public /mnt/www/canadian-lawn-front/public
+    - cp apps/web/package.json /mnt/www/canadian-lawn-front/
+    - echo "$ENV_FILE" > /mnt/www/canadian-lawn-front/.env
+
+    - echo "📦 Install and start"
+    - cd /mnt/www/canadian-lawn-front && yarn install --production
+    - pm2 restart canadian-web || pm2 start "yarn start" --name canadian-web
 
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
-    - if: $CI_PIPELINE_SOURCE == "web"
 
   artifacts:
     when: always
