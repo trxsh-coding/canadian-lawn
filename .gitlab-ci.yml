@@ -15,7 +15,7 @@ default:
     - echo "$SSH_PRIVATE_KEY" | ssh-add -
     - chmod 700 ~/.ssh
     - ssh-keyscan -H 158.160.181.102 >> ~/.ssh/known_hosts
-    - yarn install --frozen-lockfile
+    - yarn
 
   cache:
     paths:
@@ -26,7 +26,10 @@ build-all:
   stage: build
   script:
     - echo "🏗 Запускаем yarn build:all"
-    - yarn build:all
+    - yarn build:ui
+    - yarn build:api
+    - yarn install
+    - yarn  build:web
     - echo "📦 Проверка артефактов"
     - ls -la apps/web/.next || echo "❌ .next не найден"
     - ls -la packages/ui-kit/dist || echo "❌ dist ui-kit не найден"
