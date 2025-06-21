@@ -30,9 +30,9 @@ build_web:
     - test -d apps/web/.next || (echo "❌ .next не найден" && exit 1)
 
     - echo "🚀 Copy to mounted folder"
-    - cp -r apps/web/.next /mnt/www/canadian-lawn-front/.next
-    - cp -r apps/web/public /mnt/www/canadian-lawn-front/public
-    - cp apps/web/package.json /mnt/www/canadian-lawn-front/
+    - cp -r apps/web/.next /var/www/canadian-lawn-front/.next
+    - cp -r apps/web/public /var/www/canadian-lawn-front/public
+    - cp apps/web/package.json /var/www/canadian-lawn-front/
     - echo "$ENV_FILE" > /mnt/www/canadian-lawn-front/.env
 
     - echo "📦 Install and start"
