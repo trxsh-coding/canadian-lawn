@@ -14,12 +14,17 @@ build_ui_kit:
     - corepack enable
     - yarn set version 4.9.2
     - yarn install --no-immutable
-    - yarn workspaces focus @canadian-lawn/ui-kit
+    - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/webs
 
   script:
     - yarn build:ui
     - echo "📦 Проверка dist/"
-    - ls -la packages/ui-kit/dist || echo "❌ dist не найден"
+    - ls -la packages/ui-kit/dist || echo "❌ dist кита не найден"
+    - yarn build:api
+    - ls -la packages/api/dist || echo "❌ dist апи не найден"
+    - yarn build:web
+    - ls -la packages/web/dist || echo "❌ dist апи не найден"
+
 
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
