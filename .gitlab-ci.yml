@@ -10,25 +10,14 @@ default:
     - corepack prepare yarn@1.22.22 --activate
     - yarn
 
-build-all:
+build-ui:
   stage: build
   script:
     - echo "🏗 Запускаем yarn build:all"
     - yarn build:ui
-    - yarn build:api
-    - yarn install
-    - yarn  build:web
-    - echo "📦 Проверка артефактов"
-    - ls -la apps/web/.next || echo "❌ .next не найден"
-    - ls -la packages/ui-kit/dist || echo "❌ dist ui-kit не найден"
-    - ls -la packages/api/dist || echo "❌ dist api не найден"
   artifacts:
     paths:
-      - apps/web/.next
-      - apps/web/public
-      - apps/web/package.json
       - packages/ui-kit/dist
-      - packages/api/dist
     expire_in: 1h
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"

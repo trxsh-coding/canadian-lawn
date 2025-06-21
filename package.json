@@ -6,7 +6,7 @@
   "license": "MIT",
   "type": "module",
   "workspaces": {
-    "packages": ["apps/*", "packages/*"]
+    "packages": ["apps/*", "packages/*", "apps/!(backend)"]
   },
   "scripts": {
     "lint": "eslint '**/*.{js,ts,jsx,tsx}'",
