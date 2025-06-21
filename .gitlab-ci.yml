@@ -36,6 +36,8 @@ build_web:
     - test -d apps/web/.next || (echo "❌ .next не найден" && exit 1)
 
     - echo "🚀 Deploy to server"
+    - echo "$ENV_FILE" > .env
+    - rsync .env orest@158.160.181.102:/var/www/canadian-lawn/web/
     - rsync -az --delete apps/web/.next/ orest@158.160.181.102:/var/www/canadian-lawn/web/.next/
     - rsync -az --delete apps/web/public/ orest@158.160.181.102:/var/www/canadian-lawn/web/public/
     - rsync -az apps/web/package.json orest@158.160.181.102:/var/www/canadian-lawn/web/
@@ -48,6 +50,7 @@ build_web:
 
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "web"
 
   artifacts:
     when: always
