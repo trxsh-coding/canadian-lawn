@@ -1,23 +1,28 @@
 stages:
-  - install
   - build
-  - deploy
 
-default:
-  image: node:22.16
+build_ui_kit:
+  stage: build
+  image: node:22
+
+  cache:
+    key: yarn-4-cache
+    paths:
+      - .yarn/cache
+      - .yarn/unplugged
+      - .yarn/install-state.gz
+      - .yarn/build-state.yml
+      - node_modules/
+
   before_script:
     - corepack enable
-    - corepack prepare yarn@1.22.22 --activate
-    - yarn
+    - yarn install
+    - yarn workspaces focus @canadian-lawn/ui-kit
 
-build-ui:
-  stage: build
   script:
-    - echo "🏗 Запускаем yarn build:all"
     - yarn build:ui
-  artifacts:
-    paths:
-      - packages/ui-kit/dist
-    expire_in: 1h
+    - echo "📦 Проверка dist/"
+    - ls -la packages/ui-kit/dist || echo "❌ dist не найден"
+
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
