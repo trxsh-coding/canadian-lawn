@@ -6,8 +6,8 @@
     "rootDir": "lib",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   "include": ["lib"],
-  "exclude": ["src", "dist", "node_modules"]
+  "exclude": ["src", "dist", "node_modules", "**/*.stories.tsx", "**/*.stories.ts"]
 }
