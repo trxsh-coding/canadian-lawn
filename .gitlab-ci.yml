@@ -6,7 +6,7 @@ build_and_deploy:
   tags:
     - deploy
   script:
-    # 1️⃣ Установка зависимостей в корне
+    # 1️⃣ Установка зависимостей в КОРНЕ
     - corepack enable
     - yarn set version 4.9.2
     - yarn install --no-immutable
@@ -18,17 +18,14 @@ build_and_deploy:
     - yarn build:web
     - rm -rf apps/web/.next/cache
 
-    # 3️⃣ Копируем результаты в папку для деплоя
+    # 3️⃣ Копируем результат в папку для деплоя
     - DEST_DIR=/var/www/canadian-lawn
     - mkdir -p $DEST_DIR
     - rsync -a apps/web/.next $DEST_DIR/
     - rsync -a apps/web/public $DEST_DIR/
     - rsync -a apps/web/package.json $DEST_DIR/
-
-    # 4️⃣ Установка production-зависимостей прямо в папке приложения
-    - rsync -a yarn.lock $DEST_DIR/
-    - cd /var/www/canadian-lawn && yarn workspaces focus @canadian-lawn/web --production
+    - rsync -a node_modules $DEST_DIR/
     - echo "$ENV_FILE" > $DEST_DIR/.env
 
-    # 5️⃣ Перезапуск PM2
+    # 4️⃣ Перезапускаем PM2
     - pm2 reload canadian-web || pm2 start "yarn start" --name canadian-web
