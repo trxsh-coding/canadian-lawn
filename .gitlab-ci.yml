@@ -4,38 +4,18 @@ stages:
 
 build:
   stage: build
-  image: node:22
   tags:
     - deploy
-  cache:
-    key: yarn-cache
-    paths:
-      - .yarn/cache
-      - .yarn/install-state.gz
-      - .yarn/build-state.yml
-      - node_modules/
-  before_script:
+  script:
     - corepack enable
     - yarn set version 4.9.2
     - yarn install --no-immutable
     - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web
-  script:
     - yarn build:ui
     - yarn build:api
     - yarn build:web
-    - DEST_DIR=build_artifacts
-    - mkdir -p $DEST_DIR
-    - cp -r apps/web/.next $DEST_DIR/
-    - cp -r apps/web/public $DEST_DIR/
-    - cp apps/web/package.json $DEST_DIR/
-    - cp apps/web/yarn.lock $DEST_DIR/
-    - du -sh build_artifacts
-    - ls -lh build_artifacts
-  artifacts:
-    when: always
-    expire_in: 1h
-    paths:
-      - build_artifacts/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
 
 deploy:
   stage: deploy
@@ -43,9 +23,11 @@ deploy:
     - deploy
   script:
     - DEST_DIR=/var/www/canadian-lawn
-    - rsync -a build_artifacts/.next $DEST_DIR/
-    - rsync -a build_artifacts/public $DEST_DIR/
-    - rsync -a build_artifacts/package.json $DEST_DIR/
-    - rsync -a build_artifacts/yarn.lock $DEST_DIR/
+    - rsync -a apps/web/.next $DEST_DIR/
+    - rsync -a apps/web/public $DEST_DIR/
+    - rsync -a apps/web/package.json $DEST_DIR/
+    - rsync -a apps/web/yarn.lock $DEST_DIR/
     - cd $DEST_DIR && yarn install --production
     - pm2 reload canadian-web || pm2 start "yarn start" --name canadian-web
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
