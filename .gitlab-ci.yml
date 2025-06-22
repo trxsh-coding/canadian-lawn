@@ -14,7 +14,7 @@ db_up:
   tags:
     - deploy
   script:
-    - docker compose up -d postgres
+    - docker compose-up -d postgres
   when: on_success
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
