@@ -14,10 +14,14 @@ db_up:
   tags:
     - deploy
   script:
-    - docker-compose up -d postgres
+    - |
+      if docker ps --filter "label=com.docker.compose.service=postgres" --format '{{.Names}}' | grep -q .; then
+        echo "Postgres already running. Skipping..."
+      else
+        echo "Starting Postgres..."
+        docker compose up -d postgres
+      fi
   when: on_success
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
 
 # ==========================
 # ⚡️ WEB
