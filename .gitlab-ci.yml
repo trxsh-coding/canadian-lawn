@@ -28,6 +28,7 @@ build_and_deploy:
     # 4️⃣ Установка production-зависимостей прямо в папке приложения
     - rsync -a yarn.lock $DEST_DIR/
     - cd /var/www/canadian-lawn && yarn workspaces focus @canadian-lawn/web --production
+    - echo "$ENV_FILE" > $DEST_DIR/.env
 
     # 5️⃣ Перезапуск PM2
     - pm2 reload canadian-web || pm2 start "yarn start" --name canadian-web
