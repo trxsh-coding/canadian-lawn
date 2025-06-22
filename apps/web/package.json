@@ -47,10 +47,5 @@
     "typescript": "^5",
     "zod": "^3.25.64"
   },
-  "nohoist": [
-    "**/eslint-config-next",
-    "**/eslint-config-next/**",
-    "**/next",
-    "**/next/**"
-  ]
+  "packageManager": "yarn@4.9.2"
 }
