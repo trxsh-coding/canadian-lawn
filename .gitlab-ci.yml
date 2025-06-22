@@ -20,12 +20,11 @@ db_up:
   tags:
     - deploy
   script:
-    - |
-      if docker ps --filter "label=com.docker.compose.service=postgres" --format '{{.Names}}' | grep -q .; then
-        echo "Postgres already running. Skipping..."
+    - if docker ps --filter "label=com.docker.compose.service=postgres" --format '{{.Names}}' | grep -q .; then
+      echo "Postgres already running.";
       else
-        echo "Starting Postgres..."
-        docker compose up -d postgres
+      echo "Starting Postgres...";
+      docker-compose up -d postgres;
       fi
   when: on_success
 
