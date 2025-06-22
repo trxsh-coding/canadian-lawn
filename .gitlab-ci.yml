@@ -6,7 +6,7 @@ build_and_deploy:
   tags:
     - deploy
   script:
-    # Установка версий и зависимостей
+    # Установка пакетов из корня монорепы
     - corepack enable
     - yarn set version 4.9.2
     - yarn install --no-immutable
@@ -17,19 +17,18 @@ build_and_deploy:
     - yarn build:api
     - yarn build:web
 
-    # Удаление кеша Next.js для облегчения билда
+    # Удаление кеша Next.js для облегчения размера
     - rm -rf apps/web/.next/cache
 
-    # Копируем результат прямо в папку для приложения
+    # Копирование результата
     - DEST_DIR=/var/www/canadian-lawn
     - mkdir -p $DEST_DIR
     - rsync -a apps/web/.next $DEST_DIR/
     - rsync -a apps/web/public $DEST_DIR/
     - rsync -a apps/web/package.json $DEST_DIR/
-    - rsync -a apps/web/yarn.lock $DEST_DIR/
 
-    # Установка production-зависимостей прямо в папке приложения
-    - cd $DEST_DIR && yarn install --production
+    # Установка production-зависимостей из корня
+    - cd /var/www/canadian-lawn && yarn workspaces focus @canadian-lawn/web --production
 
-    # Перезапускаем PM2 или стартуем его, если он не запущен
+    # Перезапуск PM2
     - pm2 reload canadian-web || pm2 start "yarn start" --name canadian-web
