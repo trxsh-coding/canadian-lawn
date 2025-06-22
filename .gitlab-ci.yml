@@ -1,9 +1,14 @@
 default:
   before_script:
-    # Готовим папку для деплоя
-    - sudo mkdir -p /var/www/canadian-lawn
-    - sudo chown $USER:$USER /var/www/canadian-lawn
-
+    - if [ "$CI_COMMIT_REF_NAME" != "main" ]; then
+      echo "▶️ Удаляю папку $DEST_DIR для ветки $CI_COMMIT_REF_NAME...";
+      sudo rm -rf $DEST_DIR || true;
+      else
+      echo "❗️ Это ветка main, не трогаем $DEST_DIR.";
+      fi
+    - sudo mkdir -p $DEST_DIR
+    - sudo chown $USER:$USER $DEST_DIR
+    - mkdir -p $DEST_DIR/logs
 stages:
   - db_up
   - build_and_deploy_web
@@ -13,7 +18,7 @@ variables:
   DEST_DIR: "/var/www/canadian-lawn"
 
 # ==========================
-# ⚡️ POSTGRES
+# ⚡️ POSTGRES (docker compose up)
 # ==========================
 db_up:
   stage: db_up
@@ -42,26 +47,19 @@ build_and_deploy_web:
         - "packages/api/**/*"
         - "gitlab-ci.yml"
   script:
-    # 1️⃣ Синхронизация репозитория
-    - rsync -a --delete . $DEST_DIR/
+    - rsync -a . $DEST_DIR/
     - cd $DEST_DIR
-    # 2️⃣ Установка зависимостей
     - corepack enable
     - yarn set version 4.9.2
     - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web
     - yarn install --no-immutable
-    # 3️⃣ Сборка
     - yarn build:ui
     - yarn build:api
     - yarn build:web
-    # 4️⃣ .env для WEB
-    - cat "$ENV_WEB" > $DEST_DIR/apps/web/.env
-  after_script:
-  # Перезапускаем PM2 для WEB
+    - echo "$ENV_WEB" > $DEST_DIR/apps/web/.env
     - pm2 delete canadian-web || true
     - pm2 start $DEST_DIR/ecosystem.frontend.config.cjs
     - pm2 save
-
 
 # ==========================
 # ⚡️ BACKEND
@@ -78,22 +76,15 @@ build_and_deploy_backend:
         - "apps/backend/**/*"
         - "gitlab-ci.yml"
   script:
-    # 1️⃣ Синхронизация репозитория
-    - rsync -a --delete . $DEST_DIR/
+    - rsync -a . $DEST_DIR/
     - cd $DEST_DIR
-    # 2️⃣ Установка зависимостей для Backend
     - corepack enable
     - yarn set version 4.9.2
     - yarn workspaces focus @canadian-lawn/backend
     - yarn install --no-immutable
-    # 3️⃣ Сборка Backend
     - yarn build:backend
-    # 4️⃣ .env для Backend
-    - cat "$STRAPI_ENV_FILE" > $DEST_DIR/apps/backend/.env
-    # 5️⃣ Установка production-зависимостей
+    - echo "$STRAPI_ENV_FILE" > $DEST_DIR/apps/backend/.env
     - yarn workspaces focus @canadian-lawn/backend --production
-  after_script:
-    # Перезапускаем PM2 для BACKEND
     - pm2 delete canadian-api || true
     - pm2 start $DEST_DIR/ecosystem.backend.config.cjs
     - pm2 save
