@@ -17,6 +17,9 @@ build_and_deploy:
     - yarn build:api
     - yarn build:web
 
+    # Удаление кеша Next.js для облегчения билда
+    - rm -rf apps/web/.next/cache
+
     # Копируем результат прямо в папку для приложения
     - DEST_DIR=/var/www/canadian-lawn
     - mkdir -p $DEST_DIR
