@@ -1,7 +1,10 @@
-build_web:
+stages:
+  - build
+  - deploy
+
+build:
   stage: build
   image: node:22
-
   tags:
     - deploy
   cache:
@@ -11,36 +14,37 @@ build_web:
       - .yarn/install-state.gz
       - .yarn/build-state.yml
       - node_modules/
-
   before_script:
     - corepack enable
     - yarn set version 4.9.2
     - yarn install --no-immutable
     - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web
-
   script:
-    - echo "🔨 Build UI Kit"
-    - yarn build:ui || (echo "❌ UI Kit build failed" && exit 1)
-    - test -d packages/ui-kit/dist || (echo "❌ dist/ui-kit не найден" && exit 1)
+    - yarn build:ui
+    - yarn build:api
+    - yarn build:web
+    - DEST_DIR=build_artifacts
+    - mkdir -p $DEST_DIR
+    - cp -r apps/web/.next $DEST_DIR/
+    - cp -r apps/web/public $DEST_DIR/
+    - cp apps/web/package.json $DEST_DIR/
+    - cp apps/web/yarn.lock $DEST_DIR/
+    - cp -r node_modules $DEST_DIR/
+  artifacts:
+    when: always
+    expire_in: 1h
+    paths:
+      - build_artifacts/
 
-    - echo "🔨 Build API"
-    - yarn build:api || (echo "❌ API build failed" && exit 1)
-    - test -d packages/api/dist || (echo "❌ dist/api не найден" && exit 1)
-
-    - echo "🔨 Build Web"
-    - yarn build:web || (echo "❌ Web build failed" && exit 1)
-    - test -d apps/web/.next || (echo "❌ .next не найден" && exit 1)
-
-    - echo "🚀 Copy to mounted folder"
-    - cp -r apps/web/.next /var/www/canadian-lawn/.next
-    - cp -r apps/web/public /var/www/canadian-lawn/public
-    - cp apps/web/package.json /var/www/canadian-lawn/
-    - echo "$ENV_FILE" > /var/www/canadian-lawn/.env
-
-    - echo "📦 Install and start"
-    - cd /var/www/canadian-lawn-front && yarn install --production
-    - pm2 restart canadian-web || pm2 start "yarn start" --name canadian-web
-
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
-    - if: '$CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_REF_NAME == "stage"'
+deploy:
+  stage: deploy
+  tags:
+    - deploy
+  script:
+    - DEST_DIR=/var/www/canadian-lawn
+    - rsync -a build_artifacts/.next $DEST_DIR/
+    - rsync -a build_artifacts/public $DEST_DIR/
+    - rsync -a build_artifacts/package.json $DEST_DIR/
+    - rsync -a build_artifacts/yarn.lock $DEST_DIR/
+    - rsync -a build_artifacts/node_modules $DEST_DIR/
+    - pm2 reload canadian-web || pm2 start "yarn start" --name canadian-web
