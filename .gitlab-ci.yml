@@ -51,8 +51,9 @@ build_and_deploy_web:
     - echo "$ENV_WEB" > $DEST_DIR/apps/web/.env
 
     # 5️⃣ Перезапускаем PM2 для WEB
-    - pm2 reload canadian-web || pm2 start "yarn serve:web" --name canadian-web
-
+    - pm2 delete canadian-web || true
+    - cd $DEST_DIR && pm2 start ecosystem.config.js
+    - pm2 save
 # ==========================
 # ⚡️ BACKEND
 # ==========================
@@ -85,6 +86,7 @@ build_and_deploy_backend:
 
     # 5️⃣ Ставим production-зависимости для BACKEND
     - yarn workspaces focus @canadian-lawn/backend --production
-
-    # 6️⃣ Перезапускаем PM2 для BACKEND
-    - pm2 reload canadian-api || pm2 start "yarn serve:backend" --name canadian-api
+  after_script:
+    - pm2 delete canadian-api || true
+    - cd $DEST_DIR && pm2 start ecosystem.config.js
+    - pm2 save
