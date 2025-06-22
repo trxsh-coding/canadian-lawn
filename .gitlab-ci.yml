@@ -26,8 +26,6 @@ build_and_deploy_web:
   stage: build_and_deploy_web
   tags:
     - deploy
-  needs:
-    - db_up
   rules:
     - changes:
         - "apps/web/**/*"
