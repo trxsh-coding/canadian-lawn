@@ -61,7 +61,8 @@ build_and_deploy_backend:
   tags:
     - deploy
   needs:
-    - db_up
+    - job: db_up
+      optional: true
   rules:
     - changes:
         - "apps/backend/**/*"
