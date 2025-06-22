@@ -55,7 +55,7 @@ build_and_deploy_web:
     - yarn build:api
     - yarn build:web
     # 4️⃣ .env для WEB
-    - echo "$ENV_WEB" > $DEST_DIR/apps/web/.env
+    - cat "$ENV_WEB" > $DEST_DIR/apps/web/.env
   after_script:
   # Перезапускаем PM2 для WEB
     - pm2 delete canadian-web || true
@@ -89,7 +89,7 @@ build_and_deploy_backend:
     # 3️⃣ Сборка Backend
     - yarn build:backend
     # 4️⃣ .env для Backend
-    - echo "$STRAPI_ENV_FILE" > $DEST_DIR/apps/backend/.env
+    - cat "$STRAPI_ENV_FILE" > $DEST_DIR/apps/backend/.env
     # 5️⃣ Установка production-зависимостей
     - yarn workspaces focus @canadian-lawn/backend --production
   after_script:
