@@ -1,9 +1,23 @@
 stages:
+  - db_up
   - build_and_deploy_web
   - build_and_deploy_backend
 
 variables:
   DEST_DIR: "/var/www/canadian-lawn"
+
+# ==========================
+# ⚡️ POSTGRES (docker compose up)
+# ==========================
+db_up:
+  stage: db_up
+  tags:
+    - deploy
+  script:
+    - docker compose up -d postgres
+  when: on_success
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
 
 # ==========================
 # ⚡️ WEB
@@ -12,6 +26,8 @@ build_and_deploy_web:
   stage: build_and_deploy_web
   tags:
     - deploy
+  needs:
+    - db_up
   rules:
     - changes:
         - "apps/web/**/*"
@@ -22,7 +38,7 @@ build_and_deploy_web:
     - rsync -a . $DEST_DIR/
     - cd $DEST_DIR
 
-    # 2️⃣ Установка зависимостей (в корне) для Web
+    # 2️⃣ Установка зависимостей для Web
     - corepack enable
     - yarn set version 4.9.2
     - yarn install --no-immutable
@@ -37,7 +53,7 @@ build_and_deploy_web:
     - echo "$ENV_WEB" > $DEST_DIR/apps/web/.env
 
     # 5️⃣ Перезапускаем PM2 для Web
-    - pm2 reload canadian-web || pm2 start "yarn workspace @canadian-lawn/web start" --name canadian-web
+    - pm2 reload canadian-web || pm2 start "yarn workspace @canadian-lawn/web run start:prod" --name canadian-web
 
 # ==========================
 # ⚡️ BACKEND
@@ -46,6 +62,8 @@ build_and_deploy_backend:
   stage: build_and_deploy_backend
   tags:
     - deploy
+  needs:
+    - db_up
   rules:
     - changes:
         - "apps/backend/**/*"
@@ -54,7 +72,7 @@ build_and_deploy_backend:
     - rsync -a . $DEST_DIR/
     - cd $DEST_DIR
 
-    # 2️⃣ Установка зависимостей (в корне) для Backend
+    # 2️⃣ Установка зависимостей для Backend
     - corepack enable
     - yarn set version 4.9.2
     - yarn install --no-immutable
@@ -70,4 +88,4 @@ build_and_deploy_backend:
     - yarn workspaces focus @canadian-lawn/backend --production
 
     # 6️⃣ Перезапускаем PM2 для Backend
-    - pm2 reload canadian-api || pm2 start "yarn workspace @canadian-lawn/backend start" --name canadian-api
+    - pm2 reload canadian-api || pm2 start "yarn workspace @canadian-lawn/backend run start:prod" --name canadian-api
