@@ -59,7 +59,7 @@ build_and_deploy_web:
   after_script:
   # Перезапускаем PM2 для WEB
     - pm2 delete canadian-web || true
-    - pm2 start $DEST_DIR/ecosystem.config.frontend.cjs
+    - pm2 start $DEST_DIR/ecosystem.frontend.config.cjs
     - pm2 save
 
 
@@ -95,5 +95,5 @@ build_and_deploy_backend:
   after_script:
     # Перезапускаем PM2 для BACKEND
     - pm2 delete canadian-api || true
-    - pm2 start $DEST_DIR/ecosystem.config.backend.cjs
+    - pm2 start $DEST_DIR/ecosystem.backend.config.cjs
     - pm2 save
