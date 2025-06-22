@@ -57,8 +57,11 @@ build_and_deploy_web:
     # 4️⃣ .env для WEB
     - echo "$ENV_WEB" > $DEST_DIR/apps/web/.env
   after_script:
-    - pm2 start $DEST_DIR/ecosystem.config.cjs || pm2 reload $DEST_DIR/ecosystem.config.cjs
+  # Перезапускаем PM2 для WEB
+    - pm2 delete canadian-web || true
+    - pm2 start $DEST_DIR/ecosystem.config.frontend.cjs
     - pm2 save
+
 
 # ==========================
 # ⚡️ BACKEND
@@ -90,5 +93,7 @@ build_and_deploy_backend:
     # 5️⃣ Установка production-зависимостей
     - yarn workspaces focus @canadian-lawn/backend --production
   after_script:
-    - pm2 start $DEST_DIR/ecosystem.config.cjs || pm2 reload $DEST_DIR/ecosystem.config.cjs
+    # Перезапускаем PM2 для BACKEND
+    - pm2 delete canadian-api || true
+    - pm2 start $DEST_DIR/ecosystem.config.backend.cjs
     - pm2 save
