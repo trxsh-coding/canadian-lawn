@@ -1,30 +1,73 @@
 stages:
-  - build_and_deploy
+  - build_and_deploy_web
+  - build_and_deploy_backend
 
-build_and_deploy:
-  stage: build_and_deploy
+variables:
+  DEST_DIR: "/var/www/canadian-lawn"
+
+# ==========================
+# ⚡️ WEB
+# ==========================
+build_and_deploy_web:
+  stage: build_and_deploy_web
   tags:
     - deploy
+  rules:
+    - changes:
+        - "apps/web/**/*"
+        - "packages/ui-kit/**/*"
+        - "packages/api/**/*"
   script:
-    # 1️⃣ Установка зависимостей в КОРНЕ
+    # 1️⃣ Копируем весь репозиторий
+    - rsync -a . $DEST_DIR/
+    - cd $DEST_DIR
+
+    # 2️⃣ Установка зависимостей (в корне) для Web
     - corepack enable
     - yarn set version 4.9.2
     - yarn install --no-immutable
-    - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web
 
-    # 2️⃣ Сборка
+    # 3️⃣ Сборка Web (через workspaces для ui-kit, api, web)
+    - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web
     - yarn build:ui
     - yarn build:api
     - yarn build:web
-    - rm -rf apps/web/.next/cache
 
-    # 3️⃣ Копируем ТОЛЬКО то, что нужно для standalone
-    - DEST_DIR=/var/www/canadian-lawn
-    - mkdir -p $DEST_DIR
-    - rsync -a apps/web/.next/standalone/ $DEST_DIR/
-    - rsync -a apps/web/.next/static $DEST_DIR/.next/static/
-    - rsync -a apps/web/public $DEST_DIR/
-    - echo "$ENV_FILE" > $DEST_DIR/.env
+    # 4️⃣ .env для Web
+    - echo "$ENV_WEB" > $DEST_DIR/apps/web/.env
 
-    # 4️⃣ Перезапускаем PM2
-    - pm2 reload canadian-web || pm2 start "node server.js" --name canadian-web
+    # 5️⃣ Перезапускаем PM2 для Web
+    - pm2 reload canadian-web || pm2 start "yarn workspace @canadian-lawn/web start" --name canadian-web
+
+# ==========================
+# ⚡️ BACKEND
+# ==========================
+build_and_deploy_backend:
+  stage: build_and_deploy_backend
+  tags:
+    - deploy
+  rules:
+    - changes:
+        - "apps/backend/**/*"
+  script:
+    # 1️⃣ Копируем весь репозиторий
+    - rsync -a . $DEST_DIR/
+    - cd $DEST_DIR
+
+    # 2️⃣ Установка зависимостей (в корне) для Backend
+    - corepack enable
+    - yarn set version 4.9.2
+    - yarn install --no-immutable
+    - yarn workspaces focus @canadian-lawn/backend
+
+    # 3️⃣ Сборка Backend
+    - yarn build:backend
+
+    # 4️⃣ .env для Backend
+    - echo "$STRAPI_ENV_FILE" > $DEST_DIR/apps/backend/.env
+
+    # 5️⃣ Установка production-зависимостей для Backend
+    - yarn workspaces focus @canadian-lawn/backend --production
+
+    # 6️⃣ Перезапускаем PM2 для Backend
+    - pm2 reload canadian-api || pm2 start "yarn workspace @canadian-lawn/backend start" --name canadian-api

@@ -18,6 +18,7 @@
     "build:ui": "yarn workspace @canadian-lawn/ui-kit build",
     "build:web": "yarn workspace @canadian-lawn/web build",
     "build:api": "yarn workspace @canadian-lawn/api build",
+    "build:strapi": "yarn workspace @canadian-lawn/backend build",
     "start:ui": "yarn workspace @canadian-lawn/ui-kit dev",
     "start:strapi": "yarn workspace @canadian-lawn/backend develop",
     "start:web": "yarn workspace @canadian-lawn/web dev",
