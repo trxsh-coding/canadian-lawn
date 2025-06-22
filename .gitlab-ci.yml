@@ -10,6 +10,15 @@ variables:
 # Глобальные настройки, выполняемые перед каждым заданием
 default:
   before_script:
+    # Остановка и удаление всех процессов pm2 для веток, кроме main
+    - |
+      if [ "$CI_COMMIT_REF_NAME" != "main" ]; then
+        echo "🛑 Останавливаю и удаляю все процессы pm2 для ветки $CI_COMMIT_REF_NAME..."
+        sudo pm2 stop all || true
+        sudo pm2 delete all || true
+      else
+        echo "❗️ Ветка main, процессы pm2 не трогаются."
+      fi
     # Удаление директории для веток, кроме main
     - |
       if [ "$CI_COMMIT_REF_NAME" != "main" ]; then
@@ -44,7 +53,7 @@ db_up:
         echo "✅ PostgreSQL уже запущен."
       else
         echo "🚀 Запускаю PostgreSQL..."
-        docker-compose up -d $POSTGRES_SERVICE
+        docker compose up -d $POSTGRES_SERVICE
       fi
   when: on_success
   timeout: 5m
@@ -92,9 +101,9 @@ build_and_deploy_web:
     - echo "$ENV_WEB" > apps/web/.env
     # Управление процессами
     - echo "🚀 Разворачиваю веб-приложение..."
-    - pm2 delete canadian-web || true
-    - pm2 start ecosystem.frontend.config.cjs
-    - pm2 save
+    - sudo pm2 delete canadian-web || true
+    - sudo pm2 start ecosystem.frontend.config.cjs
+    - sudo pm2 save
   timeout: 15m
 
 # Задание: Сборка и развертывание бэкенда
@@ -133,14 +142,20 @@ build_and_deploy_backend:
         exit 1
       fi
     # Настройка окружения
-    - echo "⚙️ Создаю .env файл для бэкенда..."
-    - echo "$STRAPI_ENV_FILE" > apps/backend/.env
+    - echo "⚙️ Копирую .env файл для бэкенда..."
+    - |
+      if [ -f ".env" ]; then
+        sudo cat .env > apps/backend/.env
+      else
+        echo "❌ Ошибка: файл .env не найден в корне репозитория!"
+        exit 1
+      fi
     # Установка зависимостей для продакшена
     - echo "📦 Устанавливаю зависимости для продакшена..."
     - yarn workspaces focus @canadian-lawn/backend --production
     # Управление процессами
     - echo "🚀 Разворачиваю бэкенд..."
-    - pm2 delete canadian-api || true
-    - pm2 start ecosystem.backend.config.cjs
-    - pm2 save
+    - sudo pm2 delete canadian-api || true
+    - sudo pm2 start ecosystem.backend.config.cjs
+    - sudo pm2 save
   timeout: 15m
