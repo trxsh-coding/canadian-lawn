@@ -41,6 +41,7 @@ build_and_deploy_web:
         - "apps/web/**/*"
         - "packages/ui-kit/**/*"
         - "packages/api/**/*"
+        - "gitlab-ci.yml"
   script:
     # 1️⃣ Копируем весь репозиторий
     - rsync -a . $DEST_DIR/
@@ -77,6 +78,7 @@ build_and_deploy_backend:
   rules:
     - changes:
         - "apps/backend/**/*"
+        - "gitlab-ci.yml"
   script:
     # 1️⃣ Копируем весь репозиторий
     - rsync -a . $DEST_DIR/
