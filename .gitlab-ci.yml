@@ -44,7 +44,7 @@ db_up:
         echo "✅ PostgreSQL уже запущен."
       else
         echo "🚀 Запускаю PostgreSQL..."
-        docker compose up -d $POSTGRES_SERVICE
+        docker-compose up -d $POSTGRES_SERVICE
       fi
   when: on_success
   timeout: 5m
