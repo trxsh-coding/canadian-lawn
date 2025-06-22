@@ -88,5 +88,5 @@ build_and_deploy_backend:
     - yarn workspaces focus @canadian-lawn/backend --production
   after_script:
     - pm2 delete canadian-api || true
-    - cd $DEST_DIR && pm2 start ecosystem.config.js
+    - cd $DEST_DIR && pm2 start ecosystem.config.cjs
     - pm2 save
