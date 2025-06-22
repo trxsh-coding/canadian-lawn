@@ -14,7 +14,7 @@ db_up:
   tags:
     - deploy
   script:
-    - docker-compose up -d postgres
+    - docker compose up -d postgres
   when: on_success
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
@@ -36,21 +36,21 @@ build_and_deploy_web:
     - rsync -a . $DEST_DIR/
     - cd $DEST_DIR
 
-    # 2️⃣ Установка зависимостей для Web
+    # 2️⃣ Ставим только то, что нужно для WEB
     - corepack enable
     - yarn set version 4.9.2
+    - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web
     - yarn install --no-immutable
 
-    # 3️⃣ Сборка Web (через workspaces для ui-kit, api, web)
-    - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web
+    # 3️⃣ Сборка WEB
     - yarn build:ui
     - yarn build:api
     - yarn build:web
 
-    # 4️⃣ .env для Web
+    # 4️⃣ .env для WEB
     - echo "$ENV_WEB" > $DEST_DIR/apps/web/.env
 
-    # 5️⃣ Перезапускаем PM2 для Web
+    # 5️⃣ Перезапускаем PM2 для WEB
     - pm2 reload canadian-web || pm2 start "yarn serve:web" --name canadian-web
 
 # ==========================
@@ -71,20 +71,20 @@ build_and_deploy_backend:
     - rsync -a . $DEST_DIR/
     - cd $DEST_DIR
 
-    # 2️⃣ Установка зависимостей для Backend
+    # 2️⃣ Ставим только то, что нужно для BACKEND
     - corepack enable
     - yarn set version 4.9.2
-    - yarn install --no-immutable
     - yarn workspaces focus @canadian-lawn/backend
+    - yarn install --no-immutable
 
-    # 3️⃣ Сборка Backend
+    # 3️⃣ Сборка BACKEND
     - yarn build:backend
 
-    # 4️⃣ .env для Backend
+    # 4️⃣ .env для BACKEND
     - echo "$STRAPI_ENV_FILE" > $DEST_DIR/apps/backend/.env
 
-    # 5️⃣ Установка production-зависимостей для Backend
+    # 5️⃣ Ставим production-зависимости для BACKEND
     - yarn workspaces focus @canadian-lawn/backend --production
 
-    # 6️⃣ Перезапускаем PM2 для Backend
+    # 6️⃣ Перезапускаем PM2 для BACKEND
     - pm2 reload canadian-api || pm2 start "yarn serve:backend" --name canadian-api
