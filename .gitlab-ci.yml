@@ -1,8 +1,8 @@
 default:
   before_script:
-    - sudo rm -rf /var/www/canadian-lawn
-    - sudo mkdir -p /var/www/canadian-lawn
-    - sudo chown $USER:$USER /var/www/canadian-lawn
+    - rm -rf /var/www/canadian-lawn
+    - mkdir -p /var/www/canadian-lawn
+    - chown $USER:$USER /var/www/canadian-lawn
 
 stages:
   - db_up
