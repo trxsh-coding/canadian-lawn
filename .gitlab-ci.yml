@@ -1,3 +1,9 @@
+default:
+  before_script:
+    - sudo rm -rf /var/www/canadian-lawn
+    - sudo mkdir -p /var/www/canadian-lawn
+    - sudo chown $USER:$USER /var/www/canadian-lawn
+
 stages:
   - db_up
   - build_and_deploy_web
