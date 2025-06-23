@@ -134,7 +134,7 @@ build_and_deploy_web:
 
     # Управление процессами
     - echo "🚀 Разворачиваю веб-приложение..."
-    - echo "$SUDO_PASSWORD" | sudo -S pm2 delete canadian-web || true
+    - echo "$SUDO_PASSWORD" | sudo -S pm2 delete all || true
     - echo "$SUDO_PASSWORD" | sudo -S pm2 start ecosystem.frontend.config.cjs
     - echo "$SUDO_PASSWORD" | sudo -S pm2 save
   timeout: 15m
