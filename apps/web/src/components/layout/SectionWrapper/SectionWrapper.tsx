@@ -1,6 +1,7 @@
 import { Button, Typography } from '@canadian-lawn/ui-kit';
 
 import { Constraints } from '@/components/layout/Constraints';
+import { ErrorWidget } from '@/components/layout/ErrorWidget';
 import cn from '@/utils/cnMerge';
 
 type SectionWrapperProps = {
@@ -9,6 +10,7 @@ type SectionWrapperProps = {
   childClassName?: string;
   children: React.ReactNode;
   withLink?: boolean;
+  isError?: boolean;
   linkClassName?: string;
   headlineClassName?: string;
   backgroundColor?: 'white' | 'green' | 'light-green' | 'inherit';
@@ -23,11 +25,12 @@ export const SectionWrapper = ({
   linkClassName,
   withLink = true,
   backgroundColor = 'white',
+  isError,
 }: SectionWrapperProps) => {
   return (
     <Constraints
       className={cn(
-        'md:py-section mx-auto flex flex-col',
+        'md:py-section mx-auto flex flex-col py-10',
         backgroundColor === 'green' && 'bg-secondary',
         backgroundColor === 'white' && 'bg-baseSecondaryBg',
         backgroundColor === 'light-green' && 'bg-primary',
@@ -37,11 +40,11 @@ export const SectionWrapper = ({
       <div
         className={cn(
           'flex flex-col gap-1 lg:flex-row lg:justify-between',
-          headline && withLink && 'w-full flex-row justify-between'
+          headline && withLink && 'w-full flex-col items-start justify-between lg:flex-row'
         )}
       >
         {headline && (
-          <Typography view="heading1" family="gothic" className={cn(headlineClassName)}>
+          <Typography view="heading2" family="gothic" className={cn(headlineClassName)}>
             {headline}
           </Typography>
         )}
@@ -60,9 +63,13 @@ export const SectionWrapper = ({
           </Button>
         )}
       </div>
-      <div className={cn('mt-6 flex gap-5 overflow-scroll lg:overflow-auto', childClassName)}>
-        {children}
-      </div>
+      {isError ? (
+        <ErrorWidget className="mt-6" />
+      ) : (
+        <div className={cn('mt-6 flex gap-5 overflow-scroll lg:overflow-auto', childClassName)}>
+          {children}
+        </div>
+      )}
     </Constraints>
   );
 };

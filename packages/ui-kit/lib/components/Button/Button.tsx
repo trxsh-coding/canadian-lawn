@@ -44,6 +44,7 @@ export const Button = ({
         buttonType === 'button' && 'ui:px-[30px] ui:rounded-xs ui:h-10',
         loading && 'ui:pointer-events-none ui:cursor-none',
         color === 'primary' && 'ui:text-baseWhite ui:bg-tertiary',
+        color === 'secondary' && 'ui:text-baseBlack ui:bg-baseBg',
         width === 'fill' && 'ui:max-w-full',
         width === 'fit' && 'ui:max-w-fit',
         buttonType === 'text' &&

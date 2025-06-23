@@ -12,7 +12,7 @@ export const Preview = () => {
     <div className="bg-primary mb-[87px] flex w-full justify-center">
       <Constraints className="mb-section relative">
         <div
-          className="bg-secondary bg-p relative flex h-[400px] translate-y-[50px] flex-col rounded-sm bg-size-[auto_50%] bg-bottom bg-no-repeat lg:bg-size-[auto_80%] lg:bg-right-bottom"
+          className="bg-secondary bg-p relative z-50 flex h-[400px] translate-y-[50px] flex-col rounded-sm bg-size-[auto_50%] bg-bottom bg-no-repeat lg:bg-size-[auto_80%] lg:bg-right-bottom"
           style={{ backgroundImage: `url(${Grass.src})` }}
         >
           <Header />

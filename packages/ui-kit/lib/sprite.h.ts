@@ -8,6 +8,7 @@ export interface SpritesMap {
     | 'check'
     | 'cross'
     | 'download'
+    | 'error'
     | 'grass'
     | 'info'
     | 'logo'
@@ -28,6 +29,7 @@ export const SPRITES_META: {
     | 'check'
     | 'cross'
     | 'download'
+    | 'error'
     | 'grass'
     | 'info'
     | 'logo'
@@ -48,6 +50,7 @@ export const SPRITES_META: {
     'check',
     'cross',
     'download',
+    'error',
     'grass',
     'info',
     'logo',

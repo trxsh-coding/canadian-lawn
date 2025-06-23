@@ -1,19 +1,34 @@
 'use client';
-
 import { Button } from '@canadian-lawn/ui-kit';
-import { useToggle } from '@reactuses/core';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
+import { useScrollLock } from 'usehooks-ts';
 
 import Logo from '@/assets/img/logo.svg';
 import { NavItem } from '@/components/layout/NavItem';
 import { ROUTES } from '@/config/routes';
+import { useOverlayStore } from '@/stores';
+import { OverlayType } from '@/types/enums';
 import cn from '@/utils/cnMerge';
 
 export const Header: React.FC = () => {
-  const [isOpen, setOpen] = useToggle(false);
+  const { addOverlay, removeOverlay, isOverlayActive } = useOverlayStore();
+  const isOpen = isOverlayActive(OverlayType.Menu);
 
-  const handleOpen = React.useCallback(() => setOpen(!isOpen), [isOpen, setOpen]);
+  const handleOpen = React.useCallback(() => {
+    if (isOpen) {
+      removeOverlay(OverlayType.Menu);
+    } else {
+      addOverlay(OverlayType.Menu);
+    }
+  }, [isOpen, addOverlay, removeOverlay]);
+
+  const { lock, unlock } = useScrollLock();
+
+  React.useEffect(() => {
+    if (isOpen) lock();
+    return () => unlock();
+  }, [isOpen, lock, unlock]);
 
   const NavLinks = ({ className }: { className?: string }) =>
     Object.values(ROUTES).map(({ url, name, desktopHide }, index) => (
@@ -66,14 +81,6 @@ export const Header: React.FC = () => {
             </>
           )}
         </div>
-        <motion.div
-          className="fixed top-0 right-0 bottom-0 left-0 z-40 h-screen w-screen backdrop-blur-sm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
-          onClick={() => setOpen(false)}
-        />
       </div>
     </AnimatePresence>
   );

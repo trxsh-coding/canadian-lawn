@@ -1,6 +1,7 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { QueryClient } from '@tanstack/react-query';
 
+import { Blur } from '@/components/layout/Blur';
 import { MainLayout } from '@/components/sections/Main';
 import { usePartners as partnersQuery } from '@/hooks/usePartners';
 import { useTechnique as techniqueQuery } from '@/hooks/useTechnique';
@@ -22,6 +23,7 @@ export default async function Home() {
 
   return (
     <>
+      <Blur />
       <HydrationBoundary state={dehydratedState}>
         <MainLayout />
       </HydrationBoundary>
