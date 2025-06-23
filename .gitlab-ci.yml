@@ -100,19 +100,6 @@ build_and_deploy_web:
     - echo "📦 Устанавливаю зависимости для веб-приложения..."
     - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web
     - yarn install --no-immutable
-    # Сборка компонентов
-    - echo "🔨 Сборка UI Kit..."
-    - yarn build:ui
-    - echo "🔨 Сборка API..."
-    - yarn build:api
-    - echo "🔨 Сборка веб-приложения..."
-    - yarn build:web
-    # Проверка результата сборки
-    - |
-      if [ ! -d "apps/web/.next" ]; then
-        echo "❌ Ошибка: директория .next не найдена!"
-        exit 1
-      fi
     # Настройка окружения
     - echo "⚙️ Создаю .env файл для веб-приложения..."
     # Проверка содержимого
@@ -126,9 +113,25 @@ build_and_deploy_web:
 
     - echo "⚙️ Сохраняю .env для бекэнда..."
     - echo "$ENV_WEB" > "$DEST_DIR/apps/web/.env"
+    - echo "$ENV_WEB" > "$DEST_DIR/packages/api/.env"
 
     - echo "Проверка записи .env..."
     - cat $DEST_DIR/apps/web/.env
+    - cat $DEST_DIR/packages/api/.env
+    # Сборка компонентов
+    - echo "🔨 Сборка UI Kit..."
+    - yarn build:ui
+    - echo "🔨 Сборка API..."
+    - yarn build:api
+    - echo "🔨 Сборка веб-приложения..."
+    - yarn build:web
+    # Проверка результата сборки
+    - |
+      if [ ! -d "apps/web/.next" ]; then
+        echo "❌ Ошибка: директория .next не найдена!"
+        exit 1
+      fi
+
     # Управление процессами
     - echo "🚀 Разворачиваю веб-приложение..."
     - echo "$SUDO_PASSWORD" | sudo -S pm2 delete canadian-web || true
