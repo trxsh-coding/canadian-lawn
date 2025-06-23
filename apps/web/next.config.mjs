@@ -4,9 +4,6 @@ const nextConfig = {
     loader: 'imgix',
     path: '',
   },
-  experimental: {
-    staleOutputs: false,
-  },
   eslint: {
     dirs: ['src'],
     ignoreDuringBuilds: true,

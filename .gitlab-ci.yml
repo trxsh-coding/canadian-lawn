@@ -20,7 +20,6 @@ install:
 build_web:
   stage: build
   tags: [deploy]
-  needs: [install]
   script:
     - echo "$ENV_WEB" > apps/web/.env
     - yarn workspaces focus @canadian-lawn/ui-kit
@@ -39,7 +38,6 @@ build_web:
 build_backend:
   stage: build
   tags: [deploy]
-  needs: [install]
   script:
     - echo "$STRAPI_ENV_FILE" > apps/backend/.env
 
@@ -57,8 +55,6 @@ deploy:
   - job: build_backend
     optional: true
   script:
-    - echo "$SUDO_PASSWORD" | sudo -S pm2 delete canadian-web || true
-    - echo "$SUDO_PASSWORD" | sudo -S pm2 delete canadian-api || true
-    - echo "$SUDO_PASSWORD" | sudo -S pm2 start ecosystem.config.cjs
+    - sudo pm2 delete all
+    - sudo -S pm2 start ecosystem.config.cjs
     - echo "✅ Next.js успешно запущен, логи PM2:"
-    - echo "$SUDO_PASSWORD" | sudo -S pm2 logs canadian-frontend --lines 20
