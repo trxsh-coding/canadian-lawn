@@ -52,8 +52,10 @@ deploy:
   stage: deploy
   tags: [deploy]
   needs:
-    - build_web
-    - build_backend
+  - job: build_web 
+    optional: true
+  - job: build_backend
+    optional: true
   script:
     - echo "$SUDO_PASSWORD" | sudo -S pm2 delete canadian-web || true
     - echo "$SUDO_PASSWORD" | sudo -S pm2 delete canadian-api || true
