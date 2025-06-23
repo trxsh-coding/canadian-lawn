@@ -3,8 +3,8 @@ module.exports = {
     {
       name: 'canadian-web',
       script: '/var/www/canadian-lawn/.yarn/releases/yarn-4.9.2.cjs',
-      args: '/apps/frontend start',
-      cwd: '/var/www/canadian-lawn',
+      args: 'start',
+      cwd: '/var/www/canadian-lawn/apps/web',
       instances: 1,
       autorestart: true,
       watch: false,
