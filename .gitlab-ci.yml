@@ -128,7 +128,7 @@ build_and_deploy_web:
     - echo "$ENV_WEB" > "$DEST_DIR/apps/web/.env"
 
     - echo "Проверка записи .env..."
-    - cat $DEST_DIR/apps/backend/.env
+    - cat $DEST_DIR/apps/web/.env
     # Управление процессами
     - echo "🚀 Разворачиваю веб-приложение..."
     - echo "$SUDO_PASSWORD" | sudo -S pm2 delete canadian-web || true
