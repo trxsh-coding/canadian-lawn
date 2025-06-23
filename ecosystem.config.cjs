@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'canadian-frontend',
-      script: 'yarn',
+      script: '/var/www/canadian-lawn/.yarn/releases/yarn-4.9.2.cjs',
       args: 'workspace @canadian-lawn/web serve:web',
       cwd: process.cwd(),
       env: {
@@ -12,7 +12,7 @@ module.exports = {
     },
     {
       name: 'canadian-backend',
-      script: 'yarn',
+      script: '/var/www/canadian-lawn/.yarn/releases/yarn-4.9.2.cjs',
       args: 'workspace @canadian-lawn/web serve:backend',
       cwd: process.cwd(),
       env: {
