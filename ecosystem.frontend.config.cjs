@@ -2,9 +2,9 @@ module.exports = {
   apps: [
     {
       name: 'canadian-web',
-      script: 'node_modules/.bin/next',
-      args: 'start',
-      cwd: '/var/www/canadian-lawn/apps/web',
+      script: '/var/www/canadian-lawn/.yarn/releases/yarn-4.9.2.cjs',
+      args: '/apps/frontend start',
+      cwd: '/var/www/canadian-lawn',
       instances: 1,
       autorestart: true,
       watch: false,
