@@ -2,14 +2,13 @@ module.exports = {
   apps: [
     {
       name: 'canadian-web',
-      script: '/var/www/canadian-lawn/.yarn/releases/yarn-4.9.2.cjs',
-      args: 'workspace @canadian-lawn/web start',
-      cwd: '/var/www/canadian-lawn',
-      watch: false,
+      script: 'node_modules/.bin/next',
+      args: 'start',
+      cwd: '/var/www/canadian-lawn/apps/web',
+      instances: 1,
       autorestart: true,
-      env: {
-        NODE_ENV: 'production',
-      },
+      watch: false,
+      max_memory_restart: '1G',
     },
   ],
 };
