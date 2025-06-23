@@ -157,7 +157,7 @@ build_and_deploy_backend:
     - echo "⚙️ Копирую .env файл для бэкенда..."
     - |
       if [ -f ".env" ]; then
-        echo "$SUDO_PASSWORD" | sudo -S cat .env > apps/backend/.env
+        echo "$SUDO_PASSWORD" | sudo -S cat "$STRAPI_ENV_FILE" > apps/backend/.env
       else
         echo "❌ Ошибка: файл .env не найден в корне репозитория!"
         exit 1
