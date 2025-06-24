@@ -80,9 +80,10 @@ deploy-frontend:
   script:
     - echo "Копируем файлики"
     - cd apps/web
-    - rsync -a --include=".next/standalone/**" . "$FRONTEND_DEST_DIR"
-    - rsync -a --include=".next/static" . "$FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR"
-    - rsync -a --include="public" . "$FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR"
+    - rsync -a $CI_PROJECT_DIR/apps/web/.next/standalone/ $FRONTEND_DEST_DIR/
+    - rsync -a $CI_PROJECT_DIR/apps/web/.next/static/ $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
+    - rsync -a $CI_PROJECT_DIR/apps/web/public/ $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
+    - rsync -a $CI_PROJECT_DIR/apps/web/.env $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
     - echo "Стартуем сервер"
     - cd $FRONTEND_WORKING_DIR
     - pm2 delete canadian-web || true
