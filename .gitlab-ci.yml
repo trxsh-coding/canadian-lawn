@@ -135,9 +135,9 @@ build_and_deploy_web:
     # Управление процессами
     - sudo fuser -k 3000/tcp || true  # Завершаем процессы на порту 3000
     - echo "🚀 Разворачиваю веб-приложение..."
-    - echo sudo  pm2 delete all || true
-    - echo sudo  pm2 start ecosystem.frontend.config.cjs
-    - echo sudo pm2 save
+    - sudo pm2 delete all || true
+    - sudo pm2 start ecosystem.frontend.config.cjs
+    - sudo pm2 save
   timeout: 15m
 
 # Задание: Сборка и развертывание бэкенда
@@ -192,7 +192,7 @@ build_and_deploy_backend:
     # Управление процессами
     - echo "🚀 Разворачиваю бэкенд..."
     - sudo fuser -k 1337/tcp || true  # Завершаем процессы на порту 1337
-    - echo sudo pm2 delete canadian-backend || true
-    - echo sudo pm2 start ecosystem.backend.config.cjs
-    - echo sudo pm2 save
+    - sudo pm2 delete canadian-backend || true
+    - sudo pm2 start ecosystem.backend.config.cjs
+    - sudo pm2 save
   timeout: 15m
