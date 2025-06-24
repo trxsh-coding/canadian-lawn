@@ -61,6 +61,7 @@ build-frontend:
     - echo "$ENV_WEB" > "apps/web/.env"
     - echo "$ENV_WEB" > "packages/api/.env"
     - cd $CI_PROJECT_DIR
+    - yarn install
     - yarn build:all
   timeout: 15m
 
