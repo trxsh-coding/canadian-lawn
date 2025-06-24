@@ -101,5 +101,5 @@ deploy-frontend:
     - cd $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
     - echo ls "Файлы в папке скопированные"
     - sudo pm2 delete canadian-web || true
-    - sudo pm2 start server.js --name canadian-web
-    - sudo pm2 logs canadian-web --lines 20
+    - sudo pm2 start server.js --name canadian-frontend
+    - sudo pm2 logs canadian-frontend --lines 20
