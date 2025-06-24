@@ -3,22 +3,15 @@
 
 # Глобальные переменные
 variables:
-  DEST_DIR: "/var/www/cl"
+  BACKEND_DEST_DIR: "/var/www/canadian-lawn-backend"
+  BACKEND_WORKING_DIR: "/var/www/canadian-lawn-backend"
+  FRONTEND_DEST_DIR: "/var/www/canadian-lawn-frontend"
+  FRONTEND_WORKING_DIR: "apps/web"
   YARN_CACHE_FOLDER: ".yarn/cache"
   POSTGRES_SERVICE: "postgres"
 
 # Глобальные настройки, выполняемые перед каждым заданием
 default:
-  before_script:
-    # Остановка и удаление процессов pm2 для веток, кроме main
-    - |
-      if [ "$CI_COMMIT_REF_NAME" != "main" ]; then
-        echo "🛑 Останавливаю и удаляю все процессы pm2 для ветки $CI_COMMIT_REF_NAME..."
-        echo "$SUDO_PASSWORD" | sudo -S pm2 stop all || true
-        echo "$SUDO_PASSWORD" | sudo -S pm2 delete all || true
-      else
-        echo "❗️ Ветка main, процессы pm2 не трогаются."
-      fi
   cache:
     paths:
       - $YARN_CACHE_FOLDER
@@ -27,9 +20,10 @@ default:
 # Определение этапов выполнения
 stages:
   - setup
-  - db_up
-  - build_and_deploy_web
-  - build_and_deploy_backend
+  - build-backend
+  - deploy-backend
+  - build-frontend
+  - deploy-frontend
 
 # Задание: Подготовка окружения (выполняется один раз)
 setup:
@@ -37,51 +31,19 @@ setup:
   tags:
     - deploy
   script:
-    # Удаление директории для веток, кроме main
-    - |
-      if [ "$CI_COMMIT_REF_NAME" != "main" ]; then
-        echo "▶️ Удаляю папку $DEST_DIR для ветки $CI_COMMIT_REF_NAME..."
-        [ -d "$DEST_DIR" ] && echo "$SUDO_PASSWORD" | sudo -S rm -rf "$DEST_DIR" || echo "⚠️ Директория $DEST_DIR не существует или не удалена."
-      else
-        echo "❗️ Ветка main, директория $DEST_DIR не удаляется."
-      fi
     # Создание директории и установка прав
-    - echo "$SUDO_PASSWORD" | sudo -S mkdir -p "$DEST_DIR/logs"
-    - echo "$SUDO_PASSWORD" | sudo -S chown -R $USER:$USER "$DEST_DIR"
     # Копирование файлов
-    - echo "📂 Копирую файлы в $DEST_DIR..."
-    - rsync -a --exclude=".git" . "$DEST_DIR/"
-    # Настройка Yarn
-    - cd "$DEST_DIR"
     - echo "⚙️ Настраиваю Yarn..."
     - corepack enable
     - yarn set version 4.9.2
+    - yarn install --no-immutable
+
   when: always
   timeout: 5m
 
-# Задание: Запуск базы данных PostgreSQL
-db_up:
-  stage: db_up
-  tags:
-    - deploy
-  needs:
-    - job: setup
-  script:
-    # Проверка, запущен ли контейнер PostgreSQL
-    - cd "$DEST_DIR"
-    - |
-      if docker ps --filter "label=com.docker.compose.service=$POSTGRES_SERVICE" --format '{{.Names}}' | grep -q .; then
-        echo "✅ PostgreSQL уже запущен."
-      else
-        echo "🚀 Запускаю PostgreSQL..."
-        echo "$SUDO_PASSWORD" | sudo -S docker-compose up -d $POSTGRES_SERVICE
-      fi
-  when: on_success
-  timeout: 5m
-
 # Задание: Сборка и развертывание веб-приложения
-build_and_deploy_web:
-  stage: build_and_deploy_web
+build-frontend:
+  stage: build-frontend
   tags:
     - deploy
   needs:
@@ -95,104 +57,34 @@ build_and_deploy_web:
         - ".gitlab-ci.yml"
       when: always
   script:
-    - cd "$DEST_DIR"
-    # Установка зависимостей
-    - echo "📦 Устанавливаю зависимости для веб-приложения..."
-    - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web
-    - yarn install --no-immutable
-    # Настройка окружения
-    - echo "⚙️ Создаю .env файл для веб-приложения..."
-    # Проверка содержимого
-    - echo "Проверка STRAPI_ENV_FILE..."
-    - if [ -z "$ENV_WEB" ]; then
-      echo "❌ STRAPI_ENV_FILE не задан в CI.";
-      exit 1;
-      else
-      echo "✅ STRAPI_ENV_FILE определён.";
-      fi
-
-    - echo "⚙️ Сохраняю .env для бекэнда..."
-    - echo "$ENV_WEB" > "$DEST_DIR/apps/web/.env"
-    - echo "$ENV_WEB" > "$DEST_DIR/packages/api/.env"
-
-    - echo "Проверка записи .env..."
-    - cat $DEST_DIR/apps/web/.env
-    - cat $DEST_DIR/packages/api/.env
-    # Сборка компонентов
-    - echo "🔨 Сборка UI Kit..."
-    - yarn build:ui
-    - echo "🔨 Сборка API..."
-    - yarn build:api
-    - echo "🔨 Сборка веб-приложения..."
-    - yarn build:web
-    # Проверка результата сборки
-    - |
-      if [ ! -d "apps/web/.next" ]; then
-        echo "❌ Ошибка: директория .next не найдена!"
-        exit 1
-      fi
-
-    # Управление процессами
-    - sudo fuser -k 3000/tcp || true  # Завершаем процессы на порту 3000
-    - echo "🚀 Разворачиваю веб-приложение..."
-    - pm2 delete all || true
-    - pm2 start ecosystem.frontend.config.cjs
-    - pm2 save
+    - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web  --production
+    - echo "⚙️ Сохраняю .env для фронта..."
+    - echo "$ENV_WEB" > "apps/web/.env"
+    - echo "$ENV_WEB" > "packages/api/.env"
+    - yarn build:all
   timeout: 15m
 
-# Задание: Сборка и развертывание бэкенда
-build_and_deploy_backend:
-  stage: build_and_deploy_backend
+deploy-frontend:
+  stage: deploy-frontend
   tags:
     - deploy
   needs:
-    - job: setup
-    - job: db_up
+    - job: build-frontend
       optional: true
   rules:
     # Выполняется при изменениях в бэкенде или конфиге
     - changes:
-        - "apps/backend/**/*"
+        - "apps/web/**/*"
         - ".gitlab-ci.yml"
       when: always
   script:
-    - cd "$DEST_DIR"
-    # Установка зависимостей
-    - echo "📦 Устанавливаю зависимости для бэкенда..."
-    - yarn workspaces focus @canadian-lawn/backend
-    - yarn install --no-immutable
-    # Сборка бэкенда
-    - echo "🔨 Сборка бэкенда..."
-    - yarn build:backend
-    # Проверка результата сборки
-    - |
-      if [ ! -d "apps/backend/dist" ]; then
-        echo "❌ Ошибка: директория dist не найдена!"
-        exit 1
-      fi
-    # Настройка окружения
-    # Проверка содержимого
-    - echo "Проверка STRAPI_ENV_FILE..."
-    - if [ -z "$STRAPI_ENV_FILE" ]; then
-      echo "❌ STRAPI_ENV_FILE не задан в CI.";
-      exit 1;
-      else
-      echo "✅ STRAPI_ENV_FILE определён.";
-      fi
-
-    - echo "⚙️ Сохраняю .env для бекэнда..."
-    - echo "$STRAPI_ENV_FILE" > "$DEST_DIR/apps/backend/.env"
-
-    - echo "Проверка записи .env..."
-    - cat $DEST_DIR/apps/backend/.env
-
-    # Установка зависимостей для продакшена
-    - echo "📦 Устанавливаю зависимости для продакшена..."
-    - yarn workspaces focus @canadian-lawn/backend --production
-    # Управление процессами
-    - echo "🚀 Разворачиваю бэкенд..."
-    - sudo fuser -k 1337/tcp || true  # Завершаем процессы на порту 1337
-    - sudo pm2 delete canadian-backend || true
-    - sudo pm2 start ecosystem.backend.config.cjs
-    - sudo pm2 save
-  timeout: 15m
+    - echo "Копируем файлики"
+    - cd apps/web
+    - rsync -a --include=".next/standalone/**" . "$FRONTEND_DEST_DIR"
+    - rsync -a --include=".next/static" . "$FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR"
+    - rsync -a --include="public" . "$FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR"
+    - echo "Стартуем сервер"
+    - cd $FRONTEND_WORKING_DIR
+    - pm2 delete canadian-web || true
+    - pm2 start server.js --name canadian-web
+    - pm2 logs canadian-web --lines 20
