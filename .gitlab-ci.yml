@@ -94,7 +94,7 @@ deploy-frontend:
     - sudo rm -rf $FRONTEND_DEST_DIR
     - sudo mkdir $FRONTEND_DEST_DIR
     - sudo rsync -a .next/standalone/ $FRONTEND_DEST_DIR/
-    - sudo rsync -a .next/static/ $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR/static
+    - sudo rsync -a .next/static/ $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR/.next/static
     - sudo rsync -a public $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
     - sudo rsync -a .env $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
     - echo "Стартуем сервер"
