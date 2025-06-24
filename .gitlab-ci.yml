@@ -60,6 +60,7 @@ build-frontend:
     - echo "⚙️ Сохраняю .env для фронта..."
     - echo "$ENV_WEB" > "apps/web/.env"
     - echo "$ENV_WEB" > "packages/api/.env"
+    - cd $CI_PROJECT_DIR
     - yarn build:all
   timeout: 15m
 
