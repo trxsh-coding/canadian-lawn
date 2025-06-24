@@ -65,6 +65,12 @@ build-frontend:
     - cd $CI_PROJECT_DIR
     - yarn install
     - yarn build:all
+  artifacts:
+    paths:
+      - apps/web/.next
+      - apps/web/public
+      - apps/web/.env
+    expire_in: 1h
   timeout: 15m
 
 deploy-frontend:
