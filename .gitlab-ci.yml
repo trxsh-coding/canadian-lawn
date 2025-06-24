@@ -88,6 +88,6 @@ deploy-frontend:
     - rsync -a apps/web/.env $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
     - echo "Стартуем сервер"
     - cd $FRONTEND_WORKING_DIR
-    - pm2 delete canadian-web || true
-    - pm2 start server.js --name canadian-web
-    - pm2 logs canadian-web --lines 20
+    - sudo pm2 delete canadian-web || true
+    - sudo pm2 start server.js --name canadian-web
+    - sudo pm2 logs canadian-web --lines 20
