@@ -48,6 +48,8 @@ build-frontend:
     - deploy
   needs:
     - job: setup
+  variables:
+    GIT_CLEAN_FLAGS: "none"
   rules:
     # Выполняется при изменениях в указанных директориях или конфиге
     - changes:
@@ -69,6 +71,8 @@ deploy-frontend:
   stage: deploy-frontend
   tags:
     - deploy
+  variables:
+    GIT_CLEAN_FLAGS: "none"
   needs:
     - job: build-frontend
       optional: true
