@@ -7,7 +7,7 @@ module.exports = {
       cwd: '/var/www/cl',
       env: {
         NODE_ENV: 'production',
-        PORT: '3000',
+        PORT: '1337',
       },
     },
   ],
