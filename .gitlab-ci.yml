@@ -81,10 +81,11 @@ deploy-frontend:
   script:
     - echo "Копируем файлики"
     - cd apps/web
+    - sudo rm -rf $FRONTEND_DEST_DIR
     - sudo mkdir $FRONTEND_DEST_DIR
     - rsync -a .next/standalone/ $FRONTEND_DEST_DIR/
     - rsync -a .next/static/ $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
-    - rsync -a public/ $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
+    - rsync -a public $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
     - rsync -a .env $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
     - echo "Стартуем сервер"
     - cd $FRONTEND_WORKING_DIR
