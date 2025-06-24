@@ -57,7 +57,6 @@ build-frontend:
         - ".gitlab-ci.yml"
       when: always
   script:
-    - yarn workspaces focus @canadian-lawn/ui-kit @canadian-lawn/api @canadian-lawn/web  --production
     - echo "⚙️ Сохраняю .env для фронта..."
     - echo "$ENV_WEB" > "apps/web/.env"
     - echo "$ENV_WEB" > "packages/api/.env"
