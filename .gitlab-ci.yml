@@ -82,10 +82,10 @@ deploy-frontend:
     - echo "Копируем файлики"
     - cd apps/web
     - sudo mkdir $FRONTEND_DEST_DIR
-    - rsync -a apps/web/.next/standalone/ $FRONTEND_DEST_DIR/
-    - rsync -a apps/web/.next/static/ $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
-    - rsync -a apps/web/public/ $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
-    - rsync -a apps/web/.env $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
+    - rsync -a .next/standalone/ $FRONTEND_DEST_DIR/
+    - rsync -a .next/static/ $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
+    - rsync -a public/ $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
+    - rsync -a .env $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
     - echo "Стартуем сервер"
     - cd $FRONTEND_WORKING_DIR
     - sudo pm2 delete canadian-web || true
