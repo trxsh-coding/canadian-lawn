@@ -135,9 +135,9 @@ build_and_deploy_web:
     # Управление процессами
     - sudo fuser -k 3000/tcp || true  # Завершаем процессы на порту 3000
     - echo "🚀 Разворачиваю веб-приложение..."
-    - sudo pm2 delete all || true
-    - sudo pm2 start ecosystem.frontend.config.cjs
-    - sudo pm2 save
+    - pm2 delete all || true
+    - pm2 start ecosystem.frontend.config.cjs
+    - pm2 save
   timeout: 15m
 
 # Задание: Сборка и развертывание бэкенда
