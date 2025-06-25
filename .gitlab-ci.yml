@@ -155,11 +155,11 @@ deploy-backend:
       when: always
   script:
     - echo "Копируем файлики"
-    - cd apps/backend
     - sudo rm -rf $BACKEND_DEST_DIR
     - sudo mkdir $BACKEND_DEST_DIR
-    - sudo rsync -a dist/** $BACKEND_DEST_DIR
     - sudo rsync -a node_modules $BACKEND_DEST_DIR
+    - cd apps/backend
+    - sudo rsync -a dist/** $BACKEND_DEST_DIR
     - sudo rsync -a .env $BACKEND_DEST_DIR
     - sudo rsync -a database $BACKEND_DEST_DIR
     - sudo rsync -a public $BACKEND_DEST_DIR
