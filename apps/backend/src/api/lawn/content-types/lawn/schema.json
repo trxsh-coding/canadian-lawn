@@ -40,12 +40,6 @@
         "images",
         "files"
       ]
-    },
-    "landing_months": {
-      "type": "component",
-      "component": "common.months",
-      "repeatable": false,
-      "required": true
     }
   }
 }

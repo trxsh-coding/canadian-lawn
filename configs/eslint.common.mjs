@@ -60,6 +60,7 @@ export const createConfig = (options = {}) => {
         'no-console': ['warn', { allow: ['warn', 'error'] }],
         'import/no-cycle': ['error', { maxDepth: '∞' }],
         'no-irregular-whitespace': 'off',
+        '@typescript-eslint/no-empty-object-type': 'off',
         'import/order': [
           'error',
           {
