@@ -12,7 +12,7 @@ export default [
         'http://localhost:3000',
       ],
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH'],
-      headers: ['Content-Type', 'Authorization', 'Accept'],
+      headers: ['*'],
       expose: ['Content-Range', 'X-Total-Count'],
       keepHeader: false,
       credentials: true,

@@ -15,7 +15,6 @@ export const queryClientConfig: QueryClientConfig = {
         }
         return failureCount < MAX_RETRIES;
       },
-      refetchOnWindowFocus: true,
       refetchOnMount: true,
       refetchOnReconnect: true,
       staleTime: isServer ? 0 : 60 * 1000,
