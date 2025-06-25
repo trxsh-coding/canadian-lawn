@@ -5,7 +5,17 @@ export default [
   {
     name: 'strapi::cors',
     config: {
-      enabled: false,
+      enabled: true,
+      origin: [
+        'https://staging.canadian-lawn.ru',
+        'https://strapi.canadian-lawn.ru',
+        'http://localhost:3000',
+      ],
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH'],
+      headers: ['Content-Type', 'Authorization', 'Accept'],
+      expose: ['Content-Range', 'X-Total-Count'],
+      keepHeader: false,
+      credentials: true,
     },
   },
   'strapi::poweredBy',
