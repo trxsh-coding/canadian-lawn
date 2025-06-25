@@ -7,7 +7,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { Container } from '@/components/layout/Container';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { useUsers } from '@/hooks/useUsers';
-import { getImageUrl } from '@/utils/image';
 
 interface FormValues {
   name: string;
@@ -60,7 +59,7 @@ export const Feedback = () => {
                         <Pic
                           key={username}
                           className="h-[55px] w-[55px] rounded-full"
-                          src={getImageUrl(avatar.url)}
+                          src={avatar.url}
                         />
                       </div>
                     )

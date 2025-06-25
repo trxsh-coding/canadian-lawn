@@ -7,7 +7,6 @@ import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { useResponsiveValue } from '@/hooks/useResponsiveCounts';
 import { useTechnique } from '@/hooks/useTechnique';
 import cn from '@/utils/cnMerge';
-import { getImageUrl } from '@/utils/image';
 
 type TractorsProps = {
   className?: string;
@@ -34,13 +33,7 @@ export const Technique = ({ className }: TractorsProps) => {
     >
       {!isLoading ? (
         techniqueData?.data.map(({ price, title, description, id, image }) => (
-          <Card
-            key={id}
-            price={price}
-            subtitle={description}
-            title={title}
-            image={getImageUrl(image!.url)}
-          />
+          <Card key={id} price={price} subtitle={description} title={title} image={image?.url} />
         ))
       ) : (
         <LoadingList />
