@@ -7,7 +7,7 @@ export const apiClient = axios.create({
   headers: {
     Authorization: `Bearer ${ENV.STRAPI_TOKEN}`,
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'https://localhost:3000',
+    'Access-Control-Allow-Origin': ENV.NEXT_PUBLIC_BASE_URL,
     'Access-Control-Allow-Methods': 'GET, OPTIONS, POST, PATCH, DELETE',
   },
   timeout: 10000,

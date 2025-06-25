@@ -6,4 +6,5 @@ export const ENV = {
   TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN ?? '',
   TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID ?? '',
   TELEGRAM_ORDER_THREAD_ID: process.env.TELEGRAM_ORDER_THREAD_ID ?? '',
+  NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000',
 };
