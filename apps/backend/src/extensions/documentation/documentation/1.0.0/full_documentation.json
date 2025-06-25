@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-06-25T19:16:18.114Z"
+    "x-generation-date": "2025-06-25T19:18:32.490Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -4543,6 +4543,9 @@
                   "example": "string or id"
                 }
               },
+              "Landing": {
+                "$ref": "#/components/schemas/CommonMonthsComponent"
+              },
               "locale": {
                 "type": "string"
               },
@@ -5347,6 +5350,9 @@
               }
             }
           },
+          "Landing": {
+            "$ref": "#/components/schemas/CommonMonthsComponent"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -5665,6 +5671,9 @@
                     }
                   }
                 },
+                "Landing": {
+                  "$ref": "#/components/schemas/CommonMonthsComponent"
+                },
                 "createdAt": {
                   "type": "string",
                   "format": "date-time"
@@ -5729,6 +5738,50 @@
           },
           "meta": {
             "type": "object"
+          }
+        }
+      },
+      "CommonMonthsComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "january": {
+            "type": "boolean"
+          },
+          "february": {
+            "type": "boolean"
+          },
+          "march": {
+            "type": "boolean"
+          },
+          "april": {
+            "type": "boolean"
+          },
+          "may": {
+            "type": "boolean"
+          },
+          "june": {
+            "type": "boolean"
+          },
+          "july": {
+            "type": "boolean"
+          },
+          "august": {
+            "type": "boolean"
+          },
+          "september": {
+            "type": "boolean"
+          },
+          "october": {
+            "type": "boolean"
+          },
+          "november": {
+            "type": "boolean"
+          },
+          "december": {
+            "type": "boolean"
           }
         }
       },

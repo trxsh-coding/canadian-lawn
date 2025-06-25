@@ -381,6 +381,7 @@ export interface ApiLawnLawn extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     gallery: Schema.Attribute.Media<'images' | 'files', true>;
     image: Schema.Attribute.Media<'images' | 'files'>;
+    Landing: Schema.Attribute.Component<'common.months', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::lawn.lawn'> &
       Schema.Attribute.Private;
