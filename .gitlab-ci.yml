@@ -121,8 +121,9 @@ build-backend:
   script:
     - echo "⚙️ Сохраняю .env для фронта..."
     - echo "$STRAPI_ENV_FILE" > "apps/backend/.env"
-    - yarn workspaces focus @canadian-lawn/backend @canadian-lawn/api --production
+    - yarn install
     - yarn build:api
+    - yarn workspaces focus @canadian-lawn/backend @canadian-lawn/api --production
     - yarn build:backend
   artifacts:
     paths:
