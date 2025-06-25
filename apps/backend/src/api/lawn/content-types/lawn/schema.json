@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "lawns",
+  "info": {
+    "singularName": "lawn",
+    "pluralName": "lawns",
+    "displayName": "Lawn"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "speed": {
+      "type": "integer",
+      "default": 5,
+      "min": 1,
+      "max": 10
+    },
+    "resistance": {
+      "type": "integer",
+      "min": 0,
+      "max": 10
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "landing_months": {
+      "type": "component",
+      "component": "common.months",
+      "repeatable": false,
+      "required": true
+    }
+  }
+}
