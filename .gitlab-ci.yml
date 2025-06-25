@@ -123,7 +123,7 @@ build-backend:
     - echo "$STRAPI_ENV_FILE" > "apps/backend/.env"
     - yarn install
     - yarn build:api
-    - yarn workspaces focus @canadian-lawn/backend @canadian-lawn/api --production
+    - yarn workspaces focus @canadian-lawn/backend --production
     - yarn build:backend
   artifacts:
     paths:
