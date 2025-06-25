@@ -162,7 +162,7 @@ deploy-backend:
     - sudo rsync -a dist/** $BACKEND_DEST_DIR
     - sudo rsync -a .env $BACKEND_DEST_DIR
     - sudo rsync -a database $BACKEND_DEST_DIR
-    - sudo rsync -a public $BACKEND_DEST_DIR
+    - sudo rsync -a public/** $BACKEND_DEST_DIR/uploads
     - sudo rsync -a package.json $BACKEND_DEST_DIR
     - sudo rsync -a server.js $BACKEND_DEST_DIR
     - echo "Стартуем сервер"
