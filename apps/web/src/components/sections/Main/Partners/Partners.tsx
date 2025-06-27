@@ -8,7 +8,6 @@ import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { useBreakpoints } from '@/hooks/useBreakpoints';
 import { usePartners } from '@/hooks/usePartners';
 import { featureFilter, partnerLimit } from '@/utils/filters';
-import { getImageUrl } from '@/utils/image';
 
 export const Partners: React.FunctionComponent = () => {
   const { useHook: partners } = usePartners({
@@ -32,12 +31,7 @@ export const Partners: React.FunctionComponent = () => {
       >
         <div className="flex w-full flex-col gap-3 md:flex-row md:gap-5">
           {partnersData?.data.map(({ name, logo, id }) => (
-            <PartnerCard
-              key={id}
-              className="flex-1 grow"
-              title={name}
-              image={getImageUrl(logo?.url || '')}
-            />
+            <PartnerCard key={id} className="flex-1 grow" title={name} image={logo?.url} />
           ))}
         </div>
       </SectionWrapper>

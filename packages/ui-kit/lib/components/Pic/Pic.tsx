@@ -10,7 +10,7 @@ export type PicProps = React.PropsWithChildren<{
   fit?: 'cover' | 'contain';
   shape?: 'fill' | 'circle';
   fade?: boolean;
-  skeleton?: React.ReactNode;
+  skeleton?: string;
   withBackdrop?: boolean;
 }>;
 
@@ -40,8 +40,6 @@ export const Pic = ({
     fit === 'contain' && 'ui:object-contain'
   );
 
-  if (!loaded && skeleton) return skeleton;
-
   return (
     <div className={containerClassName}>
       {src && withBackdrop && (
@@ -56,11 +54,19 @@ export const Pic = ({
         />
       )}
 
+      {skeleton && !loaded && (
+        <img
+          src={skeleton}
+          alt={alt || 'image placeholder'}
+          className={cn(imgClassName, 'ui:z-10')}
+        />
+      )}
+
       {src && (
         <img
           src={src}
-          alt={alt || ''}
-          className={cn(imgClassName, 'ui:z-10')}
+          alt={alt || 'image'}
+          className={cn(imgClassName, 'ui:z-10', !loaded && 'ui:hidden')}
           onLoad={() => setLoaded(true)}
         />
       )}

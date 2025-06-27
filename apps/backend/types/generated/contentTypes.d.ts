@@ -340,6 +340,29 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
+  collectionName: 'blogs';
+  info: {
+    displayName: 'blog';
+    pluralName: 'blogs';
+    singularName: 'blog';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::blog.blog'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    text: Schema.Attribute.Blocks;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+  };
+}
+
 export interface ApiContactRequestContactRequest extends Struct.CollectionTypeSchema {
   collectionName: 'contact_requests';
   info: {
@@ -381,11 +404,12 @@ export interface ApiLawnLawn extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     gallery: Schema.Attribute.Media<'images' | 'files', true>;
     image: Schema.Attribute.Media<'images' | 'files'>;
-    Landing: Schema.Attribute.Component<'common.months', false>;
+    landing: Schema.Attribute.Component<'common.months', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::lawn.lawn'> &
       Schema.Attribute.Private;
     name: Schema.Attribute.String;
+    price: Schema.Attribute.Component<'common.packages', true> & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     resistance: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
@@ -964,6 +988,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::blog.blog': ApiBlogBlog;
       'api::contact-request.contact-request': ApiContactRequestContactRequest;
       'api::lawn.lawn': ApiLawnLawn;
       'api::partner.partner': ApiPartnerPartner;

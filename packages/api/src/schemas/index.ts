@@ -9,3 +9,5 @@ export * from './collectionGeneric';
 export * from './user';
 
 export * from './partner';
+
+export * from './lawn';

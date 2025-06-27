@@ -1,10 +1,11 @@
 'use client';
 import { Button } from '@canadian-lawn/ui-kit';
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 import React from 'react';
 import { useScrollLock } from 'usehooks-ts';
 
-import Logo from '@/assets/img/logo.svg';
+import Logo from '@/assets/img/logo.svg?url';
 import { NavItem } from '@/components/layout/NavItem';
 import { ROUTES } from '@/config/routes';
 import { useOverlayStore } from '@/stores';
@@ -57,7 +58,7 @@ export const Header: React.FC = () => {
                 onClick={handleOpen}
               />
             </div>
-            <Logo className="shrink-0" />
+            <Image src={Logo} alt="logo" width={100} height={100} />
             <div className="xl: hidden w-full justify-between lg:!flex lg:px-[60px] xl:px-[115px]">
               <NavLinks />
             </div>

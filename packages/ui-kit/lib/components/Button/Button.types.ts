@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { type BaseClickableProps, type IconName } from '@/lib';
 
 export type ButtonColor =
@@ -10,7 +12,7 @@ export type ButtonColor =
   | 'silvery'
   | 'icon-primary';
 
-export type ButtonType = 'text' | 'button';
+export type ButtonType = 'text' | 'button' | 'icon';
 
 export type ButtonProps = React.PropsWithChildren<
   {
@@ -18,13 +20,16 @@ export type ButtonProps = React.PropsWithChildren<
     width?: 'fit' | 'fill';
     color?: ButtonColor;
     loading?: boolean;
+    inactive?: boolean;
+    suffixIconName?: IconName;
+    suffixIconClassName?: string;
     iconName?: IconName;
-    iconPos?: 'left' | 'right';
     iconClassName?: string;
     iconWrapperClassName?: string;
-    effect?: 'ripple' | 'none';
     buttonType?: ButtonType;
     htmlType?: NativeButtonType;
+    onIconClick?: VoidFunction;
+    onSuffixIconClick?: VoidFunction;
   } & Exclude<BaseClickableProps<'button'>, 'onTouchStart'>
 >;
 

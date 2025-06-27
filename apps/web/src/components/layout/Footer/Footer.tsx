@@ -1,6 +1,8 @@
+'use client';
 import { Typography } from '@canadian-lawn/ui-kit';
+import Image from 'next/image';
 
-import Logo from '@/assets/img/logo.svg';
+import Logo from '@/assets/img/logo.svg?url';
 import { Container } from '@/components/layout/Container';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 
@@ -10,7 +12,9 @@ export const Footer = () => {
       <Container backgroundColor="green" className="rounded-tl-3xl rounded-tr-3xl">
         <SectionWrapper className="bg-secondary py-section rounded-t-3xl" withLink={false}>
           <div className="text-baseWhite flex w-full flex-col items-center gap-10 lg:px-10">
-            <Logo className="pty-section" />
+            <div className="pty-section">
+              <Image src={Logo} width={100} height={100} alt="Logo" />
+            </div>
             <div className="hidden w-full justify-between lg:!flex">
               <div className="!text-baseWhite flex flex-col gap-[25px]">
                 <Typography view="small" color="base-white" className="uppercase">

@@ -41,10 +41,16 @@
         "files"
       ]
     },
-    "Landing": {
+    "landing": {
       "type": "component",
       "component": "common.months",
       "repeatable": false
+    },
+    "price": {
+      "type": "component",
+      "component": "common.packages",
+      "repeatable": true,
+      "required": true
     }
   }
 }

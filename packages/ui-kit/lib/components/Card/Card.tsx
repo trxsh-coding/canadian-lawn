@@ -1,5 +1,3 @@
-import cardPlaceholder from 'assets/images/card-placeholder.png';
-
 import { Pic, Typography } from '@/lib';
 import cn from '@/lib/utils/cnMerge';
 
@@ -8,13 +6,15 @@ type CardProps = {
   subtitle: string | null;
   price: number;
   image?: string;
+  placeholder?: string;
 };
 
-export const Card = ({ title, subtitle, price, image }: CardProps) => {
+export const Card = ({ title, subtitle, price, image, placeholder }: CardProps) => {
   return (
     <div className="ui:rounded-sm ui:bg-baseWhite ui:flex ui:flex-col ui:max-w-[220px] ui:lg:max-w-[315px]">
       <Pic
-        src={image || cardPlaceholder}
+        src={image}
+        skeleton={placeholder}
         fit="contain"
         childClassName="ui:w-full ui:h-full ui:!absolute ui:top-0 ui:left-0 z-10"
         className={cn(

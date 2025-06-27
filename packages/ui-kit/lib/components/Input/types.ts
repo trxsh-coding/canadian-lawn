@@ -36,6 +36,8 @@ export type BaseInputProps = {
   searchable?: boolean;
   suffixIconClassName?: string;
   prefixIconClassName?: string;
+  min?: number;
+  max?: number;
 };
 
 /**
@@ -54,13 +56,15 @@ export interface NumericInputProps
     BaseInputProps {
   inputType: 'numeric';
   value: string;
+  min?: number;
+  max?: number;
 }
 
 /**
  * Инпут с паттерном (маской)
  */
 export interface PatternInputProps
-  extends Omit<PatternFormatProps, 'customInput' | 'format' | 'value'>,
+  extends Omit<PatternFormatProps, 'customInput' | 'format' | 'value' | 'max' | 'min'>,
     BaseInputProps {
   inputType: 'pattern';
   pattern: InputFormat | string;

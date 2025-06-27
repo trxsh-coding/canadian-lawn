@@ -1,5 +1,5 @@
 import React from 'react';
-import { NumericFormat, PatternFormat } from 'react-number-format';
+import { type NumberFormatValues, NumericFormat, PatternFormat } from 'react-number-format';
 
 import { formatTypes } from '@/lib';
 import type { ComponentInputProps, InputFormat, PatternInputProps } from '@/lib';
@@ -12,6 +12,8 @@ export const Input = React.memo(
     suffix,
     errorMessage,
     onChangeValue,
+    min,
+    max,
     inputType = 'default',
     ...props
   }: ComponentInputProps) => {
@@ -20,6 +22,17 @@ export const Input = React.memo(
     const onChangeValueHandler = React.useCallback(
       (value: string) => onChangeValue?.(value),
       [onChangeValue]
+    );
+
+    const isAllowed = React.useCallback(
+      (values: NumberFormatValues) => {
+        const { floatValue } = values;
+        if (floatValue === undefined) return true;
+        const isAboveMin = min !== undefined ? floatValue >= min : true;
+        const isBelowMax = max !== undefined ? floatValue <= max : true;
+        return isAboveMin && isBelowMax;
+      },
+      [min, max]
     );
 
     const InputType = React.useMemo(() => {
@@ -51,6 +64,7 @@ export const Input = React.memo(
             value={value}
             suffix={suffix}
             prefix={prefix}
+            isAllowed={isAllowed}
             onChangeValue={onChangeValue}
             onChange={(event) => onChangeValueHandler?.(event.target.value)}
             customInput={BaseInput}
@@ -78,6 +92,7 @@ export const Input = React.memo(
       onChangeValueHandler,
       suffix,
       prefix,
+      isAllowed,
     ]);
 
     return <div className="ui:flex ui:flex-col ui:justify-start ui:gap-1">{InputType}</div>;

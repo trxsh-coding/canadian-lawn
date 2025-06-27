@@ -3,12 +3,11 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import qs from 'qs';
 
 export const apiClient = axios.create({
+  method: 'GET',
   baseURL: ENV.STRAPI_HOST ?? 'http://localhost:1337/api',
   headers: {
     Authorization: `Bearer ${ENV.STRAPI_TOKEN}`,
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': ENV.NEXT_PUBLIC_BASE_URL,
-    'Access-Control-Allow-Methods': 'GET, OPTIONS, POST, PATCH, DELETE',
   },
   timeout: 10000,
   withCredentials: true,

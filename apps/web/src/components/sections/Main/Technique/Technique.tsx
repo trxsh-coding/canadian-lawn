@@ -2,6 +2,7 @@
 
 import { Card } from '@canadian-lawn/ui-kit';
 
+import CardPlaceholder from '@/assets/img/card-placeholder.png';
 import { TechniqueCardLoader } from '@/components/atoms/Loaders/TechniqueLoader';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { useResponsiveValue } from '@/hooks/useResponsiveCounts';
@@ -33,7 +34,14 @@ export const Technique = ({ className }: TractorsProps) => {
     >
       {!isLoading ? (
         techniqueData?.data.map(({ price, title, description, id, image }) => (
-          <Card key={id} price={price} subtitle={description} title={title} image={image?.url} />
+          <Card
+            key={id}
+            price={price}
+            subtitle={description}
+            title={title}
+            image={image?.url}
+            placeholder={CardPlaceholder.src}
+          />
         ))
       ) : (
         <LoadingList />

@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_common_packages",
+  "info": {
+    "displayName": "Packages"
+  },
+  "options": {},
+  "attributes": {
+    "price": {
+      "type": "decimal",
+      "required": true
+    },
+    "weight": {
+      "type": "integer",
+      "required": true
+    }
+  },
+  "config": {}
+}

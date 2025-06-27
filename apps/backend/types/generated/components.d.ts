@@ -21,10 +21,22 @@ export interface CommonMonths extends Struct.ComponentSchema {
   };
 }
 
+export interface CommonPackages extends Struct.ComponentSchema {
+  collectionName: 'components_common_packages';
+  info: {
+    displayName: 'Packages';
+  };
+  attributes: {
+    price: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    weight: Schema.Attribute.Integer & Schema.Attribute.Required;
+  };
+}
+
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
       'common.months': CommonMonths;
+      'common.packages': CommonPackages;
     }
   }
 }

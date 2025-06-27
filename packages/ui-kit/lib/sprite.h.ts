@@ -13,7 +13,9 @@ export interface SpritesMap {
     | 'info'
     | 'logo'
     | 'menu'
+    | 'minus'
     | 'plus-menu'
+    | 'plus'
     | 'share'
     | 'text-logo'
     | 'zoom';
@@ -34,7 +36,9 @@ export const SPRITES_META: {
     | 'info'
     | 'logo'
     | 'menu'
+    | 'minus'
     | 'plus-menu'
+    | 'plus'
     | 'share'
     | 'text-logo'
     | 'zoom'
@@ -55,7 +59,9 @@ export const SPRITES_META: {
     'info',
     'logo',
     'menu',
+    'minus',
     'plus-menu',
+    'plus',
     'share',
     'text-logo',
     'zoom',
