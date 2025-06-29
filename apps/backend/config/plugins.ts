@@ -15,10 +15,22 @@ export default ({ env }) => ({
       },
     },
   },
-  'strapi-csv-import-export': {
+  documentation: {
+    enabled: true,
     config: {
-      authorizedExports: ['api::machine.machine', 'api::partner.partner'],
-      authorizedImports: ['api::machine.machine', 'api::partner.partner'],
+      openapi: '3.0.0',
+      info: {
+        version: '2.0.0',
+        title: 'Lawn API Documentation',
+        description: 'API documentation for Lawn content type',
+      },
+      'x-strapi-config': {
+        plugins: ['users-permissions'],
+        path: '/documentation',
+      },
+      servers: [
+        { url: env('SERVER_URL', 'http://localhost:1337/api'), description: 'Development server' },
+      ],
     },
   },
   email: {

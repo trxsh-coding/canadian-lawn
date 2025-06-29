@@ -51,6 +51,22 @@
       "component": "common.packages",
       "repeatable": true,
       "required": true
+    },
+    "type": {
+      "type": "component",
+      "component": "common.lawn-type-percent",
+      "repeatable": true,
+      "required": true
+    },
+    "isFeature": {
+      "type": "boolean",
+      "default": false
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true,
+      "unique": true
     }
   }
 }

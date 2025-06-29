@@ -1,4 +1,4 @@
-import { ENDPOINTS, FetchMode, lawnSchema, PartnerInput } from '@canadian-lawn/api';
+import { ENDPOINTS, FetchMode, Lawn, lawnSchema } from '@canadian-lawn/api';
 import { z } from 'zod';
 
 import { buildCollectionPrefetchQuery } from '@/hooks/buildCollectionPrefetchQuery';
@@ -11,7 +11,7 @@ type useLawnProps = {
 };
 
 export const useLawn = ({ filter, limit }: useLawnProps = {}) =>
-  buildCollectionPrefetchQuery<z.ZodType<PartnerInput>, FetchMode.COLLECTION>({
+  buildCollectionPrefetchQuery<z.ZodType<Lawn>, FetchMode.COLLECTION>({
     endpoint: ENDPOINTS.common.lawn,
     schema: lawnSchema,
     queryKey: [queryKey],
@@ -21,6 +21,6 @@ export const useLawn = ({ filter, limit }: useLawnProps = {}) =>
         ...filter,
       },
       limit,
-      populate: ['image', 'gallery', 'landing'],
+      populate: ['image', 'gallery', 'landing', 'price', 'type', 'type.lawn_type'],
     },
   });

@@ -8,7 +8,19 @@ const packages = z.object({
   price: z.number(),
 });
 
+const LawnTypeSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  slug: z.string(),
+});
+
+const type = z.object({
+  lawn_type: LawnTypeSchema,
+  percent: z.number(),
+});
+
 export const lawnSchema = z.object({
+  id: z.number(),
   name: z.string(),
   speed: z.number().min(0).max(10).optional(),
   resistance: z.number().min(0).max(10).optional(),
@@ -16,6 +28,7 @@ export const lawnSchema = z.object({
   gallery: z.array(mediaSchema).optional().nullable(),
   landing: monthsSchema.optional().nullable(),
   price: z.array(packages),
+  type: z.array(type),
 });
 
 export type Lawn = z.infer<typeof lawnSchema>;

@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_common_lawn_type_percents",
+  "info": {
+    "displayName": "Lawn type percent"
+  },
+  "options": {},
+  "attributes": {
+    "lawn_type": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::lawn-type.lawn-type"
+    },
+    "percent": {
+      "type": "integer",
+      "required": true,
+      "max": 100
+    }
+  },
+  "config": {}
+}

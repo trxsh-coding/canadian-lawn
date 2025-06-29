@@ -389,6 +389,30 @@ export interface ApiContactRequestContactRequest extends Struct.CollectionTypeSc
   };
 }
 
+export interface ApiLawnTypeLawnType extends Struct.CollectionTypeSchema {
+  collectionName: 'lawn_types';
+  info: {
+    displayName: 'Lawn Type';
+    pluralName: 'lawn-types';
+    singularName: 'lawn-type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::lawn-type.lawn-type'> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+  };
+}
+
 export interface ApiLawnLawn extends Struct.CollectionTypeSchema {
   collectionName: 'lawns';
   info: {
@@ -404,6 +428,7 @@ export interface ApiLawnLawn extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     gallery: Schema.Attribute.Media<'images' | 'files', true>;
     image: Schema.Attribute.Media<'images' | 'files'>;
+    isFeature: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     landing: Schema.Attribute.Component<'common.months', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::lawn.lawn'> &
@@ -419,6 +444,7 @@ export interface ApiLawnLawn extends Struct.CollectionTypeSchema {
         },
         number
       >;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required & Schema.Attribute.Unique;
     speed: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
         {
@@ -428,6 +454,7 @@ export interface ApiLawnLawn extends Struct.CollectionTypeSchema {
         number
       > &
       Schema.Attribute.DefaultTo<5>;
+    type: Schema.Attribute.Component<'common.lawn-type-percent', true> & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
   };
@@ -990,6 +1017,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::blog.blog': ApiBlogBlog;
       'api::contact-request.contact-request': ApiContactRequestContactRequest;
+      'api::lawn-type.lawn-type': ApiLawnTypeLawnType;
       'api::lawn.lawn': ApiLawnLawn;
       'api::partner.partner': ApiPartnerPartner;
       'api::partners-type.partners-type': ApiPartnersTypePartnersType;

@@ -1,0 +1,67 @@
+{
+  "name": "Универсальный газон",
+  "speed": 7,
+  "resistance": 8,
+  "image": {
+    "id": 1,
+    "url": "/uploads/lawn.jpg",
+    "alternativeText": "Газон крупным планом",
+    "caption": "Классический состав"
+  },
+  "gallery": [
+    {
+      "id": 2,
+      "url": "/uploads/lawn_gallery_1.jpg",
+      "alternativeText": "Фото 1",
+      "caption": null
+    },
+    {
+      "id": 3,
+      "url": "/uploads/lawn_gallery_2.jpg",
+      "alternativeText": "Фото 2",
+      "caption": null
+    }
+  ],
+  "landing": {
+    "march": true,
+    "april": true,
+    "may": true,
+    "june": false,
+    "july": false,
+    "august": true,
+    "september": true,
+    "october": false,
+    "november": false,
+    "december": false,
+    "january": false,
+    "february": false
+  },
+  "price": [
+    {
+      "weight": 5,
+      "price": 1250
+    },
+    {
+      "weight": 10,
+      "price": 2300
+    }
+  ],
+  "type": [
+    {
+      "lawn_type": {
+        "id": 1,
+        "name": "Мятлик луговой",
+        "slug": "myatlik-lugovoi"
+      },
+      "percent": 50
+    },
+    {
+      "lawn_type": {
+        "id": 2,
+        "name": "Овсяница красная",
+        "slug": "ovsyanitsa-krasnaya"
+      },
+      "percent": 50
+    }
+  ]
+}

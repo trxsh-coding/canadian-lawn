@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "lawn_types",
+  "info": {
+    "singularName": "lawn-type",
+    "pluralName": "lawn-types",
+    "displayName": "Lawn Type"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": false
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    }
+  }
+}

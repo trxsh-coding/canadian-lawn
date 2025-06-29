@@ -66,7 +66,7 @@ export const Pic = ({
         <img
           src={src}
           alt={alt || 'image'}
-          className={cn(imgClassName, 'ui:z-10', !loaded && 'ui:hidden')}
+          className={cn(imgClassName, 'ui:z-10')}
           onLoad={() => setLoaded(true)}
         />
       )}

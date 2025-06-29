@@ -1,7 +1,12 @@
 import React from 'react';
 
+import LawnImage from '@/assets/images/image.png';
 import { Button } from '@/lib';
 import { ButtonCounter } from '@/lib/components/ButtonCounter';
+import { LawnCard } from '@/lib/components/LawnCard';
+import { Progress } from '@/lib/components/Progress';
+
+import config from './config.json';
 
 function App() {
   const [value, setValue] = React.useState<number>(0);
@@ -16,7 +21,7 @@ function App() {
   );
 
   return (
-    <div className="ui:h-[100vh] ui:p-section ui:bg-secondaryGrey ui:w-[100vh] ui:flex ui:flex-col ui:gap-10">
+    <div className="ui:p-section ui:bg-secondaryGrey ui:w-[100vh] ui:flex ui:flex-col ui:gap-10">
       <Button width="fit" color="primary" iconName="common/cart">
         Я primary кнопка
       </Button>
@@ -44,6 +49,19 @@ function App() {
         onClick={() => handleClick(true)}
         onSuffixIconClick={() => handleClick(true)}
         onIconClick={() => handleClick(false)}
+      />
+      <Progress progress={8} title="cкорость роста" />
+      <LawnCard
+        image={LawnImage}
+        name="Декоративный теневой"
+        price={config.price[0]}
+        resistance={config.resistance}
+        growth={config.speed}
+        types={config.type}
+        handleButtonChange={handleChange}
+        handleButtonClick={handleClick}
+        handleCardClick={() => null}
+        value={value}
       />
     </div>
   );

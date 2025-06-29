@@ -1,5 +1,23 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface CommonLawnTypePercent extends Struct.ComponentSchema {
+  collectionName: 'components_common_lawn_type_percents';
+  info: {
+    displayName: 'Lawn type percent';
+  };
+  attributes: {
+    lawn_type: Schema.Attribute.Relation<'oneToOne', 'api::lawn-type.lawn-type'>;
+    percent: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 100;
+        },
+        number
+      >;
+  };
+}
+
 export interface CommonMonths extends Struct.ComponentSchema {
   collectionName: 'components_common_months';
   info: {
@@ -35,6 +53,7 @@ export interface CommonPackages extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
+      'common.lawn-type-percent': CommonLawnTypePercent;
       'common.months': CommonMonths;
       'common.packages': CommonPackages;
     }
