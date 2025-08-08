@@ -17,3 +17,5 @@ export * from './components/Input';
 export * from './components/PartnerCard';
 
 export * from './components/LawnCard';
+
+export * from './components/Checkbox';

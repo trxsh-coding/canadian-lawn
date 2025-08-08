@@ -12,9 +12,11 @@ type ButtonCounterProps = {
   onChange: (value: number) => void;
   min?: number;
   max?: number;
+  className?: string;
 };
 
 export const ButtonCounter = ({
+  className,
   value,
   text,
   onClick,
@@ -65,7 +67,7 @@ export const ButtonCounter = ({
 
   return (
     <div className="ui:flex ui:items-center ui:gap-2">
-      <Button {...buttonProps} width="fit" className={cn('w-max-[269px]')}>
+      <Button {...buttonProps} width="fill" className={cn('ui:max-w-full ui:w-full', className)}>
         {isActive ? (
           <Input
             getInputRef={inputRef}

@@ -1,0 +1,5 @@
+/**
+ * filters service
+ */
+
+export default () => ({});

@@ -1,15 +1,15 @@
 import React from 'react';
 
-import LawnImage from '@/assets/images/image.png';
 import { Button } from '@/lib';
 import { ButtonCounter } from '@/lib/components/ButtonCounter';
-import { LawnCard } from '@/lib/components/LawnCard';
+import { Checkbox } from '@/lib/components/Checkbox';
 import { Progress } from '@/lib/components/Progress';
-
-import config from './config.json';
+import { SliderRange } from '@/lib/components/SliderRange';
 
 function App() {
   const [value, setValue] = React.useState<number>(0);
+
+  const [sliderValue, setSliderValue] = React.useState<[number, number]>([4, 10]);
 
   const handleChange = React.useCallback((value: number) => {
     setValue(value);
@@ -19,6 +19,10 @@ function App() {
     (increment: boolean) => (value ? setValue(increment ? value + 1 : value - 1) : setValue(1)),
     [value]
   );
+
+  const handleSliderValueChange = React.useCallback((value: [number, number]) => {
+    setSliderValue(value);
+  }, []);
 
   return (
     <div className="ui:p-section ui:bg-secondaryGrey ui:w-[100vh] ui:flex ui:flex-col ui:gap-10">
@@ -51,17 +55,15 @@ function App() {
         onIconClick={() => handleClick(false)}
       />
       <Progress progress={8} title="cкорость роста" />
-      <LawnCard
-        image={LawnImage}
-        name="Декоративный теневой"
-        price={config.price[0]}
-        resistance={config.resistance}
-        growth={config.speed}
-        types={config.type}
-        handleButtonChange={handleChange}
-        handleButtonClick={handleClick}
-        handleCardClick={() => null}
-        value={value}
+      <Checkbox active={false} />
+      <Checkbox active={true} />
+
+      <SliderRange
+        label="Время первых сходов"
+        min={0}
+        max={10}
+        value={sliderValue}
+        onChange={handleSliderValueChange}
       />
     </div>
   );

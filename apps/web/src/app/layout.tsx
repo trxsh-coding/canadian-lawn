@@ -2,13 +2,16 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import React from 'react';
 
+import { Blur } from '@/components/layout/Blur';
 import Providers from '@/connector/QueryProvider';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
   title: 'Газоны Канады',
   description: 'Интернет-магазин семян газонных трав',
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
@@ -28,6 +31,7 @@ export default function RootLayout({
         <title>Газоны Канады</title>
       </head>
       <body>
+        <Blur />
         <Providers>{children}</Providers>
       </body>
     </html>

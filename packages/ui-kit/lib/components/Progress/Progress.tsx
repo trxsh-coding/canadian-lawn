@@ -4,13 +4,13 @@ import cn from '@/lib/utils/cnMerge';
 type ProgressProps = {
   title?: string;
   progress: number;
-  className?: number;
+  className?: string;
 };
 
 export const Progress = ({ title, progress, className }: ProgressProps) => {
   const progressWidth = 10 * progress;
   return (
-    <div className="ui:flex ui:flex-col ui:gap-2 ui:w-fit">
+    <div className="ui:flex ui:flex-col ui:gap-2 ui:w-full ui:justify-end">
       {title && (
         <Typography view="small" color="secondary">
           {title}
@@ -18,7 +18,7 @@ export const Progress = ({ title, progress, className }: ProgressProps) => {
       )}
       <div
         className={cn(
-          'ui:w-max-[90px] ui:w-full ui:rounded-[34px] ui:bg-baseSilvery ui:h-[3px]',
+          'ui:max-w-full ui:w-full ui:rounded-[34px] ui:bg-baseSilvery ui:h-[3px]',
           className
         )}
       >

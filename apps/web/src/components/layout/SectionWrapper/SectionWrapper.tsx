@@ -13,7 +13,7 @@ type SectionWrapperProps = {
   isError?: boolean;
   linkClassName?: string;
   headlineClassName?: string;
-  backgroundColor?: 'white' | 'green' | 'light-green' | 'inherit';
+  color?: 'dark-green' | 'green' | 'light';
 };
 
 export const SectionWrapper = ({
@@ -23,20 +23,12 @@ export const SectionWrapper = ({
   childClassName,
   headlineClassName,
   linkClassName,
+  color,
   withLink = true,
-  backgroundColor = 'white',
   isError,
 }: SectionWrapperProps) => {
   return (
-    <Constraints
-      className={cn(
-        'md:py-section mx-auto flex flex-col py-10',
-        backgroundColor === 'green' && 'bg-secondary',
-        backgroundColor === 'white' && 'bg-baseSecondaryBg',
-        backgroundColor === 'light-green' && 'bg-primary',
-        className
-      )}
-    >
+    <Constraints isSection className={cn(className)} color={color}>
       <div
         className={cn(
           'flex flex-col gap-1 lg:flex-row lg:justify-between',
@@ -54,8 +46,7 @@ export const SectionWrapper = ({
             color="icon-primary"
             iconClassName={cn(
               'w-4 h-4',
-              (backgroundColor === 'green' || backgroundColor === 'light-green') &&
-                '!text-baseWhite',
+              (color === 'dark-green' || color === 'green') && '!text-baseWhite',
               linkClassName
             )}
           >

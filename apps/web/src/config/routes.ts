@@ -12,7 +12,7 @@ export const ROUTES: RoutesType = {
     name: 'Главная',
   },
   lawn: {
-    url: '/grass',
+    url: '/lawn',
     name: 'Семена',
   },
   partners: {
@@ -40,4 +40,8 @@ export const ROUTES: RoutesType = {
     name: 'Профиль',
     desktopHide: true,
   },
+};
+
+export const detailRoutes = {
+  lawn: (slug: string) => `/lawn/${slug}`,
 };

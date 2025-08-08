@@ -12,7 +12,13 @@ import { useOverlayStore } from '@/stores';
 import { OverlayType } from '@/types/enums';
 import cn from '@/utils/cnMerge';
 
-export const Header: React.FC = () => {
+export const Header = ({
+  className,
+  headerClassName,
+}: {
+  className?: string;
+  headerClassName?: string;
+}) => {
   const { addOverlay, removeOverlay, isOverlayActive } = useOverlayStore();
   const isOpen = isOverlayActive(OverlayType.Menu);
 
@@ -47,14 +53,19 @@ export const Header: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <div className={cn('relative z-[100] flex flex-col')}>
-        <div className={cn('bg-secondary z-50 flex w-full flex-col rounded-sm rounded-b-none p-5')}>
+      <div className={cn('relative z-[100] flex flex-col', className)}>
+        <div
+          className={cn(
+            'bg-secondary z-50 flex w-full flex-col rounded-sm rounded-b-none p-5',
+            headerClassName
+          )}
+        >
           <div className="flex justify-between">
             <div className="lg:hidden">
               <Button
                 iconName="common/menu"
                 color="icon-primary"
-                className="h-6 w-6"
+                className="h-4 w-4"
                 onClick={handleOpen}
               />
             </div>
@@ -62,10 +73,14 @@ export const Header: React.FC = () => {
             <div className="xl: hidden w-full justify-between lg:!flex lg:px-[60px] xl:px-[115px]">
               <NavLinks />
             </div>
-            <div className="flex items-center gap-4">
-              <Button iconName="common/zoom" color="icon-primary" className="h-6 w-6" />
-              <Button iconName="navigation/profile" color="icon-primary" className="h-6 w-6" />
-              <Button iconName="common/cart" color="icon-primary" className="h-6 w-6" />
+            <div className="flex items-center gap-4 lg:gap-8">
+              <Button iconName="common/zoom" color="icon-primary" className="!px-0" />
+              <Button
+                iconName="navigation/profile"
+                color="icon-primary"
+                className="hidden !px-0 md:!block"
+              />
+              <Button iconName="common/cart" color="icon-primary" className="!px-0" />
             </div>
           </div>
           {isOpen && (

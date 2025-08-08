@@ -39,10 +39,10 @@ export const views: TypographyViewsKeys = {
 };
 
 export const weights: TypographyWeightKeys = {
-  bold: '!font-bold',
-  normal: '!font-normal',
-  medium: '!font-medium',
-  semibold: '!font-semibold',
+  bold: 'ui:!font-bold ui:font-golosBold',
+  normal: 'ui:!font-normal ui:font-golosBold',
+  medium: 'ui:!font-medium ui:font-golosBold',
+  semibold: 'ui:!font-semibold ui:font-golosBold',
 };
 
 export const families: TypographyFamilyKeys = {

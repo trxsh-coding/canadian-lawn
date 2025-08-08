@@ -28,7 +28,7 @@ export const Pic = ({
   const [loaded, setLoaded] = React.useState(false);
 
   const containerClassName = cn(
-    'ui:relative ui:overflow-hidden ui:flex-shrink-0 ui:bg-bg',
+    'ui:relative ui:overflow-hidden ui:flex-shrink-0 ui:bg-bg ui:z-0',
     shape === 'fill' && 'ui:w-full ui:h-full',
     shape === 'circle' && 'ui:rounded-full',
     className

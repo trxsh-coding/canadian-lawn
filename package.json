@@ -27,6 +27,7 @@
     "start:bot": "yarn workspace @canadian-lawn/bot dev",
     "start:dev": "yarn workspace @canadian-lawn/backend dev && yarn workspace @canadian-lawn/web &&yarn workspace @canadian-lawn/ui-kit watch",
     "watch:ui": "yarn workspace @canadian-lawn/ui-kit watch",
+    "watch:api": "yarn workspace @canadian-lawn/api watch",
     "build:all": "yarn build:ui && yarn build:api && yarn build:web",
     "check:web": "yarn workspace @canadian-lawn/web lint",
     "prepare": "husky",

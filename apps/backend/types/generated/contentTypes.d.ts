@@ -444,7 +444,7 @@ export interface ApiLawnLawn extends Struct.CollectionTypeSchema {
         },
         number
       >;
-    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required & Schema.Attribute.Unique;
+    slug: Schema.Attribute.String & Schema.Attribute.Required & Schema.Attribute.Unique;
     speed: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
         {
@@ -515,7 +515,7 @@ export interface ApiPartnersTypePartnersType extends Struct.CollectionTypeSchema
     name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     rank: Schema.Attribute.Integer;
-    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    slug: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
   };

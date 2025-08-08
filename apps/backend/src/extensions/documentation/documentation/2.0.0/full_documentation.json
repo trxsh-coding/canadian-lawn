@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-06-29T12:24:56.157Z"
+    "x-generation-date": "2025-08-08T12:03:07.714Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -8434,9 +8434,6 @@
               "name": {
                 "type": "string"
               },
-              "slug": {
-                "type": "string"
-              },
               "media": {
                 "type": "array",
                 "items": {
@@ -8574,6 +8571,9 @@
               },
               "rank": {
                 "type": "integer"
+              },
+              "slug": {
+                "type": "string"
               },
               "createdAt": {
                 "type": "string",
@@ -8916,15 +8916,11 @@
         "properties": {
           "data": {
             "required": [
-              "name",
-              "slug"
+              "name"
             ],
             "type": "object",
             "properties": {
               "name": {
-                "type": "string"
-              },
-              "slug": {
                 "type": "string"
               },
               "media": {
@@ -8946,6 +8942,9 @@
               },
               "rank": {
                 "type": "integer"
+              },
+              "slug": {
+                "type": "string"
               },
               "locale": {
                 "type": "string"
@@ -9006,8 +9005,7 @@
       "PartnersType": {
         "type": "object",
         "required": [
-          "name",
-          "slug"
+          "name"
         ],
         "properties": {
           "id": {
@@ -9017,9 +9015,6 @@
             "type": "string"
           },
           "name": {
-            "type": "string"
-          },
-          "slug": {
             "type": "string"
           },
           "media": {
@@ -9629,6 +9624,9 @@
           "rank": {
             "type": "integer"
           },
+          "slug": {
+            "type": "string"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -9678,9 +9676,6 @@
                   "type": "string"
                 },
                 "name": {
-                  "type": "string"
-                },
-                "slug": {
                   "type": "string"
                 },
                 "media": {
@@ -9820,6 +9815,9 @@
                 },
                 "rank": {
                   "type": "integer"
+                },
+                "slug": {
+                  "type": "string"
                 },
                 "createdAt": {
                   "type": "string",

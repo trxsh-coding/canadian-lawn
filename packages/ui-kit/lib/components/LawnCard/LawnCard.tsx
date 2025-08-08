@@ -1,8 +1,11 @@
 import { Button, Pic, Typography } from '@/lib';
 import { ButtonCounter } from '@/lib/components/ButtonCounter';
 import { Progress } from '@/lib/components/Progress';
+import cn from '@/lib/utils/cnMerge';
 
 type LawnCardProps = {
+  className?: string;
+  buttonClassName?: string;
   image: string;
   name: string;
   price: {
@@ -32,16 +35,21 @@ export const LawnCard = ({
   handleButtonClick,
   resistance,
   handleButtonChange,
+  className,
+  buttonClassName,
 }: LawnCardProps) => {
   return (
     <div
-      className="ui:rounded-sm ui:bg-baseWhite ui:lg:gap-5 ui:lg:p-6 ui:md:gap-3 ui:w-fit ui:flex ui:flex-col ui:md:flex-row ui:w-max-[220px] ui:max-h-[320px] ui:md:w-max-[358px] ui:md:max-h-[190px] ui:lg:max-h-[240px] ui:p-6"
+      className={cn(
+        'ui:relative ui:max-w-full ui:min-w-0 ui:rounded-sm ui:bg-baseWhite ui:gap-3 ui:lg:gap-5 ui:2xl:p-6 ui:md:gap-3 ui:flex ui:xs:flex-row ui:p-6',
+        className
+      )}
       onClick={handleCardClick}
     >
-      <div className="ui:lg:flex">
+      <div className="ui:2xl:flex">
         <div className="ui:flex ui:flex-col ui:justify-between">
           <Pic
-            className="ui:h-[104px] ui:mb-3 ui:md:mb-0 ui:w-[104px] ui:md:h-[86px] ui:md:w-[85px] ui:lg:h-[133px] ui:lg:w-[133px]"
+            className="ui:h-[104px] ui:mb-3 ui:md:mb-0 ui:w-[104px] ui:md:h-[86px] ui:md:w-[85px] ui:2xl:h-[133px] ui:2xl:w-[133px]"
             src={image}
             alt="Газон"
           />
@@ -49,17 +57,17 @@ export const LawnCard = ({
             iconName="common/garbage"
             color="secondary"
             buttonType="icon"
-            className="ui:rounded-sm ui:p-0 ui:lg:mt-[20px]"
+            className="ui:rounded-sm ui:p-0 ui:2xl:mt-[20px]"
           />
         </div>
       </div>
-      <div className="ui:flex ui:flex-col ui:justify-between">
+      <div className="ui:flex ui:flex-col ui:justify-between ui:w-full">
         <div className="ui:flex ui:flex-col ui:justify-between">
           <Typography view="card-price" className="ui:mb-3">
             {name}
           </Typography>
-          <div className="ui:flex ui:gap-4 ui:mb-[30px]">
-            <Progress progress={growth} title="скорость роста" />
+          <div className="ui:flex ui:gap-4 ui:mb-[30px] ui:max-w-full ui:w-full">
+            <Progress progress={growth} title="скорость роста" className="ui:max-w-full" />
             <Progress progress={resistance} title="устойчивость" />
           </div>
 
@@ -71,11 +79,12 @@ export const LawnCard = ({
           </div>
         </div>
         <ButtonCounter
+          className={buttonClassName}
           onChange={handleButtonChange}
           value={value}
           max={20}
           min={0}
-          text="Товары 265 штук"
+          text="500 м²"
           onClick={() => handleButtonClick(true)}
           onSuffixIconClick={() => handleButtonClick(true)}
           onIconClick={() => handleButtonClick(false)}

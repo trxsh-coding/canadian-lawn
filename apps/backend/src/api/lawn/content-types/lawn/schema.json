@@ -63,8 +63,7 @@
       "default": false
     },
     "slug": {
-      "type": "uid",
-      "targetField": "name",
+      "type": "string",
       "required": true,
       "unique": true
     }

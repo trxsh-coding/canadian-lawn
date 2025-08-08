@@ -5,8 +5,8 @@ import { Card } from '@canadian-lawn/ui-kit';
 import CardPlaceholder from '@/assets/img/card-placeholder.png';
 import { TechniqueCardLoader } from '@/components/atoms/Loaders/TechniqueLoader';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
+import { useTechnique } from '@/hooks/api/useTechnique';
 import { useResponsiveValue } from '@/hooks/useResponsiveCounts';
-import { useTechnique } from '@/hooks/useTechnique';
 import cn from '@/utils/cnMerge';
 
 type TractorsProps = {
@@ -29,6 +29,7 @@ export const Technique = ({ className }: TractorsProps) => {
   return (
     <SectionWrapper
       className={cn('mb-section', className)}
+      color="light"
       headline="Свежие объявления"
       isError={isError}
     >

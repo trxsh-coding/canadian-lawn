@@ -15,11 +15,6 @@
       "type": "string",
       "required": true
     },
-    "slug": {
-      "type": "uid",
-      "targetField": "name",
-      "required": true
-    },
     "media": {
       "type": "media",
       "multiple": true,
@@ -33,6 +28,9 @@
     },
     "rank": {
       "type": "integer"
+    },
+    "slug": {
+      "type": "string"
     }
   }
 }

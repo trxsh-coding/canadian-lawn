@@ -6,7 +6,7 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { Container } from '@/components/layout/Container';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
-import { useUsers } from '@/hooks/useUsers';
+import { useUsers } from '@/hooks/api/useUsers';
 
 interface FormValues {
   name: string;
@@ -25,10 +25,6 @@ export const Feedback = () => {
 
   const { data: userData, isError, isLoading } = useUserHook();
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
-  };
-
   if (isLoading) return <div>Loading...</div>;
 
   if (isError) {
@@ -42,7 +38,7 @@ export const Feedback = () => {
         headline="свяжитесь с нами"
         headlineClassName="!text-baseWhite"
         className="pt-section mb-[180px]"
-        backgroundColor="light-green"
+        color="green"
       >
         <div className="bg-secondary gap-section flex w-full flex-col justify-between rounded-lg p-10 lg:flex-row lg:gap-0">
           <div className="gap-section flex w-full max-w-[329px] flex-col justify-between lg:gap-0">

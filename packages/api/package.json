@@ -16,6 +16,7 @@
   },
   "scripts": {
     "build": "tsup",
+    "watch": "tsup --watch",
     "lint": "eslint ./src --ext .ts,.tsx",
     "check:eslint": "eslint --max-warnings 0 .",
     "check:tsc": "tsc --noEmit",

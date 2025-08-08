@@ -3,19 +3,20 @@ import { z } from 'zod';
 
 import { buildCollectionPrefetchQuery } from '@/hooks/buildCollectionPrefetchQuery';
 
-const queryKey = 'lawn';
+const queryKey = 'lawn-by-slug';
 
-type useLawnProps = {
+type useLawnsProps = {
   filter?: Record<string, unknown>;
   limit?: number;
+  slug: string;
 };
 
-export const useLawn = ({ filter, limit }: useLawnProps = {}) =>
-  buildCollectionPrefetchQuery<z.ZodType<Lawn>, FetchMode.COLLECTION>({
-    endpoint: ENDPOINTS.common.lawn,
+export const useLawnDetail = ({ filter, limit, slug }: useLawnsProps) =>
+  buildCollectionPrefetchQuery<z.ZodType<Lawn>, FetchMode.ITEM>({
+    endpoint: ENDPOINTS.common.lawnBySlug(slug),
     schema: lawnSchema,
     queryKey: [queryKey],
-    mode: FetchMode.COLLECTION,
+    mode: FetchMode.ITEM,
     params: {
       filters: {
         ...filter,

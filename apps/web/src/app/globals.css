@@ -64,10 +64,6 @@ img {
   max-width: 100%;
 }
 
-.hidden {
-  display: none;
-}
-
 @layer utilities {
   .section-gap > *:not(:last-child) {
     margin-bottom: var(--spacing-section);

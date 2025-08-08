@@ -15,14 +15,40 @@ export const Input = React.memo(
     min,
     max,
     inputType = 'default',
+    onBlur,
+    onKeyDown,
     ...props
   }: ComponentInputProps) => {
     const ref = React.useRef<HTMLInputElement | null>(null);
 
-    const onChangeValueHandler = React.useCallback(
-      (value: string) => onChangeValue?.(value),
-      [onChangeValue]
-    );
+    const [inputValue, setInputValue] = React.useState(value ?? '');
+
+    React.useEffect(() => {
+      setInputValue(value ?? '');
+    }, [value]);
+
+    const onChangeValueHandler = React.useCallback((val: string) => {
+      setInputValue(val);
+    }, []);
+
+    const commitValue = React.useCallback(() => {
+      if (inputValue !== value) {
+        onChangeValue?.(inputValue);
+      }
+    }, [inputValue, value, onChangeValue]);
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        commitValue();
+        ref.current?.blur(); // опционально
+      }
+      onKeyDown?.(e);
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      commitValue();
+      onBlur?.(e);
+    };
 
     const isAllowed = React.useCallback(
       (values: NumberFormatValues) => {
@@ -35,66 +61,61 @@ export const Input = React.memo(
       [min, max]
     );
 
-    const InputType = React.useMemo(() => {
-      if (inputType === 'pattern') {
-        const { pattern, mask } = props as PatternInputProps;
-
-        const resolvedFormat =
-          pattern && pattern in formatTypes ? formatTypes[pattern as InputFormat] : pattern || '';
-
-        return (
-          <PatternFormat
-            value={value}
-            mask={mask}
-            getInputRef={ref}
-            onChangeValue={onChangeValue}
-            format={resolvedFormat}
-            allowEmptyFormatting
-            onChange={(event) => onChangeValueHandler?.(event.target.value)}
-            customInput={BaseInput}
-            {...props}
-          />
-        );
-      }
-
-      if (inputType === 'numeric') {
-        return (
-          <NumericFormat
-            getInputRef={ref}
-            value={value}
-            suffix={suffix}
-            prefix={prefix}
-            isAllowed={isAllowed}
-            onChangeValue={onChangeValue}
-            onChange={(event) => onChangeValueHandler?.(event.target.value)}
-            customInput={BaseInput}
-            {...props}
-          />
-        );
-      }
+    if (inputType === 'pattern') {
+      const { pattern, mask } = props as PatternInputProps;
+      const resolvedFormat =
+        pattern && pattern in formatTypes ? formatTypes[pattern as InputFormat] : pattern || '';
 
       return (
-        <BaseInput
+        <PatternFormat
           value={value}
-          ref={ref}
-          onChangeValue={onChangeValue}
-          onChange={(event) => onChangeValueHandler?.(event.target.value)}
-          errorMessage={errorMessage}
+          format={resolvedFormat}
+          mask={mask}
+          getInputRef={ref}
+          allowEmptyFormatting
+          onChange={(e) => onChangeValue?.(e.target.value)}
+          customInput={BaseInput}
           {...props}
         />
       );
-    }, [
-      inputType,
-      value,
-      onChangeValue,
-      errorMessage,
-      props,
-      onChangeValueHandler,
-      suffix,
-      prefix,
-      isAllowed,
-    ]);
+    }
 
-    return <div className="ui:flex ui:flex-col ui:justify-start ui:gap-1">{InputType}</div>;
+    if (inputType === 'numeric' || inputType === 'numeric-deferred') {
+      const isDeferred = inputType === 'numeric-deferred';
+
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const val = e.target.value;
+        if (isDeferred) {
+          onChangeValueHandler(val);
+        } else {
+          onChangeValue?.(val);
+        }
+      };
+
+      return (
+        <NumericFormat
+          getInputRef={ref}
+          value={isDeferred ? inputValue : value}
+          suffix={suffix}
+          prefix={prefix}
+          isAllowed={isAllowed}
+          onChange={handleChange}
+          onBlur={isDeferred ? handleBlur : onBlur}
+          onKeyDown={isDeferred ? handleKeyDown : onKeyDown}
+          customInput={BaseInput}
+          {...props}
+        />
+      );
+    }
+
+    return (
+      <BaseInput
+        ref={ref}
+        value={value}
+        onChange={(e) => onChangeValue?.(e.target.value)}
+        errorMessage={errorMessage}
+        {...props}
+      />
+    );
   }
 );

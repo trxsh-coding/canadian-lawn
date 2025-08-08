@@ -1,4 +1,4 @@
-import type { ChangeEvent } from 'react';
+import React, { type ChangeEvent } from 'react';
 import type { PatternFormatProps, NumericFormatProps } from 'react-number-format';
 
 import type { IconName, TypographyView } from '@/lib';
@@ -13,7 +13,7 @@ export type InputFormat = 'card' | 'date' | 'cvc';
 
 export type InputMaskKeys = { [key in InputFormat]: string };
 
-export type InputTypes = 'pattern' | 'numeric' | 'text';
+export type InputTypes = 'pattern' | 'numeric' | 'text' | 'numeric-deferred';
 
 export type BaseInputProps = {
   placeholder?: string;
@@ -36,6 +36,8 @@ export type BaseInputProps = {
   searchable?: boolean;
   suffixIconClassName?: string;
   prefixIconClassName?: string;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   min?: number;
   max?: number;
 };
@@ -52,7 +54,7 @@ export interface DefaultInputProps extends BaseInputProps {
  * Числовой форматированный инпут
  */
 export interface NumericInputProps
-  extends Omit<NumericFormatProps, 'customInput' | 'value' | 'onChange'>,
+  extends Omit<NumericFormatProps, 'customInput' | 'value' | 'onChange' | 'onValueChange'>,
     BaseInputProps {
   inputType: 'numeric';
   value: string;
@@ -84,8 +86,24 @@ export type CommonInputProps = {
 };
 
 /**
+ * Числовой инпут с отложенным обновлением (onBlur / Enter)
+ */
+export interface NumericDeferredInputProps
+  extends Omit<NumericFormatProps, 'customInput' | 'value' | 'onChange' | 'onValueChange'>,
+    BaseInputProps {
+  inputType: 'numeric-deferred';
+  value: string;
+  min?: number;
+  max?: number;
+}
+
+/**
  * Объединённый тип пропсов компонента Input
  */
-export type InputProps = DefaultInputProps | NumericInputProps | PatternInputProps;
+export type InputProps =
+  | DefaultInputProps
+  | NumericInputProps
+  | PatternInputProps
+  | NumericDeferredInputProps;
 
 export type ComponentInputProps = InputProps & CommonInputProps;

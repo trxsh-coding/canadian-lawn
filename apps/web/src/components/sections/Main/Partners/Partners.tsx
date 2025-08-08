@@ -5,8 +5,8 @@ import React from 'react';
 
 import { Container } from '@/components/layout/Container';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
+import { usePartners } from '@/hooks/api/usePartners';
 import { useBreakpoints } from '@/hooks/useBreakpoints';
-import { usePartners } from '@/hooks/usePartners';
 import { featureFilter, partnerLimit } from '@/utils/filters';
 
 export const Partners: React.FunctionComponent = () => {
@@ -21,9 +21,9 @@ export const Partners: React.FunctionComponent = () => {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <Container backgroundColor="light-green">
+    <Container backgroundColor="light-green" className="pt-section">
       <SectionWrapper
-        backgroundColor="light-green"
+        color="green"
         headline="Более 100 бизнес-клиентов Уже доверяют нам"
         className="text-baseWhite"
         withLink={isTablet}

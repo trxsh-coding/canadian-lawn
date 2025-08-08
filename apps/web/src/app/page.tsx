@@ -1,17 +1,17 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { QueryClient } from '@tanstack/react-query';
 
 import { MainLayout } from '@/components/sections/Main';
-import { useLawn as lawnsQuery } from '@/hooks/useLawn';
-import { usePartners as partnersQuery } from '@/hooks/usePartners';
-import { useTechnique as techniqueQuery } from '@/hooks/useTechnique';
-import { useUsers as usersQuery } from '@/hooks/useUsers';
+import { getSsrQueryClient } from '@/config/queryClientConfig';
+import { useLawns as lawnsQuery } from '@/hooks/api/useLawns';
+import { usePartners as partnersQuery } from '@/hooks/api/usePartners';
+import { useTechnique as techniqueQuery } from '@/hooks/api/useTechnique';
+import { useUsers as usersQuery } from '@/hooks/api/useUsers';
 import { featureFilter, partnerLimit, roleFilter } from '@/utils/filters';
 
 export const revalidate = 1000;
 
 export default async function Home() {
-  const queryClient = new QueryClient();
+  const queryClient = getSsrQueryClient();
   await techniqueQuery().prefetch(queryClient);
   await usersQuery(roleFilter).prefetch(queryClient);
   await lawnsQuery().prefetch(queryClient);
