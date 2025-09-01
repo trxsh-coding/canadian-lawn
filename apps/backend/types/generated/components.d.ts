@@ -7,6 +7,7 @@ export interface CommonLawnTypePercent extends Struct.ComponentSchema {
   };
   attributes: {
     lawn_type: Schema.Attribute.Relation<'oneToOne', 'api::lawn-type.lawn-type'>;
+    name: Schema.Attribute.String;
     percent: Schema.Attribute.Integer &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<

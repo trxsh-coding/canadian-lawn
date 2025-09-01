@@ -6,12 +6,23 @@ import { LawnFilters } from '@/components/sections/Lawns/LawnFilters';
 import { getSsrQueryClient } from '@/config/queryClientConfig';
 import { useLawnFilters as lawnFiltersQuery } from '@/hooks/api/useLawnFilters';
 import { useLawns as lawnQuery } from '@/hooks/api/useLawns';
+import { getParams, lawnFilters } from '@/utils/filters';
 
 export const revalidate = 1000;
 
-export default async function LawnDetailPage() {
+export default async function LawnDetailPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string }>;
+}) {
+  const params = await searchParams;
+  const partnerTypes = getParams(params.partnerTypes);
+  const lawnTypes = getParams(params.lawnTypes);
+
+  const filters = lawnFilters({ partnerTypes, lawnTypes });
+
   const queryClient = getSsrQueryClient();
-  await lawnQuery().prefetch(queryClient);
+  await lawnQuery({ filters }).prefetch(queryClient);
   await lawnFiltersQuery().prefetch(queryClient);
   const dehydratedState = dehydrate(queryClient);
 

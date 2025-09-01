@@ -25,6 +25,8 @@ export const Feedback = () => {
 
   const { data: userData, isError, isLoading } = useUserHook();
 
+  const onSubmit = async () => null;
+
   if (isLoading) return <div>Loading...</div>;
 
   if (isError) {

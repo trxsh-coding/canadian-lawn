@@ -1,0 +1,31 @@
+{
+  "kind": "singleType",
+  "collectionName": "contact_pages",
+  "info": {
+    "singularName": "contact-page",
+    "pluralName": "contact-pages",
+    "displayName": "ContactPage"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "company_name": {
+      "type": "string"
+    },
+    "adress": {
+      "type": "customField",
+      "customField": "plugin::google-maps.location-picker"
+    },
+    "inn": {
+      "type": "string"
+    },
+    "kpp": {
+      "type": "string"
+    },
+    "ogrn": {
+      "type": "string"
+    }
+  }
+}

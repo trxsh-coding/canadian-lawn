@@ -17,3 +17,19 @@ export const featureFilter = {
 export const partnerLimit = 3;
 
 export const lawnLimit = 3;
+
+export const lawnFilters = ({
+  partnerTypes,
+  lawnTypes,
+}: {
+  partnerTypes: number[];
+  lawnTypes: number[];
+}) => ({
+  filters: {
+    partners_types: { id: { $in: partnerTypes } },
+    type: { lawn_type: { id: { $in: lawnTypes } } },
+  },
+});
+
+export const getParams = (params: string | undefined) =>
+  typeof params === 'string' ? params.split(',').map(Number) : [];

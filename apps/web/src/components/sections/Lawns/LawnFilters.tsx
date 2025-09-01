@@ -1,55 +1,62 @@
 'use client';
 
+import { Filters } from '@canadian-lawn/api';
+import { Button } from '@canadian-lawn/ui-kit';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 
 import { CheckboxFiltersList } from '@/components/layout/CheckboxFiltersList';
+import { filtersTypes } from '@/const';
 import { useLawnFilters } from '@/hooks/api/useLawnFilters';
-import { useFilterState } from '@/hooks/useFiltersState';
+import { useFiltersWithQuery } from '@/hooks/useFiltersWithQuery';
+
+import { getFiltersConfig } from './config';
 
 export const LawnFilters = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const { useHook: lawnsFilters } = useLawnFilters();
-
   const lawnFilters = lawnsFilters();
-
   const data = lawnFilters?.data?.data;
 
-  const partnerTypeFilter = useFilterState(data?.partnerTypes || []);
-  const lawnTypesFilter = useFilterState(data?.lawnTypes || []);
-  const lawnBrands = useFilterState(data?.brands || []);
-  const lawnFeatures = useFilterState(data?.features || []);
+  const filtersConfig = React.useMemo(() => getFiltersConfig(data as Filters), [data]);
 
-  if (lawnFilters.isLoading) return <div>Loading...</div>;
+  const filters = {
+    partnerTypes: useFiltersWithQuery(data?.partnerTypes || [], filtersTypes.PARTNER_TYPES),
+    lawnTypes: useFiltersWithQuery(data?.lawnTypes || [], filtersTypes.LAWN_TYPES),
+    brands: useFiltersWithQuery(data?.brands || [], filtersTypes.BRANDS),
+    features: useFiltersWithQuery(data?.features || [], filtersTypes.FEATURES),
+  };
+
+  const handleReset = React.useCallback(() => router.replace(pathname), [pathname, router]);
+
+  if (lawnFilters.isError) return <div>Error...</div>;
 
   return (
     <div className="flex flex-col gap-8 p-4">
-      <CheckboxFiltersList
-        items={data?.partnerTypes || []}
-        title="Назначение"
-        selectedIds={partnerTypeFilter.selectedIds}
-        onChange={partnerTypeFilter.onChange}
-        selectedItems={partnerTypeFilter.selectedItems}
-      />
-      <CheckboxFiltersList
-        items={data?.lawnTypes || []}
-        title="Растения в составе"
-        selectedIds={lawnTypesFilter.selectedIds}
-        onChange={lawnTypesFilter.onChange}
-        selectedItems={lawnTypesFilter.selectedItems}
-      />
-      <CheckboxFiltersList
-        items={data?.features || []}
-        title="Особенности"
-        selectedIds={lawnFeatures.selectedIds}
-        onChange={lawnFeatures.onChange}
-        selectedItems={lawnFeatures.selectedItems}
-      />
-      <CheckboxFiltersList
-        items={data?.brands || []}
-        title="Растения в составе"
-        selectedIds={lawnBrands.selectedIds}
-        onChange={lawnBrands.onChange}
-        selectedItems={lawnBrands.selectedItems}
-      />
+      {filtersConfig.map((config) => {
+        const filter = filters[config.key as keyof typeof filters];
+        if (!data || !data[config.dataKey]?.length) {
+          return null;
+        }
+        return (
+          <CheckboxFiltersList
+            key={config.key}
+            items={config.items}
+            title={config.title}
+            selectedIds={filter.selectedIds}
+            onChange={(item) => filter.onChange(item)}
+            selectedItems={filter.selectedItems}
+          />
+        );
+      })}
+
+      <div className="flex flex-col gap-4">
+        <Button color="secondary" buttonType="button" onClick={handleReset}>
+          Сбросить
+        </Button>
+      </div>
     </div>
   );
 };

@@ -66,6 +66,17 @@
       "type": "string",
       "required": true,
       "unique": true
+    },
+    "partners_types": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::partners-type.partners-type",
+      "mappedBy": "partners"
+    },
+    "partner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::partner.partner"
     }
   }
 }

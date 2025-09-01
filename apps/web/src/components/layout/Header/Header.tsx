@@ -37,19 +37,23 @@ export const Header = ({
     return () => unlock();
   }, [isOpen, lock, unlock]);
 
-  const NavLinks = ({ className }: { className?: string }) =>
-    Object.values(ROUTES).map(({ url, name, desktopHide }, index) => (
-      <motion.div
-        className={cn(desktopHide && 'lg:hidden', className)}
-        key={index}
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.2, delay: index * 0.05 }}
-      >
-        <NavItem href={url} name={name} />
-      </motion.div>
-    ));
+  const NavLinks = React.useMemo(
+    () =>
+      ({ className }: { className?: string }) =>
+        Object.values(ROUTES).map(({ url, name, desktopHide }, index) => (
+          <motion.div
+            className={cn(desktopHide && 'lg:hidden', className)}
+            key={url}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, delay: index * 0.05 }}
+          >
+            <NavItem href={url} name={name} />
+          </motion.div>
+        )),
+    []
+  );
 
   return (
     <AnimatePresence>

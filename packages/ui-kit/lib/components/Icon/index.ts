@@ -3,3 +3,5 @@ export * from './Icon';
 export type * from './Icon.types';
 
 export * from './Spinner';
+
+export * from './CircleSpinner';

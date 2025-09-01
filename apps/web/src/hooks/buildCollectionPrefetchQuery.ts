@@ -41,6 +41,7 @@ export function buildCollectionPrefetchQuery<S extends ZodSchema, M extends Fetc
     return useQuery<ResponseType<SchemaType<S>, M>>({
       queryKey,
       queryFn,
+      staleTime: 0,
     });
   };
 
