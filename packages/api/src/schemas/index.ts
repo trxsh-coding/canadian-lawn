@@ -21,3 +21,5 @@ export * from './media';
 export * from './months';
 
 export * from './about';
+
+export * from './block';

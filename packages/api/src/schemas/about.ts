@@ -1,17 +1,15 @@
-import { type BlocksContent } from '@strapi/blocks-react-renderer';
 import { z } from 'zod';
 
+import { blocksContentSchema } from '@/schemas/block';
 import { mediaSchema } from '@/schemas/media';
 
-export const BlocksContentSchema = z.any() as z.ZodType<BlocksContent>;
-
 export const AboutPageSchema = z.object({
-  description: BlocksContentSchema,
+  description: blocksContentSchema,
   image: mediaSchema.nullable(),
   items: z.array(
     z.object({
       title: z.string(),
-      block: BlocksContentSchema,
+      block: blocksContentSchema,
     })
   ),
 });

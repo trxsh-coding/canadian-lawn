@@ -12,7 +12,7 @@ type usePartnersProps = {
 
 export const useAbout = ({ filter, limit }: usePartnersProps = {}) =>
   buildCollectionPrefetchQuery<z.ZodType<AboutPage>, FetchMode.ITEM>({
-    endpoint: ENDPOINTS.common.contacts,
+    endpoint: ENDPOINTS.common.about,
     schema: AboutPageSchema,
     queryKey: [queryKey],
     mode: FetchMode.ITEM,

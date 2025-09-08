@@ -25,6 +25,13 @@
       "type": "component",
       "component": "common.blocks",
       "repeatable": true
+    },
+    "details": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "canadian-lawn"
+      }
     }
   }
 }

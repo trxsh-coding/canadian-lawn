@@ -6,6 +6,7 @@ export const ENDPOINTS = {
     lawn: '/lawns',
     lawnFilters: '/filters',
     contacts: '/contact-page',
+    about: '/about-page',
     register: '/auth/local/register',
     me: '/users/me',
     lawnBySlug: (slug: string) => `/lawn/getBySlug/${slug}`,

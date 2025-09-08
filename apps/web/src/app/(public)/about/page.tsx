@@ -1,6 +1,6 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
-import { LayoutWrapper } from '@/components/layout/LayoutWrapper';
+import { About } from '@/components/sections/About';
 import { getSsrQueryClient } from '@/config/queryClientConfig';
 import { useAbout as aboutQuery } from '@/hooks/api/useAbout';
 
@@ -13,7 +13,7 @@ export default async function LawnDetailPage() {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <LayoutWrapper></LayoutWrapper>
+      <About />
     </HydrationBoundary>
   );
 }
