@@ -2,7 +2,22 @@ export default [
   'strapi::logger',
   'strapi::errors',
   'strapi::security',
-  'strapi::cors',
+  {
+    name: 'strapi::cors',
+    config: {
+      enabled: true,
+      origin: [
+        'https://staging.canadian-lawn.ru',
+        'https://strapi.canadian-lawn.ru',
+        'http://localhost:3000',
+      ],
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+      headers: ['Content-Type', 'Authorization'],
+      expose: ['Content-Range', 'X-Total-Count'],
+      keepHeader: false,
+      credentials: true,
+    },
+  },
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',
