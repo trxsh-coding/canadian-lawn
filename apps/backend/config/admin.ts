@@ -7,7 +7,7 @@ export default ({ env }) => ({
   },
   transfer: {
     token: {
-      salt: env('TRANSFER_TOKEN_SALT'),
+      salt: env('STRAPI_TRANSFER_TOKEN_SALT'),
     },
   },
   secrets: {

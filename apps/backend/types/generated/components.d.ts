@@ -1,5 +1,16 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface CommonBlocks extends Struct.ComponentSchema {
+  collectionName: 'components_common_blocks';
+  info: {
+    displayName: 'Blocks';
+  };
+  attributes: {
+    block: Schema.Attribute.Blocks;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface CommonCharacteristic extends Struct.ComponentSchema {
   collectionName: 'components_common_characteristics';
   info: {
@@ -18,7 +29,7 @@ export interface CommonLawnTypePercent extends Struct.ComponentSchema {
   };
   attributes: {
     lawn_type: Schema.Attribute.Relation<'oneToOne', 'api::lawn-type.lawn-type'>;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     percent: Schema.Attribute.Integer &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<
@@ -76,6 +87,7 @@ export interface CommonRequisite extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
+      'common.blocks': CommonBlocks;
       'common.characteristic': CommonCharacteristic;
       'common.lawn-type-percent': CommonLawnTypePercent;
       'common.months': CommonMonths;

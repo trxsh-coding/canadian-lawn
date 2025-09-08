@@ -340,6 +340,31 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAboutPageAboutPage extends Struct.SingleTypeSchema {
+  collectionName: 'about_pages';
+  info: {
+    displayName: 'AboutPage';
+    pluralName: 'about-pages';
+    singularName: 'about-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    description: Schema.Attribute.Blocks;
+    image: Schema.Attribute.Media<'images'>;
+    items: Schema.Attribute.Component<'common.blocks', true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::about-page.about-page'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+  };
+}
+
 export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
   collectionName: 'blogs';
   info: {
@@ -440,18 +465,21 @@ export interface ApiContactPageContactPage extends Struct.SingleTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    adress: Schema.Attribute.JSON &
+    address: Schema.Attribute.JSON &
       Schema.Attribute.CustomField<'plugin::google-maps.location-picker'>;
     company_name: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    document: Schema.Attribute.Media<'files'>;
     inn: Schema.Attribute.String;
     kpp: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::contact-page.contact-page'> &
       Schema.Attribute.Private;
-    ogrn: Schema.Attribute.String;
+    offer_mail: Schema.Attribute.Email;
+    PSRN: Schema.Attribute.Component<'common.requisite', false>;
     publishedAt: Schema.Attribute.DateTime;
+    request_mail: Schema.Attribute.Email;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
   };
@@ -574,9 +602,16 @@ export interface ApiLawnLawn extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    characteristic: Schema.Attribute.Component<'common.characteristic', true>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    density: Schema.Attribute.String;
+    description: Schema.Attribute.Text;
+    frost_resistance: Schema.Attribute.String;
+    full_cover_time: Schema.Attribute.String;
     gallery: Schema.Attribute.Media<'images' | 'files', true>;
+    germination_time: Schema.Attribute.String;
+    heat_resistance: Schema.Attribute.String;
     image: Schema.Attribute.Media<'images' | 'files'>;
     isFeature: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     landing: Schema.Attribute.Component<'common.months', false>;
@@ -588,6 +623,7 @@ export interface ApiLawnLawn extends Struct.CollectionTypeSchema {
     partners_types: Schema.Attribute.Relation<'oneToMany', 'api::partners-type.partners-type'>;
     price: Schema.Attribute.Component<'common.packages', true> & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    purposes: Schema.Attribute.Relation<'oneToMany', 'api::purpose.purpose'>;
     resistance: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
         {
@@ -596,6 +632,8 @@ export interface ApiLawnLawn extends Struct.CollectionTypeSchema {
         },
         number
       >;
+    seasonality: Schema.Attribute.String;
+    shade_tolerance: Schema.Attribute.String;
     slug: Schema.Attribute.String & Schema.Attribute.Required & Schema.Attribute.Unique;
     speed: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
@@ -687,6 +725,7 @@ export interface ApiPurposePurpose extends Struct.CollectionTypeSchema {
   attributes: {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    lawn: Schema.Attribute.Relation<'manyToOne', 'api::lawn.lawn'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::purpose.purpose'> &
       Schema.Attribute.Private;
@@ -1164,6 +1203,16 @@ export interface PluginUsersPermissionsUser extends Struct.CollectionTypeSchema 
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    firstname: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 10;
+      }>;
+    lastname: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 10;
+      }>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'plugin::users-permissions.user'> &
       Schema.Attribute.Private;
@@ -1172,6 +1221,7 @@ export interface PluginUsersPermissionsUser extends Struct.CollectionTypeSchema 
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    phone: Schema.Attribute.BigInteger;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1197,6 +1247,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::about-page.about-page': ApiAboutPageAboutPage;
       'api::blog.blog': ApiBlogBlog;
       'api::brand.brand': ApiBrandBrand;
       'api::cart.cart': ApiCartCart;

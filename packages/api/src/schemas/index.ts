@@ -19,3 +19,5 @@ export * from './contacts';
 export * from './media';
 
 export * from './months';
+
+export * from './about';

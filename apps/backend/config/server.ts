@@ -6,6 +6,9 @@ export default ({ env }) => ({
   },
   transfer: {
     token: {
+      salt: env('STRAPI_TRANSFER_TOKEN_SALT'),
+    },
+    remote: {
       enabled: true,
     },
   },

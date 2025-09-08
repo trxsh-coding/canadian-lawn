@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_common_blocks",
+  "info": {
+    "displayName": "Blocks"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "block": {
+      "type": "blocks"
+    }
+  },
+  "config": {}
+}

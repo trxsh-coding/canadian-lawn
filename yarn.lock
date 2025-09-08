@@ -2613,6 +2613,7 @@ __metadata:
     "@canadian-lawn/api": "npm:*"
     "@esbuild-plugins/node-modules-polyfill": "npm:^0.2.2"
     "@eslint/js": "npm:^9.28.0"
+    "@strapi/blocks-react-renderer": "npm:^1.0.2"
     "@tanstack/react-query": "npm:^5.80.6"
     "@types/node": "npm:^24.0.1"
     "@types/qs": "npm:^6"
@@ -8855,6 +8856,16 @@ __metadata:
     react-router-dom: ^6.0.0
     styled-components: ^6.0.0
   checksum: 10c0/3320d10c7969d383ce11daba94806f9690e25d7a6bda40a1942cf05a333493652fba88bf0cb1003589054cc6aaf08922397dfdf2fb65c56ebcf7662211ae78a3
+  languageName: node
+  linkType: hard
+
+"@strapi/blocks-react-renderer@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@strapi/blocks-react-renderer@npm:1.0.2"
+  peerDependencies:
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  checksum: 10c0/4fa75836cfde327da5665336e22d475949757df85ab3680ca0c8eb77b1d46fc5e9f75b420554a397c478608de52d109a259e99242b8282313ebc70fd82dafe79
   languageName: node
   linkType: hard
 

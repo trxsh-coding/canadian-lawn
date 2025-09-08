@@ -100,8 +100,8 @@ deploy-frontend:
     - echo "Стартуем сервер"
     - cd $FRONTEND_DEST_DIR/$FRONTEND_WORKING_DIR
     - echo ls "Файлы в папке скопированные"
-    - sudo pm2 delete canadian-frontend || true
-    - sudo pm2 start server.js --name canadian-frontend
+    - sudo -u orest pm2 delete canadian-frontend || true
+    - sudo -u orest pm2 start server.js --name canadian-frontend --interpreter /usr/bin/node
 
 build-backend:
   stage: build-backend
@@ -168,5 +168,6 @@ deploy-backend:
     - echo "Стартуем сервер"
     - cd $BACKEND_DEST_DIR
     - echo ls "Файлы в папке скопированные"
-    - sudo pm2 delete canadian-backend || true
-    - sudo pm2 start server.js --name canadian-backend
+    - sudo -u orest pm2 delete canadian-backend || true
+    - sudo -u orest pm2 start server.js --name canadian-backend --interpreter /usr/bin/node
+
