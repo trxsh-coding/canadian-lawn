@@ -35,8 +35,9 @@ export const Lawns = () => {
   return (
     <div className="relative">
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3">
-        {lawn?.data?.data.map(({ image, name, price, resistance, speed }, index) => (
+        {lawn?.data?.data.map(({ image, name, price, resistance, slug, speed }, index) => (
           <LawnCard
+            slug={slug || ''}
             key={index}
             className="!max-w-full self-center lg:!max-w-[480px]"
             buttonClassName="sm:!max-w-[50%] md:max-w-full sm:!w-[50%] md:!w-full"
