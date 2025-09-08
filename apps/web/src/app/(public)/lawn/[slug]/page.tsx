@@ -1,7 +1,6 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
-import { LayoutWrapper } from '@/components/layout/LayoutWrapper';
-import { LawnDetails } from '@/components/sections/Lawn';
+import { Lawn } from '@/components/sections/Lawn/Lawn';
 import { getSsrQueryClient } from '@/config/queryClientConfig';
 import { useLawnDetail as lawnQuery } from '@/hooks/api/useLawnDetail';
 
@@ -15,9 +14,7 @@ export default async function LawnDetailPage({ params }: { params: Promise<{ slu
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <LayoutWrapper>
-        <LawnDetails slug={slug} />
-      </LayoutWrapper>
+      <Lawn slug={slug} />
     </HydrationBoundary>
   );
 }
