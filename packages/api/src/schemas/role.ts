@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const roleType = z.enum(['manager', 'authenticated']);
+const roleType = z.enum(['manager', 'authenticated', 'customer']);
 
 export const roleSchema = z.object({
   id: z.number(),

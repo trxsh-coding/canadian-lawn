@@ -34,12 +34,12 @@ export const Feedback = () => {
   }
 
   return (
-    <Container className="bg-primary">
+    <Container className="!bg-section-gradient">
       <SectionWrapper
         withLink={false}
         headline="свяжитесь с нами"
         headlineClassName="!text-baseWhite"
-        className="pt-section mb-[180px]"
+        className="pt-section !bg-section-gradient lg:mb-[180px]"
         color="green"
       >
         <div className="bg-secondary gap-section flex w-full flex-col justify-between rounded-lg p-10 lg:flex-row lg:gap-0">

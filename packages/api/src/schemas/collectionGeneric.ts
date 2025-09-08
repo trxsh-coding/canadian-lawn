@@ -6,6 +6,7 @@ export enum FetchMode {
   COLLECTION = 'collection',
   ITEM = 'item',
   ARRAY = 'array',
+  OBJECT = 'object',
 }
 
 export const collectionResponseSchema = <S extends z.ZodTypeAny>(itemSchema: S) =>
@@ -20,6 +21,8 @@ export const itemResponseSchema = <S extends z.ZodTypeAny>(itemSchema: S) =>
     meta: metaSchema.optional(),
   });
 
+export const objectResponseSchema = <S extends z.ZodTypeAny>(itemSchema: S) => itemSchema;
+
 export const plainArraySchema = <S extends z.ZodTypeAny>(itemSchema: S) => z.array(itemSchema);
 
 export type CollectionResponse<T> = {
@@ -32,12 +35,16 @@ export type ItemResponse<T> = {
   meta?: Meta;
 };
 
+export type ObjectResponse<T> = T;
+
 export type PlainArrayResponse<T> = T[];
 
-export type ResponseType<T, Mode extends FetchMode> = Mode extends 'collection'
+export type ResponseType<T, Mode extends FetchMode> = Mode extends FetchMode.COLLECTION
   ? CollectionResponse<T>
-  : Mode extends 'item'
+  : Mode extends FetchMode.ITEM
     ? ItemResponse<T>
-    : Mode extends 'array'
+    : Mode extends FetchMode.ARRAY
       ? PlainArrayResponse<T>
-      : never;
+      : Mode extends FetchMode.OBJECT
+        ? ObjectResponse<T>
+        : never;

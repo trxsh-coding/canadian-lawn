@@ -21,6 +21,12 @@
       "type": "string",
       "required": false,
       "unique": true
+    },
+    "lawn": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::lawn.lawn",
+      "inversedBy": "purposes"
     }
   }
 }

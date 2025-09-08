@@ -1,23 +1,35 @@
 'use client';
 
-import { Filters } from '@canadian-lawn/api';
-import { Button } from '@canadian-lawn/ui-kit';
+import { Filter, Filters } from '@canadian-lawn/api';
+import { BottomSheet, Button } from '@canadian-lawn/ui-kit';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
+import { useToggle } from 'usehooks-ts';
 
-import { CheckboxFiltersList } from '@/components/layout/CheckboxFiltersList';
+import { FilterList } from '@/components/layout/CheckboxFiltersList';
 import { filtersTypes } from '@/const';
 import { useLawnFilters } from '@/hooks/api/useLawnFilters';
-import { useFiltersWithQuery } from '@/hooks/useFiltersWithQuery';
+import { FiltersWithQueryReturn, useFiltersWithQuery } from '@/hooks/useFiltersWithQuery';
 
-import { getFiltersConfig } from './config';
+import { FiltersConfigType, getFiltersConfig } from './config';
+
+interface RenderFilterProps {
+  config: FiltersConfigType;
+  filter: FiltersWithQueryReturn;
+  view: 'desktop' | 'mobile';
+}
 
 export const LawnFilters = () => {
   const router = useRouter();
+
   const pathname = usePathname();
 
+  const [bottomSheetOpen, toggle] = useToggle();
+
   const { useHook: lawnsFilters } = useLawnFilters();
+
   const lawnFilters = lawnsFilters();
+
   const data = lawnFilters?.data?.data;
 
   const filtersConfig = React.useMemo(() => getFiltersConfig(data as Filters), [data]);
@@ -29,34 +41,50 @@ export const LawnFilters = () => {
     features: useFiltersWithQuery(data?.features || [], filtersTypes.FEATURES),
   };
 
+  const RenderFilter = ({ config, filter, view }: RenderFilterProps) => {
+    const props = {
+      key: config.key,
+      items: config.items,
+      title: config.title,
+      selectedIds: filter.selectedIds,
+      onChange: (item: Filter) => filter.onChange(item),
+      selectedItems: filter.selectedItems,
+    };
+
+    return <FilterList view={view} {...props} />;
+  };
+
+  const RenderFilters = ({ view }: { view: 'mobile' | 'desktop' }) => {
+    return filtersConfig.map((config) => {
+      const filter = filters[config.key as keyof typeof filters];
+      return !data || !data[config.dataKey]?.length ? null : (
+        <RenderFilter config={config} filter={filter} view={view} />
+      );
+    });
+  };
+
   const handleReset = React.useCallback(() => router.replace(pathname), [pathname, router]);
 
   if (lawnFilters.isError) return <div>Error...</div>;
 
   return (
-    <div className="flex flex-col gap-8 p-4">
-      {filtersConfig.map((config) => {
-        const filter = filters[config.key as keyof typeof filters];
-        if (!data || !data[config.dataKey]?.length) {
-          return null;
-        }
-        return (
-          <CheckboxFiltersList
-            key={config.key}
-            items={config.items}
-            title={config.title}
-            selectedIds={filter.selectedIds}
-            onChange={(item) => filter.onChange(item)}
-            selectedItems={filter.selectedItems}
-          />
-        );
-      })}
-
-      <div className="flex flex-col gap-4">
+    <>
+      <div className="mb-4 lg:hidden">
+        <BottomSheet
+          open={bottomSheetOpen}
+          onOpenChange={toggle}
+          title="Фильтры"
+          mainContent={<RenderFilters view="mobile" />}
+        >
+          <Button iconName="common/filter" radius="large" className="!text-baseBlack" />
+        </BottomSheet>
+      </div>
+      <div className="hidden flex-col gap-8 p-4 lg:block">
+        <RenderFilters view="desktop" />
         <Button color="secondary" buttonType="button" onClick={handleReset}>
           Сбросить
         </Button>
       </div>
-    </div>
+    </>
   );
 };

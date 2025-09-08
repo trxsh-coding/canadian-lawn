@@ -5,14 +5,15 @@ type ProgressProps = {
   title?: string;
   progress: number;
   className?: string;
+  titleClassName?: string;
 };
 
-export const Progress = ({ title, progress, className }: ProgressProps) => {
+export const Progress = ({ title, progress, className, titleClassName }: ProgressProps) => {
   const progressWidth = 10 * progress;
   return (
     <div className="ui:flex ui:flex-col ui:gap-2 ui:w-full ui:justify-end">
       {title && (
-        <Typography view="small" color="secondary">
+        <Typography view="small" color="secondary" className={titleClassName}>
           {title}
         </Typography>
       )}

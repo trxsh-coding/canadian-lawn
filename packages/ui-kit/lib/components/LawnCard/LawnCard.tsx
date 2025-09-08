@@ -8,6 +8,7 @@ type LawnCardProps = {
   buttonClassName?: string;
   image: string;
   name: string;
+  slug: string;
   price: {
     weight: number;
     price: number;
@@ -17,7 +18,7 @@ type LawnCardProps = {
   growth: number;
   handleButtonChange: (value: number) => void;
   handleButtonClick: (value: boolean) => void;
-  handleCardClick: VoidFunction;
+  handleCardClick: (slug: string) => void;
   value: number;
   types?: {
     name?: string;
@@ -30,6 +31,7 @@ export const LawnCard = ({
   name,
   growth,
   price,
+  slug,
   value,
   handleCardClick,
   handleButtonClick,
@@ -41,10 +43,10 @@ export const LawnCard = ({
   return (
     <div
       className={cn(
-        'ui:relative ui:max-w-full ui:min-w-0 ui:rounded-sm ui:bg-baseWhite ui:gap-3 ui:lg:gap-5 ui:2xl:p-6 ui:md:gap-3 ui:flex ui:xs:flex-row ui:p-6',
+        'ui:cursor-pointer ui:relative ui:max-w-full ui:min-w-0 ui:rounded-sm ui:bg-baseWhite ui:gap-3 ui:lg:gap-5 ui:2xl:p-6 ui:md:gap-3 ui:flex ui:xs:flex-row ui:p-6',
         className
       )}
-      onClick={handleCardClick}
+      onClick={() => handleCardClick(slug)}
     >
       <div className="ui:2xl:flex">
         <div className="ui:flex ui:flex-col ui:justify-between">

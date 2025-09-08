@@ -8,9 +8,8 @@ import { useLawns } from '@/hooks/api/useLawns';
 import { useQueryParams } from '@/hooks/useUrlArrayParam';
 import { getParams, lawnFilters } from '@/utils/filters';
 
-export const Lawns: React.FunctionComponent = () => {
+export const Lawns = () => {
   const { pageParams } = useQueryParams();
-
   const partnerTypes = getParams(pageParams.partnerTypes as string);
   const lawnTypes = getParams(pageParams.lawnTypes as string);
 
@@ -53,12 +52,6 @@ export const Lawns: React.FunctionComponent = () => {
           />
         ))}
       </div>
-
-      {lawn.isFetching && (
-        <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-white/50 backdrop-blur-sm">
-          <Spinner />
-        </div>
-      )}
     </div>
   );
 };

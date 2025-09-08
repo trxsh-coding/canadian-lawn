@@ -1,5 +1,16 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface CommonCharacteristic extends Struct.ComponentSchema {
+  collectionName: 'components_common_characteristics';
+  info: {
+    displayName: 'Characteristic';
+  };
+  attributes: {
+    name: Schema.Attribute.String;
+    value: Schema.Attribute.String;
+  };
+}
+
 export interface CommonLawnTypePercent extends Struct.ComponentSchema {
   collectionName: 'components_common_lawn_type_percents';
   info: {
@@ -51,12 +62,25 @@ export interface CommonPackages extends Struct.ComponentSchema {
   };
 }
 
+export interface CommonRequisite extends Struct.ComponentSchema {
+  collectionName: 'components_common_requisites';
+  info: {
+    displayName: 'Requisite';
+  };
+  attributes: {
+    date: Schema.Attribute.Date;
+    value: Schema.Attribute.BigInteger;
+  };
+}
+
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
+      'common.characteristic': CommonCharacteristic;
       'common.lawn-type-percent': CommonLawnTypePercent;
       'common.months': CommonMonths;
       'common.packages': CommonPackages;
+      'common.requisite': CommonRequisite;
     }
   }
 }

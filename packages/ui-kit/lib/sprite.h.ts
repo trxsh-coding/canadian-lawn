@@ -6,10 +6,13 @@ export interface SpritesMap {
     | 'box'
     | 'cart'
     | 'check'
+    | 'copy'
     | 'cross'
     | 'download'
     | 'error'
+    | 'filter'
     | 'garbage'
+    | 'google'
     | 'grass'
     | 'info'
     | 'logo'
@@ -30,10 +33,13 @@ export const SPRITES_META: {
     | 'box'
     | 'cart'
     | 'check'
+    | 'copy'
     | 'cross'
     | 'download'
     | 'error'
+    | 'filter'
     | 'garbage'
+    | 'google'
     | 'grass'
     | 'info'
     | 'logo'
@@ -54,10 +60,13 @@ export const SPRITES_META: {
     'box',
     'cart',
     'check',
+    'copy',
     'cross',
     'download',
     'error',
+    'filter',
     'garbage',
+    'google',
     'grass',
     'info',
     'logo',

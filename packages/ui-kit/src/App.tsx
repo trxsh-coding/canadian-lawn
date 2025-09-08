@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Button } from '@/lib';
+import { Button, CopyPaste } from '@/lib';
+import { BottomSheet } from '@/lib/components/BottomSheet';
 import { ButtonCounter } from '@/lib/components/ButtonCounter';
 import { Checkbox } from '@/lib/components/Checkbox';
 import { Progress } from '@/lib/components/Progress';
@@ -8,7 +9,7 @@ import { SliderRange } from '@/lib/components/SliderRange';
 
 function App() {
   const [value, setValue] = React.useState<number>(0);
-
+  const [bottomSheetOpen, setBottomSheetOpen] = React.useState(false);
   const [sliderValue, setSliderValue] = React.useState<[number, number]>([4, 10]);
 
   const handleChange = React.useCallback((value: number) => {
@@ -26,6 +27,14 @@ function App() {
 
   return (
     <div className="ui:p-section ui:bg-secondaryGrey ui:w-[100vh] ui:flex ui:flex-col ui:gap-10">
+      <BottomSheet
+        open={bottomSheetOpen}
+        onOpenChange={(value) => setBottomSheetOpen(value)}
+        title="Фильтры"
+        mainContent={<div className="ui:p-4">Тут форма фильтров или что-то ещё</div>}
+      >
+        <Button iconName="common/filter" radius="large" />
+      </BottomSheet>
       <Button width="fit" color="primary" iconName="common/cart">
         Я primary кнопка
       </Button>
@@ -65,6 +74,10 @@ function App() {
         value={sliderValue}
         onChange={handleSliderValueChange}
       />
+
+      <div>
+        <CopyPaste value="123" />
+      </div>
     </div>
   );
 }

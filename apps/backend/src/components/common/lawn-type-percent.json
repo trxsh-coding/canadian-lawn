@@ -16,7 +16,8 @@
       "max": 100
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     }
   },
   "config": {}

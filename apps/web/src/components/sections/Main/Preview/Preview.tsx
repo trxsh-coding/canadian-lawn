@@ -9,7 +9,7 @@ import { NavLinks } from '@/components/layout/NavLinks';
 
 export const Preview = () => {
   return (
-    <Constraints className="relative">
+    <Constraints className="mb-section relative">
       <div
         className="bg-secondary bg-p relative z-50 flex h-[400px] translate-y-[50px] flex-col rounded-sm bg-size-[auto_50%] bg-bottom bg-no-repeat lg:bg-size-[auto_80%] lg:bg-right-bottom"
         style={{ backgroundImage: `url(${Grass.src})` }}

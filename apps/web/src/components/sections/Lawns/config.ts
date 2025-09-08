@@ -1,6 +1,13 @@
-import { Filters } from '@canadian-lawn/api';
+import { Filter, Filters } from '@canadian-lawn/api';
 
 import { filtersTypes } from '@/const';
+
+export type FiltersConfigType = {
+  key: string;
+  title: string;
+  dataKey: string;
+  items: Filter[];
+};
 
 export const getFiltersConfig = (data: Filters) => [
   {

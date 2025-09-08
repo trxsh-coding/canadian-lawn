@@ -12,12 +12,14 @@ export type PicProps = React.PropsWithChildren<{
   fade?: boolean;
   skeleton?: string;
   withBackdrop?: boolean;
+  onClick?: VoidFunction;
 }>;
 
 export const Pic = ({
   src,
   alt,
   className,
+  onClick,
   childClassName,
   fit = 'cover',
   shape,
@@ -65,6 +67,7 @@ export const Pic = ({
       {src && (
         <img
           src={src}
+          onClick={onClick}
           alt={alt || 'image'}
           className={cn(imgClassName, 'ui:z-10')}
           onLoad={() => setLoaded(true)}

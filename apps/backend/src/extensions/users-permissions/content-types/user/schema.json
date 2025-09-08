@@ -73,6 +73,19 @@
         "images",
         "files"
       ]
+    },
+    "firstname": {
+      "type": "string",
+      "maxLength": 10,
+      "required": true
+    },
+    "lastname": {
+      "type": "string",
+      "maxLength": 10,
+      "required": true
+    },
+    "phone": {
+      "type": "biginteger"
     }
   }
 }

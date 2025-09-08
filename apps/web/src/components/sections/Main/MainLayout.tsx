@@ -9,7 +9,7 @@ import { Technique } from '@/components/sections/Main/Technique';
 
 export const MainLayout = () => {
   return (
-    <div className="bg-baseBg gap-section flex flex-col">
+    <div className="bg-baseBg flex flex-col">
       <Preview />
       <Lawns />
       <Technique className="mt-section" />

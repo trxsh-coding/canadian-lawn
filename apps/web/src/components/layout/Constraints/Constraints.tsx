@@ -17,9 +17,9 @@ export const Constraints = ({
 }) => (
   <div
     className={cn(
-      'lg:px-section w-full',
+      'lg:px-section m-auto w-full',
       color === 'green' && 'bg-primary',
-      color === 'light' && 'bg-baseBg',
+      color === 'light' && 'bg-baseSecondaryBg',
       color === 'dark-green' && 'bg-secondary',
       isSection && 'pb-section',
       wrapperClassName

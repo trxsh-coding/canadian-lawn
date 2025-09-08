@@ -21,14 +21,14 @@ export const ROUTES: RoutesType = {
   },
   blog: {
     url: '/blog',
-    name: 'Главная',
+    name: 'Блог',
   },
   about: {
     url: '/about',
     name: 'О нас',
   },
   contact: {
-    url: '/contact',
+    url: '/contacts',
     name: 'Контакты',
   },
   faq: {

@@ -3,7 +3,14 @@
 import { useSearchParams, useRouter } from 'next/navigation';
 import React from 'react';
 
-export function useQueryParams() {
+interface UseQueryParamsReturn {
+  getNumericArrayParam: (key: string) => number[];
+  setNumericArrayParam: (key: string, values: number[]) => void;
+  pageParams: Record<string, string | string[]>;
+  updateQuery: (updates: Record<string, number[]>) => void;
+}
+
+export function useQueryParams(): UseQueryParamsReturn {
   const router = useRouter();
   const searchParams = useSearchParams();
 

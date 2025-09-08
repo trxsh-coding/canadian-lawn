@@ -1,3 +1,4 @@
+import { AxiosInstance } from 'axios';
 import { z } from 'zod';
 
 import { apiClient } from '@/clients/axios';
@@ -5,6 +6,7 @@ import {
   collectionResponseSchema,
   FetchMode,
   itemResponseSchema,
+  objectResponseSchema,
   plainArraySchema,
   type ResponseType,
 } from '@/schemas/collectionGeneric';
@@ -18,11 +20,13 @@ export class FetchBuilder<T extends z.ZodTypeAny, M extends FetchMode> {
   private filters?: Record<string, unknown>;
   private limit?: number;
   private readonly mode: FetchMode = FetchMode.COLLECTION;
+  private readonly client: AxiosInstance;
 
-  constructor(schema: z.ZodType<T>, endpoint: string, mode: M) {
+  constructor(schema: z.ZodType<T>, endpoint: string, mode: M, client: AxiosInstance = apiClient) {
     this.schema = schema;
     this.endpoint = endpoint;
     this.mode = mode;
+    this.client = client;
   }
 
   withPopulate(populate: string[]) {
@@ -46,12 +50,12 @@ export class FetchBuilder<T extends z.ZodTypeAny, M extends FetchMode> {
   }
 
   async fetch(): Promise<ResponseType<T, M>> {
-    const response = await apiClient.get(this.endpoint, {
+    const response = await this.client.get(this.endpoint, {
       params: {
         ...this.params,
         ...(this.filters ? { filters: this.filters } : {}),
         ...(this.populate ? { populate: this.populate } : {}),
-        ...(this.limit !== undefined ? { pagination: { pageSize: this.limit } } : {}), // Strapi v4 pagination
+        ...(this.limit !== undefined ? { pagination: { pageSize: this.limit } } : {}),
       },
     });
 
@@ -70,6 +74,10 @@ export class FetchBuilder<T extends z.ZodTypeAny, M extends FetchMode> {
         parsedSchema = plainArraySchema(this.schema);
         break;
       }
+      case FetchMode.OBJECT: {
+        parsedSchema = objectResponseSchema(this.schema);
+        break;
+      }
       default: {
         throw new Error(`Unknown mode '${this.mode}'`);
       }
@@ -82,7 +90,8 @@ export class FetchBuilder<T extends z.ZodTypeAny, M extends FetchMode> {
 export function createFetchBuilder<S extends z.ZodTypeAny, M extends FetchMode>(
   schema: S,
   endpoint: string,
-  mode: M
+  mode: M,
+  client?: AxiosInstance
 ): FetchBuilder<S, M> {
-  return new FetchBuilder(schema, endpoint, mode);
+  return new FetchBuilder(schema, endpoint, mode, client ?? apiClient);
 }

@@ -7,4 +7,5 @@ export const ENV = {
   TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID ?? '',
   TELEGRAM_ORDER_THREAD_ID: process.env.TELEGRAM_ORDER_THREAD_ID ?? '',
   NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000',
+  GOOGLE_MAPS_TOKEN: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API ?? '',
 };

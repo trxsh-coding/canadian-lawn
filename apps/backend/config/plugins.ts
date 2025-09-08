@@ -15,6 +15,9 @@ export default ({ env }) => ({
       },
     },
   },
+  'users-permissions': {
+    enabled: true,
+  },
   documentation: {
     enabled: true,
     config: {

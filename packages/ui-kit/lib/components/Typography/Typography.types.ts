@@ -23,6 +23,7 @@ export type TypographyColor =
   | 'base-grey'
   | 'base-black'
   | 'secondary-red'
+  | 'silvery'
   | 'secondary-grey';
 
 export type TypographyColorsKeys = { [key in TypographyColor]: string };

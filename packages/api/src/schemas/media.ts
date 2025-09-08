@@ -18,3 +18,5 @@ export const mediaSchema = z.object({
   provider: z.string(),
   provider_metadata: z.any().nullable(),
 });
+
+export type Media = z.infer<typeof mediaSchema>;

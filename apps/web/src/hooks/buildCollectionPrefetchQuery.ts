@@ -1,5 +1,6 @@
 import { ResponseType, createFetchBuilder, FetchMode } from '@canadian-lawn/api';
 import { QueryClient, useQuery } from '@tanstack/react-query';
+import { AxiosInstance } from 'axios';
 import { z, ZodSchema } from 'zod';
 
 type QueryBuilderParams = {
@@ -15,6 +16,8 @@ type BuildCollectionType<S extends ZodSchema, M extends FetchMode> = {
   queryKey: string[];
   mode: M;
   params?: QueryBuilderParams;
+  client?: AxiosInstance;
+  enabled?: boolean;
 };
 
 export function buildCollectionPrefetchQuery<S extends ZodSchema, M extends FetchMode>({
@@ -23,9 +26,11 @@ export function buildCollectionPrefetchQuery<S extends ZodSchema, M extends Fetc
   mode,
   params,
   endpoint,
+  enabled = true,
+  client,
 }: BuildCollectionType<S, M>) {
   type SchemaType<S extends ZodSchema> = z.infer<S>;
-  let builder = createFetchBuilder(schema, endpoint, mode);
+  let builder = createFetchBuilder(schema, endpoint, mode, client);
 
   if (params?.populate) builder = builder.withPopulate(params.populate);
 
@@ -39,6 +44,7 @@ export function buildCollectionPrefetchQuery<S extends ZodSchema, M extends Fetc
 
   const useHook = () => {
     return useQuery<ResponseType<SchemaType<S>, M>>({
+      enabled,
       queryKey,
       queryFn,
       staleTime: 0,

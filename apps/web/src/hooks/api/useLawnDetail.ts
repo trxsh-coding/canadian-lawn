@@ -1,5 +1,4 @@
-import { ENDPOINTS, FetchMode, LawnInput, lawnSchema } from '@canadian-lawn/api';
-import { z } from 'zod';
+import { ENDPOINTS, FetchMode, lawnSchema } from '@canadian-lawn/api';
 
 import { buildCollectionPrefetchQuery } from '@/hooks/buildCollectionPrefetchQuery';
 
@@ -12,7 +11,7 @@ type useLawnsProps = {
 };
 
 export const useLawnDetail = ({ filter, limit, slug }: useLawnsProps) =>
-  buildCollectionPrefetchQuery<z.ZodType<LawnInput>, FetchMode.ITEM>({
+  buildCollectionPrefetchQuery<typeof lawnSchema, FetchMode.ITEM>({
     endpoint: ENDPOINTS.common.lawnBySlug(slug),
     schema: lawnSchema,
     queryKey: [queryKey],

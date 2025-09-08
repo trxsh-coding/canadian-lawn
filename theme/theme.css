@@ -33,4 +33,27 @@
 
   /* Spacing */
   --spacing-section: 60px;
-}
+
+    @keyframes spin-slow {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes wiggle {
+      0%, 100% {
+        transform: rotate(-15deg);
+      }
+      50% {
+        transform: rotate(15deg);
+      }
+    }
+
+    --animate-spin-slow: spin-slow 3s linear infinite;
+    --animate-wiggle: wiggle 1.2s ease-in-out infinite;
+  }
+
+

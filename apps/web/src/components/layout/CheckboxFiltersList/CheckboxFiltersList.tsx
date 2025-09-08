@@ -1,69 +1,71 @@
-import { Typography } from '@canadian-lawn/ui-kit';
+import { Filter } from '@canadian-lawn/api';
+import { Button, Typography } from '@canadian-lawn/ui-kit';
 import { Checkbox } from '@canadian-lawn/ui-kit';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
-import { useToggle } from 'usehooks-ts';
 
-type CheckboxOption = {
-  id: number;
-  name: string;
-  documentId?: string;
+import { FilterProps } from '@/components/sections/Lawns/types';
+import { useExpanded } from '@/hooks/useExpanded';
+
+type ViewType = {
+  view: 'desktop' | 'mobile';
 };
 
-type CheckboxFiltersListProps = {
-  title: string;
-  items: CheckboxOption[];
-  selectedIds: number[];
-  onChange: (value: CheckboxOption) => void;
-  maxVisibleItems?: number;
-  selectedItems: CheckboxOption[];
-};
-
-export const CheckboxFiltersList = ({
+export const FilterList = ({
   items,
   title,
   maxVisibleItems = 5,
   selectedIds,
   onChange,
-}: CheckboxFiltersListProps) => {
-  const [expanded, setExpanded] = useToggle(false);
+  view,
+}: FilterProps & ViewType) => {
+  const { setExpanded, hasHiddenItems, visibleItems, expanded } = useExpanded({
+    items,
+    maxVisibleItems,
+  });
 
-  const visibleItems = React.useMemo(
-    () => (expanded ? items : items.slice(0, maxVisibleItems)),
-    [expanded, items, maxVisibleItems]
-  );
-
-  const hasHiddenItems = items.length > maxVisibleItems;
+  const ListItems = ({ item, active }: { item: Filter; active: boolean }) => {
+    return view === 'desktop' ? (
+      <motion.div
+        key={item.id}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.2, delay: 0.1 }}
+        className="flex items-start gap-2"
+      >
+        <Checkbox
+          className="!h-[18px] !w-[18px] shrink-0"
+          color="bg"
+          iconClassName="!w-3 !h-3"
+          active={active}
+          onClick={() => onChange(item)}
+        />
+        <Typography view="regular">{item.name}</Typography>
+      </motion.div>
+    ) : (
+      <Button
+        radius="large"
+        color={active ? 'primary' : 'secondary'}
+        onClick={() => onChange(item)}
+        {...(active && { suffixIconName: 'common/cross' })}
+      >
+        {item.name}
+      </Button>
+    );
+  };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 p-6 lg:p-0">
       <Typography view="button" weight="semibold">
         {title}
       </Typography>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex gap-2 lg:flex-col">
         <AnimatePresence initial={false}>
           {visibleItems.map((item) => {
-            const checked = selectedIds.includes(item.id);
-            return (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2, delay: 0.1 }}
-                className="flex items-start gap-2"
-              >
-                <Checkbox
-                  className="!h-[18px] !w-[18px] shrink-0"
-                  color="bg"
-                  iconClassName="!w-3 !h-3"
-                  active={checked}
-                  onClick={() => onChange(item)}
-                />
-                <Typography view="regular">{item.name}</Typography>
-              </motion.div>
-            );
+            const active = selectedIds.includes(item.id);
+            return <ListItems key={item.id} item={item} active={active} />;
           })}
         </AnimatePresence>
 

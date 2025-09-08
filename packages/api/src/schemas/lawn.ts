@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { partnerTypeSchema } from '@/schemas/filters';
+import { filterSchema } from '@/schemas/filters';
 import { mediaSchema } from '@/schemas/media';
 import { monthsSchema } from '@/schemas/months';
 import { partnerSchema } from '@/schemas/partner';
@@ -25,6 +25,8 @@ export const lawnSchema = z
   .object({
     id: z.number(),
     name: z.string(),
+    description: z.string().nullable().optional(),
+    slug: z.string().nullable(),
     speed: z.number().min(0).max(10).optional(),
     resistance: z.number().min(0).max(10).optional(),
     image: mediaSchema.optional().nullable(),
@@ -32,7 +34,7 @@ export const lawnSchema = z
     landing: monthsSchema.optional().nullable(),
     price: z.array(packages),
     type: z.array(type),
-    partners_types: z.array(partnerTypeSchema).optional().nullable(),
+    partners_types: z.array(filterSchema).optional().nullable(),
     partner: partnerSchema.optional().nullable(),
   })
   .transform(({ partners_types, type, ...item }) => ({

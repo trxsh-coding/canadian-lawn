@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_common_requisites",
+  "info": {
+    "displayName": "Requisite"
+  },
+  "options": {},
+  "attributes": {
+    "value": {
+      "type": "biginteger"
+    },
+    "date": {
+      "type": "date"
+    }
+  },
+  "config": {}
+}

@@ -14,7 +14,7 @@
     "company_name": {
       "type": "string"
     },
-    "adress": {
+    "address": {
       "type": "customField",
       "customField": "plugin::google-maps.location-picker"
     },
@@ -24,8 +24,23 @@
     "kpp": {
       "type": "string"
     },
-    "ogrn": {
-      "type": "string"
+    "request_mail": {
+      "type": "email"
+    },
+    "offer_mail": {
+      "type": "email"
+    },
+    "PSRN": {
+      "type": "component",
+      "component": "common.requisite",
+      "repeatable": false
+    },
+    "document": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files"
+      ]
     }
   }
 }
