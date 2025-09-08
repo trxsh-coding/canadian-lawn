@@ -5,7 +5,6 @@ export default [
   {
     name: 'strapi::cors',
     config: {
-      enabled: true,
       origin: [
         'https://staging.canadian-lawn.ru',
         'https://strapi.canadian-lawn.ru',
