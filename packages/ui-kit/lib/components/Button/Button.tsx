@@ -156,7 +156,7 @@ export const Button = React.memo(
           views['button'],
           (suffixIconName || iconName) && `ui:flex ui:items-center ui:justify-center`,
           buttonType === 'icon' &&
-            `ui:p-6 ui:rounded-full ui:max-w-fit ui:bg-baseBg ui:text-baseBlack ui:hover:text-baseBlack ${!inactive && 'ui:hover:bg-baseSilvery'} ${iconName === 'common/cross' && 'ui:text-secondaryRed ui:p-1 ui:lg:p-[9px]'}`,
+            `ui:p-4 ui:rounded-full ui:max-w-fit ui:bg-baseBg ui:text-baseBlack ui:hover:text-baseBlack ${!inactive && 'ui:hover:bg-baseSilvery'} ${iconName === 'common/cross' && 'ui:text-secondaryRed ui:p-1 ui:lg:p-[9px]'}`,
           inactive && 'ui:opacity-60',
           disabled && 'ui:bg-baseSilvery',
           className

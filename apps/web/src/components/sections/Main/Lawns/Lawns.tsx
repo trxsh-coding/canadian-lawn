@@ -34,10 +34,12 @@ export const Lawns: React.FunctionComponent = () => {
   return (
     <SectionWrapper
       color="light"
-      className="pt-section !pb-0"
+      wrapperClassName="!pr-0"
+      className="pt-section !pr-0 !pb-0"
       headline="Популярные семена"
       withLink={isTablet}
       isError={isError}
+      isSection
     >
       <div className="flex gap-3">
         {lawnsData?.data.map(({ image, slug, name, price, resistance, speed }, index) => (

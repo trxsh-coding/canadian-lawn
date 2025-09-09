@@ -53,7 +53,7 @@ export const Contacts = () => {
 
   return (
     <div className="relative">
-      <Constraints color="light">
+      <Constraints color="light" className="w-full !py-[15px] lg:!px-0">
         <div className="mt-[30px] mb-[30px] flex flex-col gap-5 md:flex-row">
           <RequisiteCard
             title={contactData?.companyName || ''}

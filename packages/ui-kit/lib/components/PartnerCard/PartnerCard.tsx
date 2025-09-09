@@ -11,7 +11,7 @@ export const PartnerCard = ({ title, image, className, imageClassName }: CardPro
   return (
     <div
       className={cn(
-        'ui:rounded-sm ui:bg-baseWhite ui:flex ui:w-full ui:flex-col ui:lg:justify-between ui:max-w-[220px] ui:md:max-w-[426px] ui:p-4 ui:lg:p-6 ui:lg:gap-5 lg:h-[229px]',
+        'ui:rounded-sm ui:bg-baseWhite ui:flex ui:w-full ui:flex-col ui:lg:justify-between ui:md:max-w-[426px] ui:p-4 ui:lg:p-6 ui:lg:gap-5 lg:h-[229px]',
         className
       )}
     >

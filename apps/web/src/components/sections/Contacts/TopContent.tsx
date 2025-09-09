@@ -21,12 +21,13 @@ export const TopContent = () => {
       </div>
     );
   }
+
   if (contact.isError) return null;
 
   return (
     <div className="relative">
       <div className="flex h-full w-full flex-col items-center justify-between gap-4 lg:flex-row">
-        <Button className="mt-5 w-full min-w-[250px] lg:mt-0 lg:w-auto lg:self-end">
+        <Button className="!mt-section w-full min-w-[250px] lg:mt-0 lg:w-auto lg:self-end">
           Связатся с нами
         </Button>
         <div className="text-baseWhite mr-auto flex flex-col gap-4 lg:ml-auto">

@@ -7,6 +7,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { Container } from '@/components/layout/Container';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { useUsers } from '@/hooks/api/useUsers';
+import cn from '@/utils/cnMerge';
 
 interface FormValues {
   name: string;
@@ -15,7 +16,7 @@ interface FormValues {
   question: string;
 }
 
-export const Feedback = () => {
+export const Feedback = ({ className }: { className?: string }) => {
   const {
     control,
     handleSubmit,
@@ -39,7 +40,7 @@ export const Feedback = () => {
         withLink={false}
         headline="свяжитесь с нами"
         headlineClassName="!text-baseWhite"
-        className="pt-section !bg-section-gradient lg:mb-[180px]"
+        className={cn('pt-section !bg-section-gradient px-[16px] lg:px-0 lg:px-[30px]', className)}
         color="green"
       >
         <div className="bg-secondary gap-section flex w-full flex-col justify-between rounded-lg p-10 lg:flex-row lg:gap-0">
@@ -65,7 +66,7 @@ export const Feedback = () => {
               </div>
               <div className="flex flex-col gap-1">
                 <Typography view="card-header" color="base-white">
-                  {userData?.map(({ username }) => username).join(' и ')}
+                  Яна и Кирилл
                 </Typography>
                 <Typography view="regular" color="base-white">
                   Менеджеры по продажам

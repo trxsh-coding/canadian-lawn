@@ -3,9 +3,6 @@
 @import './fonts.css';
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
-/* Пробрасываем переменные shadcn → твои токены */
 @theme inline {
   --background: var(--color-baseBg);
   --foreground: var(--color-baseBlack);
@@ -50,16 +47,8 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--color-baseWhite);
+  --color-foreground: var(--color-baseBlack);
 }
 
 /* Базовые стили */
-@layer base {
-  * {
-    @apply ui:border-border ui:outline-ring/50;
-  }
-  body {
-    @apply ui:bg-background ui:text-foreground;
-  }
-}

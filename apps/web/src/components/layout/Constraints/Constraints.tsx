@@ -7,7 +7,6 @@ export const Constraints = ({
   className,
   wrapperClassName,
   color = 'green',
-  isSection = false,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -17,20 +16,14 @@ export const Constraints = ({
 }) => (
   <div
     className={cn(
-      'lg:px-section m-auto w-full',
+      'lg:px-section flex w-full justify-center p-4 md:px-[30px]',
       color === 'green' && 'bg-primary',
       color === 'light' && 'bg-baseSecondaryBg',
       color === 'dark-green' && 'bg-secondary',
-      isSection && 'pb-section',
       wrapperClassName
     )}
   >
-    <div
-      className={cn(
-        'm-auto w-full px-4 md:max-w-[1300px] lg:px-5 xl:px-0 2xl:max-w-[1700px]',
-        className
-      )}
-    >
+    <div className={cn('w-full md:max-w-[1600px] xl:px-0 2xl:max-w-[1800px]', className)}>
       {children}
     </div>
   </div>

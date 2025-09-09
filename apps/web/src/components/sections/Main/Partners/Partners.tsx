@@ -31,7 +31,7 @@ export const Partners: React.FunctionComponent = () => {
       >
         <div className="flex w-full flex-col gap-3 md:flex-row md:gap-5">
           {partnersData?.data.map(({ name, logo, id }) => (
-            <PartnerCard key={id} className="flex-1 grow" title={name} image={logo?.url} />
+            <PartnerCard key={id} className="!w-full flex-1 grow" title={name} image={logo?.url} />
           ))}
         </div>
       </SectionWrapper>

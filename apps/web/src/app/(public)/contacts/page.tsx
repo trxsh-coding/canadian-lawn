@@ -17,8 +17,8 @@ export default async function LawnDetailPage() {
     <HydrationBoundary state={dehydratedState}>
       <LayoutWrapper
         topContentClassName="lg:mb-[60px]"
-        mainWrapperClassName="!px-0 !b-0"
-        mainContainerClassName="px-0 !mb-0"
+        mainWrapperClassName="!px-0 !b-0 !items-center"
+        mainContainerClassName="!mb-0 !px-0"
         title="Контакты"
         topContent={<TopContent />}
       >

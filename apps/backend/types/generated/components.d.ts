@@ -6,8 +6,14 @@ export interface CommonBlocks extends Struct.ComponentSchema {
     displayName: 'Blocks';
   };
   attributes: {
-    block: Schema.Attribute.Blocks;
-    title: Schema.Attribute.String;
+    block: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'canadian-lawn';
+        }
+      >;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 

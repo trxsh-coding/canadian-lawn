@@ -79,7 +79,7 @@ export const LawnFilters = () => {
           <Button iconName="common/filter" radius="large" className="!text-baseBlack" />
         </BottomSheet>
       </div>
-      <div className="hidden flex-col gap-8 p-4 lg:block">
+      <div className="hidden flex-col gap-4 p-4 lg:flex">
         <RenderFilters view="desktop" />
         <Button color="secondary" buttonType="button" onClick={handleReset}>
           Сбросить

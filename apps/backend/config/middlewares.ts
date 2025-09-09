@@ -13,7 +13,7 @@ export default [
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
       headers: ['Content-Type', 'Authorization'],
       expose: ['Content-Range', 'X-Total-Count'],
-      keepHeader: false,
+      keepHeaderOnError: true,
       credentials: true,
     },
   },

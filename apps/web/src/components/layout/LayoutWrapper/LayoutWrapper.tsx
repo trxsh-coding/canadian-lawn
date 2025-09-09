@@ -16,6 +16,7 @@ export type LayoutWrapperProps = {
   mainContainerClassName?: string;
   mainWrapperClassName?: string;
   asideContentClassName?: string;
+  topContentWrapperClassName?: string;
   className?: string;
   title?: string;
 };
@@ -27,14 +28,15 @@ export const LayoutWrapper = ({
   className,
   asideContent,
   topContentClassName,
+  topContentWrapperClassName,
   mainContainerClassName,
   mainContentClassName,
   asideContentClassName,
   mainWrapperClassName,
 }: LayoutWrapperProps) => {
   return (
-    <div className={cn('bg-baseBg flex h-full min-h-screen w-full flex-col', className)}>
-      <Constraints className="relative">
+    <div className={cn('bg-baseBg flex min-h-[100vh] w-full flex-col', className)}>
+      <Constraints className={cn('relative px-4 lg:px-0', topContentWrapperClassName)}>
         <div className={cn('bg-primary flex flex-col py-5 lg:py-[35px]')}>
           <Header className="w-full" headerClassName="md:!rounded-b-sm" />
           {title && (
@@ -53,21 +55,20 @@ export const LayoutWrapper = ({
       </Constraints>
 
       <Constraints
-        color="light"
-        wrapperClassName={cn('flex flex-1 min-h-0 gap-5 ', mainWrapperClassName)}
-        className={cn('flex flex-col gap-5 lg:flex-row', mainContainerClassName)}
+        wrapperClassName={cn('flex flex-1 gap-5 grow', mainWrapperClassName)}
+        className={cn('flex flex-1 grow flex-col gap-5 lg:flex-row', mainContainerClassName)}
       >
         {asideContent && (
           <aside
             className={cn(
-              'bg-baseWhite shrink-0 rounded-sm lg:my-[25px] lg:w-[248px] lg:p-7 xl:!block',
+              'bg-baseWhite shrink-0 rounded-sm px-4 lg:w-[248px] lg:px-0 xl:!block',
               asideContentClassName
             )}
           >
             {asideContent}
           </aside>
         )}
-        <main className={cn('flex flex-1 flex-col overflow-auto', mainContentClassName)}>
+        <main className={cn('flex flex-1 grow flex-col overflow-auto', mainContentClassName)}>
           {children}
         </main>
       </Constraints>

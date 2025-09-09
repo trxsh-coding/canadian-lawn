@@ -12,9 +12,8 @@ export const MainLayout = () => {
     <div className="bg-baseBg flex flex-col">
       <Preview />
       <Lawns />
-      <Technique className="mt-section" />
+      <Technique />
       <Partners />
-      <Technique className="mt-section" />
       <Feedback />
       <Footer />
     </div>

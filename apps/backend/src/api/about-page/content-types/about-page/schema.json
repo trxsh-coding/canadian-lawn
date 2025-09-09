@@ -11,9 +11,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "description": {
-      "type": "blocks"
-    },
     "image": {
       "type": "media",
       "multiple": false,
@@ -26,7 +23,7 @@
       "component": "common.blocks",
       "repeatable": true
     },
-    "details": {
+    "description": {
       "type": "customField",
       "customField": "plugin::ckeditor5.CKEditor",
       "options": {

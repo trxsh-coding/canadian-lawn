@@ -3,6 +3,8 @@ import { BlocksContent, BlocksRenderer } from '@strapi/blocks-react-renderer';
 import * as React from 'react';
 import sanitize from 'sanitize-html';
 
+import { sanitizeConfig } from '@/components/atoms/TextBlocks/config';
+
 type Props = {
   htmlText?: string | BlocksContentInput;
   type?: 'block' | 'text';
@@ -10,7 +12,7 @@ type Props = {
 
 export const TextBlocks = React.memo(({ htmlText = '', type = 'block' }: Props) => {
   if (typeof htmlText === 'string') {
-    return <div dangerouslySetInnerHTML={{ __html: sanitize(htmlText) }} />;
+    return <div dangerouslySetInnerHTML={{ __html: sanitize(htmlText, sanitizeConfig) }} />;
   }
 
   if (type === 'block') {

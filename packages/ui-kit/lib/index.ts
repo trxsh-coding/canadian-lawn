@@ -33,3 +33,5 @@ export * from './components/BottomSheet';
 export * from './components/Modal';
 
 export * from './components/Tabs';
+
+export * from './components/Accordion';

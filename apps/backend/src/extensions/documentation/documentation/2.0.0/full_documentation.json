@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-09-08T19:44:00.903Z"
+    "x-generation-date": "2025-09-09T07:59:28.467Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -8088,7 +8088,6 @@
           "data": {
             "type": "object",
             "properties": {
-              "description": {},
               "image": {
                 "oneOf": [
                   {
@@ -8106,7 +8105,7 @@
                   "$ref": "#/components/schemas/CommonBlocksComponent"
                 }
               },
-              "details": {
+              "description": {
                 "type": "string"
               },
               "locale": {
@@ -8174,7 +8173,6 @@
           "documentId": {
             "type": "string"
           },
-          "description": {},
           "image": {
             "type": "object",
             "properties": {
@@ -8779,7 +8777,7 @@
               "$ref": "#/components/schemas/CommonBlocksComponent"
             }
           },
-          "details": {
+          "description": {
             "type": "string"
           },
           "createdAt": {
@@ -8830,7 +8828,6 @@
                 "documentId": {
                   "type": "string"
                 },
-                "description": {},
                 "image": {
                   "type": "object",
                   "properties": {
@@ -8966,7 +8963,7 @@
                     "$ref": "#/components/schemas/CommonBlocksComponent"
                   }
                 },
-                "details": {
+                "description": {
                   "type": "string"
                 },
                 "createdAt": {
@@ -9045,7 +9042,9 @@
           "title": {
             "type": "string"
           },
-          "block": {}
+          "block": {
+            "type": "string"
+          }
         }
       },
       "BlogRequest": {
