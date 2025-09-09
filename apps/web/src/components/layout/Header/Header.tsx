@@ -19,11 +19,11 @@ export const Header = ({
   headerClassName,
 }: {
   className?: string;
+  onClick?: VoidFunction;
   headerClassName?: string;
 }) => {
   const { addOverlay, removeOverlay, isOverlayActive } = useOverlayStore();
   const isOpen = isOverlayActive(OverlayType.Menu);
-
   const pathname = usePathname();
   const handleOpen = React.useCallback(() => {
     if (isOpen) {
@@ -31,7 +31,7 @@ export const Header = ({
     } else {
       addOverlay(OverlayType.Menu);
     }
-  }, [isOpen, addOverlay, removeOverlay]);
+  }, [isOpen, removeOverlay, addOverlay]);
 
   const { lock, unlock } = useScrollLock();
 
@@ -39,6 +39,10 @@ export const Header = ({
     if (isOpen) lock();
     return () => unlock();
   }, [isOpen, lock, unlock]);
+
+  React.useEffect(() => {
+    removeOverlay(OverlayType.Menu);
+  }, [pathname, removeOverlay]);
 
   const NavLinks = React.useMemo(
     () =>
@@ -62,7 +66,10 @@ export const Header = ({
     <AnimatePresence>
       <div className={cn('relative z-[100] flex flex-col', className)}>
         <div
-          className={cn('bg-secondary z-50 flex w-full flex-col rounded-sm p-5', headerClassName)}
+          className={cn(
+            'bg-secondary relative z-50 flex w-full flex-col rounded-sm p-5',
+            headerClassName
+          )}
         >
           <div className="flex justify-between">
             <div className="lg:hidden">
@@ -86,7 +93,7 @@ export const Header = ({
           {isOpen && (
             <>
               <motion.div
-                className="bg-secondary fixed top-[70px] left-0 z-50 flex w-full flex-col gap-2 rounded-b-sm text-white"
+                className="bg-secondary absolute top-[89%] left-1/2 z-50 flex h-full w-full -translate-x-1/2 flex-col gap-2 rounded-b-sm text-white"
                 initial={{ height: 0 }}
                 animate={{ height: 'auto' }}
                 exit={{ height: 0 }}

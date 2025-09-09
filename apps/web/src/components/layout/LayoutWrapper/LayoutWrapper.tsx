@@ -36,7 +36,7 @@ export const LayoutWrapper = ({
 }: LayoutWrapperProps) => {
   return (
     <div className={cn('bg-baseBg flex min-h-[100vh] w-full flex-col', className)}>
-      <Constraints className={cn('relative px-4 lg:px-0', topContentWrapperClassName)}>
+      <Constraints className={cn('relative lg:px-0', topContentWrapperClassName)}>
         <div className={cn('bg-primary flex flex-col py-5 lg:py-[35px]')}>
           <Header className="w-full" headerClassName="md:!rounded-b-sm" />
           {title && (

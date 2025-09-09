@@ -8,12 +8,13 @@ interface NavLinksProps {
   name: string;
   hide?: boolean;
   active?: boolean;
+  onClick?: VoidFunction;
 }
 
-export const NavItem = ({ href, name, active }: NavLinksProps) => {
+export const NavItem = ({ href, name, active, onClick }: NavLinksProps) => {
   return (
     <div className="flex h-[42px] w-full flex-col items-center justify-center">
-      <BaseClickable as={Link} href={href}>
+      <BaseClickable as={Link} href={href} onClick={onClick}>
         <Typography
           view="regular"
           family="golos"
