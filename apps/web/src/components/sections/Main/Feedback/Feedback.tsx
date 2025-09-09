@@ -40,7 +40,7 @@ export const Feedback = ({ className }: { className?: string }) => {
         withLink={false}
         headline="свяжитесь с нами"
         headlineClassName="!text-baseWhite"
-        className={cn('pt-section !bg-section-gradient px-[16px] lg:px-0 lg:px-[30px]', className)}
+        className={cn('pt-section !bg-section-gradient lg:px-0', className)}
         color="green"
       >
         <div className="bg-secondary gap-section flex w-full flex-col justify-between rounded-lg p-10 lg:flex-row lg:gap-0">
