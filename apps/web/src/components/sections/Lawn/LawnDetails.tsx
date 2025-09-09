@@ -18,7 +18,7 @@ export const LawnDetails = ({ lawn }: { lawn?: Lawn }) => {
   return (
     <div className="flex flex-col gap-2 lg:py-[30px]">
       <Tabs
-        className="bg-baseWhite flex w-full flex-row pt-4 lg:rounded-sm lg:px-[25px]"
+        className="bg-baseWhite flex w-full flex-row px-4 pt-4 lg:rounded-sm lg:px-[25px]"
         options={LawnDetailOptions}
         value={tab}
         onChange={(tab) => setTab(tab)}
