@@ -1,7 +1,6 @@
 export default [
   'strapi::logger',
   'strapi::errors',
-  'strapi::security',
   {
     name: 'strapi::cors',
     config: {
@@ -18,6 +17,7 @@ export default [
       credentials: true,
     },
   },
+  'strapi::security',
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',
