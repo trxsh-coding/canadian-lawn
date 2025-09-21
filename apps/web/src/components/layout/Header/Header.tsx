@@ -2,7 +2,7 @@
 import { Button } from '@canadian-lawn/ui-kit';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { useScrollLock } from 'usehooks-ts';
 
@@ -25,6 +25,12 @@ export const Header = ({
   const { addOverlay, removeOverlay, isOverlayActive } = useOverlayStore();
   const isOpen = isOverlayActive(OverlayType.Menu);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogoClick = React.useCallback(() => {
+    router.push(ROUTES.home.url);
+  }, [router]);
+
   const handleOpen = React.useCallback(() => {
     if (isOpen) {
       removeOverlay(OverlayType.Menu);
@@ -80,7 +86,7 @@ export const Header = ({
                 onClick={handleOpen}
               />
             </div>
-            <Image src={Logo} alt="logo" width={100} height={100} />
+            <Image src={Logo} alt="logo" width={100} height={100} onClick={handleLogoClick} />
             <div className="xl: hidden w-full !flex-[0.9] justify-between lg:!flex lg:px-[60px] xl:px-[115px]">
               <NavLinks />
             </div>

@@ -27,7 +27,7 @@ function DrawerOverlay({
     <DrawerPrimitive.Overlay
       data-slot="drawer-overlay"
       className={cn(
-        'data-[state=open]:ui:animate-in data-[state=closed]:ui:animate-out data-[state=closed]:ui:fade-out-0 data-[state=open]:ui:fade-in-0 ui:fixed ui:inset-0 ui:z-50 ui:bg-black/50',
+        'data-[state=open]:ui:animate-in data-[state=closed]:ui:animate-out data-[state=closed]:ui:fade-out-0 data-[state=open]:ui:fade-in-0 ui:fixed ui:inset-0 ui:z-50 ui:!border-none',
         className
       )}
       {...props}
@@ -45,14 +45,14 @@ function DrawerContent({
       <DrawerOverlay />
       <DrawerPrimitive.Content
         className={cn(
-          'ui:fixed ui:inset-x-0 ui:bottom-0 ui:z-50 ui:mt-24 ui:flex ui:flex-col ui:rounded-t-lg ui:border-t ui:bg-background',
+          'ui:fixed ui:inset-x-0 ui:border-baseWhite ui:bottom-0 ui:z-50 ui:mt-24 ui:flex ui:flex-col ui:rounded-t-lg ui:border-t ui:bg-background',
           'data-[state=open]:ui:animate-in data-[state=closed]:ui:animate-out data-[state=closed]:ui:slide-out-to-bottom data-[state=open]:ui:slide-in-from-bottom',
           'ui:h-auto ui:max-h-[80vh]',
           className
         )}
         {...props}
       >
-        <div className="ui:mx-auto ui:w-full ui:max-w-sm">{children}</div>
+        <div className="ui:!border-transparent ui:mx-auto ui:w-full ui:max-w-sm">{children}</div>
       </DrawerPrimitive.Content>
     </DrawerPortal>
   );
@@ -63,7 +63,7 @@ function DrawerHeader({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="drawer-header"
       className={cn(
-        'ui:flex ui:flex-col ui:gap-0.5 ui:p-4 group-data-[vaul-drawer-direction=bottom]/drawer-content:ui:text-center group-data-[vaul-drawer-direction=top]/drawer-content:ui:text-center md:ui:gap-1.5 md:ui:text-left',
+        'ui:flex ui:!border-transparent ui:flex-col ui:gap-0.5 ui:p-4 group-data-[vaul-drawer-direction=bottom]/drawer-content:ui:text-center group-data-[vaul-drawer-direction=top]/drawer-content:ui:text-center ui:md:gap-1.5 ui:md:text-left',
         className
       )}
       {...props}

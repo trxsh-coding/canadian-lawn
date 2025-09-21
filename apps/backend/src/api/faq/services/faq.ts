@@ -2,6 +2,6 @@
  * faq service
  */
 
-import { factories } from '@strapi/strapi';
+import { createSlugAPI } from '../../../utils/factoryBuilder';
 
-export default factories.createCoreService('api::faq.faq');
+export default createSlugAPI('faq').service;

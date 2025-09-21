@@ -22,7 +22,9 @@ export const TopContent = ({ lawn }: TopContentProps) => {
     (key) => lawn?.landing?.[key as MonthKey]
   ) as MonthKey[];
 
-  const rangeSuffix = `${monthsLocale.months[active[0]].slice(0, 3)}-${monthsLocale.months[active[active.length - 1]].slice(0, 3)}`;
+  const rangeSuffix =
+    active &&
+    `${monthsLocale.months[active[0]]?.slice(0, 3)}-${monthsLocale.months[active[active.length - 1]].slice(0, 3)}`;
 
   return (
     <div className="flex flex-col gap-2 lg:flex-row">
@@ -73,8 +75,9 @@ export const TopContent = ({ lawn }: TopContentProps) => {
             ))}
             <DateRange prefix="Посадка" suffix={rangeSuffix} list={months} active={active} />
             <div className="flex gap-1">
-              {lawn?.price.map((price) => (
+              {lawn?.price.map((price, index) => (
                 <Button
+                  key={index}
                   disabled={weight?.weight !== price.weight}
                   radius="large"
                   width="fit"

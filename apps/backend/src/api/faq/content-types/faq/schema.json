@@ -15,8 +15,17 @@
       "type": "string",
       "required": true
     },
-    "content": {
-      "type": "blocks"
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "blocks": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "canadian-lawn"
+      }
     }
   }
 }

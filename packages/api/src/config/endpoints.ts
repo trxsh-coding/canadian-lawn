@@ -8,8 +8,11 @@ export const ENDPOINTS = {
     contacts: '/contact-page',
     about: '/about-page',
     register: '/auth/local/register',
+    feedback: '/contact-requests',
     me: '/users/me',
-    lawnBySlug: (slug: string) => `/lawn/getBySlug/${slug}`,
+    blog: '/blogs',
+    faq: '/faqs',
+    getBySlug: (slug: string, route: string) => `/${route}/getBySlug/${slug}`,
   },
   telegram: (token: string) => `https://api.telegram.org/bot${token}/sendMessage`,
 };

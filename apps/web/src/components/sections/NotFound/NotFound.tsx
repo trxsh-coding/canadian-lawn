@@ -14,24 +14,27 @@ export const NotFoundPage = () => {
   const handleClick = React.useCallback(() => router.push(ROUTES.lawn.url), [router]);
   return (
     <LayoutWrapper
-      mainContainerClassName="flex-1 !m-0"
-      mainContentClassName="flex-1 flex flex-col-reverse lg:flex-col"
+      mainContainerClassName="!m-0 !p-0 relative"
+      mainWrapperClassName="!p-0 !mx-0 bg-primary h-full min-h-[400px] lg:min-h-auto"
+      mainContentClassName="!h-full flex lg:px-section lg:!my-0 flex-col-reverse lg:flex-col px-4 bg-primary"
     >
-      <div className="bg-primary relative flex min-h-[400px] w-full flex-1 items-start justify-start lg:flex-auto lg:justify-end">
-        <div
-          className="lg:left-[-30%} xs:bg-[length:70%_100%] absolute bottom-[-45%] z-0 h-full w-full bg-[length:100%_100%] bg-[position:center_bottom] bg-no-repeat md:bottom-[-40%] lg:bg-[length:40%_100%] lg:bg-left"
-          style={{ backgroundImage: `url(${NotFoundImage.src})` }}
-        />
-        <div className="z-1 mb-5 flex w-full flex-col gap-4 text-white lg:w-[50%] lg:flex-[0.6] lg:items-end lg:self-end">
-          <Typography view="large1" className="lg:!text-right">
-            К сожалению, указанная страница не найдена
-          </Typography>
-          <Typography view="regular">Воспользуйтесь каталогом товаров</Typography>
-          <Button className="w-full px-5 lg:w-auto" width="fill" onClick={handleClick}>
-            В каталог семян
-          </Button>
+      <>
+        <div className="bg-primary relative flex h-full w-full items-start justify-start lg:justify-end">
+          <div
+            style={{ backgroundImage: `url(${NotFoundImage.src})` }}
+            className="absolute bottom-[-40%] left-0 h-full w-full bg-contain bg-bottom bg-no-repeat lg:bottom-0 lg:w-[50%] lg:bg-left"
+          />
+          <div className="z-1 mb-5 flex w-full flex-col gap-4 text-white lg:w-[50%] lg:flex-[0.6] lg:items-end lg:self-end">
+            <Typography view="large1" className="lg:!text-right">
+              К сожалению, указанная страница не найдена
+            </Typography>
+            <Typography view="regular">Воспользуйтесь каталогом товаров</Typography>
+            <Button className="w-full px-5 lg:w-auto" width="fill" onClick={handleClick}>
+              В каталог семян
+            </Button>
+          </div>
         </div>
-      </div>
+      </>
     </LayoutWrapper>
   );
 };

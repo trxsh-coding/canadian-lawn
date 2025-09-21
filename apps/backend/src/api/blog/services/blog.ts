@@ -2,6 +2,6 @@
  * blog service
  */
 
-import { factories } from '@strapi/strapi';
+import { createSlugAPI } from '../../../utils/factoryBuilder';
 
-export default factories.createCoreService('api::blog.blog');
+export default createSlugAPI('blog').service;

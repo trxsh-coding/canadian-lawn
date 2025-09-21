@@ -30,7 +30,7 @@ export default async function LawnDetailPage({
     <HydrationBoundary state={dehydratedState}>
       <LayoutWrapper
         asideContent={<LawnFilters />}
-        asideContentClassName="bg-transparent lg:bg-baseWhite"
+        asideContentClassName="bg-transparent mt-4 px-0  lg:bg-baseWhite lg:my-section"
         mainWrapperClassName="py-4 !bg-baseBg"
       >
         <Lawns />

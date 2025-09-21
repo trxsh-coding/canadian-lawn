@@ -22,12 +22,31 @@ export const sanitizeConfig: sanitizeHtml.IOptions = {
     'h4',
     'h5',
     'h6',
+    'figure',
+    'figcaption',
+    'pre',
+    'code',
+    'hr',
+    'table',
+    'thead',
+    'tbody',
+    'tr',
+    'td',
+    'th',
+    'col',
+    'colgroup',
+    'caption',
   ],
   allowedAttributes: {
-    a: ['href', 'name', 'target', 'rel'],
-    img: ['src', 'alt', 'title', 'width', 'height'],
-    span: ['style', 'class'],
-    p: ['style', 'class'],
+    a: ['href', 'name', 'target', 'rel', 'class'],
+    img: ['src', 'alt', 'title', 'width', 'height', 'srcset', 'sizes', 'class', 'style'],
+    figure: ['class', 'style'],
+    figcaption: ['class', 'style'],
+    p: ['class', 'style'],
+    span: ['class', 'style'],
+    td: ['colspan', 'rowspan', 'class', 'style'],
+    th: ['colspan', 'rowspan', 'class', 'style'],
+    '*': ['class', 'style'], // общий fallback
   },
   allowedStyles: {
     '*': {
@@ -36,15 +55,7 @@ export const sanitizeConfig: sanitizeHtml.IOptions = {
       'background-color': [/^.*$/],
 
       // Шрифты
-      'font-family': [
-        /^GolosRegular.*$/,
-        /^GolosBold.*$/,
-        /^Gothic.*$/,
-        /^sans-serif$/,
-        /^serif$/,
-        /^monospace$/,
-        /^.*$/, // fallback: разрешить любые
-      ],
+      'font-family': [/^.*$/],
       'font-size': [/^.*$/],
       'font-weight': [/^.*$/],
       'line-height': [/^.*$/],
@@ -55,8 +66,15 @@ export const sanitizeConfig: sanitizeHtml.IOptions = {
       'text-align': [/^.*$/],
       'text-transform': [/^.*$/],
       'text-decoration': [/^.*$/],
+
+      // Размеры
+      width: [/^.*$/],
+      height: [/^.*$/],
+      'max-width': [/^.*$/],
+      'min-width': [/^.*$/],
     },
   },
+  allowedSchemes: ['http', 'https', 'mailto', 'tel', 'data'],
   transformTags: {
     a: sanitizeHtml.simpleTransform('a', { rel: 'noopener noreferrer' }),
   },

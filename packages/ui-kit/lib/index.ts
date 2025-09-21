@@ -35,3 +35,7 @@ export * from './components/Modal';
 export * from './components/Tabs';
 
 export * from './components/Accordion';
+
+export * from './components/BlogCard';
+
+export * from './components/Toast';

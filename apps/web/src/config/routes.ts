@@ -19,8 +19,8 @@ export const ROUTES: RoutesType = {
     url: '/partners',
     name: 'Партнеры',
   },
-  blog: {
-    url: '/blog',
+  blogs: {
+    url: '/blogs',
     name: 'Блог',
   },
   about: {
@@ -44,4 +44,5 @@ export const ROUTES: RoutesType = {
 
 export const detailRoutes = {
   lawn: (slug: string) => `/lawn/${slug}`,
+  blog: (slug: string) => `/blogs/${slug}`,
 };

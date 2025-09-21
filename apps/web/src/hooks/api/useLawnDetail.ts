@@ -12,9 +12,9 @@ type useLawnsProps = {
 
 export const useLawnDetail = ({ filter, limit, slug }: useLawnsProps) =>
   buildCollectionPrefetchQuery<typeof lawnSchema, FetchMode.ITEM>({
-    endpoint: ENDPOINTS.common.lawnBySlug(slug),
+    endpoint: ENDPOINTS.common.getBySlug(slug, 'lawn'),
     schema: lawnSchema,
-    queryKey: [queryKey],
+    queryKey: [queryKey, slug],
     mode: FetchMode.ITEM,
     params: {
       filters: {

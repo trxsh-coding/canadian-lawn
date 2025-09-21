@@ -3,7 +3,6 @@ import { Typography } from '@canadian-lawn/ui-kit';
 import React from 'react';
 
 import { Spinner } from '@/components/atoms/Loaders/Spinner';
-import { Constraints } from '@/components/layout/Constraints';
 import { Maps } from '@/components/layout/Maps';
 import { RequisiteCard } from '@/components/layout/RequisiteCard';
 import { Feedback } from '@/components/sections/Main/Feedback';
@@ -18,6 +17,10 @@ export const Contacts = () => {
   const { data } = contact;
   const contactData = data?.data;
   const mapData = data?.data.address?.coordinates;
+
+  const handleClick = React.useCallback(() => {
+    return null;
+  }, []);
 
   const InfoCard = ({
     inverse,
@@ -53,28 +56,33 @@ export const Contacts = () => {
 
   return (
     <div className="relative">
-      <Constraints color="light" className="w-full !py-[15px] lg:!px-0">
-        <div className="mt-[30px] mb-[30px] flex flex-col gap-5 md:flex-row">
-          <RequisiteCard
-            title={contactData?.companyName || ''}
-            firstValueTitle="ИНН"
-            secondValueTitle="КПП"
-            thirdValueTitle="ОГРН"
-            buttonLink={contactData?.document?.url}
-            firstValue={contactData?.inn}
-            secondValue={contactData?.kpp}
-            thirdValue={contactData?.PSRN?.value}
-          />
-          <div className="flex flex-wrap gap-2 lg:flex-[0.7] 2xl:flex-[0.5]">
-            <InfoCard title="Опыт" description="9 лет" inverse />
-            <InfoCard title="Всего сделок" description="15 000+" />
-            <InfoCard title="Госзакупки" description="9 контрактов" />
-            <InfoCard title="Крупные партнёры" description="1000+" />
-          </div>
+      <div className="flex flex-col gap-5 md:flex-row lg:mb-10">
+        <RequisiteCard
+          title={contactData?.companyName || ''}
+          firstValueTitle="ИНН"
+          secondValueTitle="КПП"
+          thirdValueTitle="ОГРН"
+          buttonLink={contactData?.document?.url}
+          firstValue={contactData?.inn}
+          secondValue={contactData?.kpp}
+          thirdValue={contactData?.PSRN?.value}
+        />
+        <div className="flex flex-wrap gap-2 lg:flex-[0.7] 2xl:flex-[0.5]">
+          <InfoCard title="Опыт" description="9 лет" inverse />
+          <InfoCard title="Всего сделок" description="15 000+" />
+          <InfoCard title="Госзакупки" description="9 контрактов" />
+          <InfoCard title="Крупные партнёры" description="1000+" />
         </div>
-      </Constraints>
-      {mapData?.lat && mapData?.lng && <Maps lat={mapData?.lat} lng={mapData.lng} />}
-      <Feedback />
+      </div>
+      {mapData?.lat && mapData?.lng && (
+        <Maps
+          onMarkerClick={handleClick}
+          withMarkers={false}
+          lat={mapData?.lat}
+          lng={mapData.lng}
+        />
+      )}
+      <Feedback wrapperClassName="overflow-hidden w-full !rounded-sm lg:mt-10" />
     </div>
   );
 };

@@ -61,7 +61,7 @@ export const FilterList = ({
         {title}
       </Typography>
 
-      <div className="flex gap-2 lg:flex-col">
+      <div className="flex flex-wrap gap-2 lg:flex-col">
         <AnimatePresence initial={false}>
           {visibleItems.map((item) => {
             const active = selectedIds.includes(item.id);

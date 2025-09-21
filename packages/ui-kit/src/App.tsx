@@ -1,6 +1,7 @@
 import React from 'react';
+import { toast } from 'sonner';
 
-import { Button, CopyPaste } from '@/lib';
+import { Button, CopyPaste, Icon, Toast } from '@/lib';
 import { BottomSheet } from '@/lib/components/BottomSheet';
 import { ButtonCounter } from '@/lib/components/ButtonCounter';
 import { Checkbox } from '@/lib/components/Checkbox';
@@ -25,8 +26,14 @@ function App() {
     setSliderValue(value);
   }, []);
 
+  const handleToast = React.useCallback(() => {
+    toast.success('Форма отправлена!');
+  }, []);
+
   return (
     <div className="ui:p-section ui:bg-secondaryGrey ui:w-[100vh] ui:flex ui:flex-col ui:gap-10">
+      <Icon name="common/check" className="ui:text-primary ui:h-4 ui:w-4" />
+      <Toast />
       <BottomSheet
         open={bottomSheetOpen}
         onOpenChange={(value) => setBottomSheetOpen(value)}
@@ -35,7 +42,7 @@ function App() {
       >
         <Button iconName="common/filter" radius="large" />
       </BottomSheet>
-      <Button width="fit" color="primary" iconName="common/cart">
+      <Button width="fit" color="primary" iconName="common/cart" onClick={handleToast}>
         Я primary кнопка
       </Button>
       <Button width="fit" color="secondary" iconName="common/cart" suffixIconName="common/zoom">

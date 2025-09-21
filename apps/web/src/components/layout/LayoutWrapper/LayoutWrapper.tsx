@@ -19,6 +19,7 @@ export type LayoutWrapperProps = {
   topContentWrapperClassName?: string;
   className?: string;
   title?: string;
+  image?: string;
 };
 
 export const LayoutWrapper = ({
@@ -33,10 +34,23 @@ export const LayoutWrapper = ({
   mainContentClassName,
   asideContentClassName,
   mainWrapperClassName,
+  image,
 }: LayoutWrapperProps) => {
   return (
     <div className={cn('bg-baseBg flex min-h-[100vh] w-full flex-col', className)}>
-      <Constraints className={cn('relative lg:px-0', topContentWrapperClassName)}>
+      <Constraints
+        className={cn('lg:px-0')}
+        wrapperClassName={cn('relative', topContentWrapperClassName)}
+      >
+        {image && (
+          <>
+            <div
+              style={{ backgroundImage: `url(${image})` }}
+              className="absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat object-cover blur-sm"
+            />
+            <div className="absolute inset-0 bg-black/70"></div>
+          </>
+        )}
         <div className={cn('bg-primary flex flex-col py-5 lg:py-[35px]')}>
           <Header className="w-full" headerClassName="md:!rounded-b-sm" />
           {title && (
@@ -50,25 +64,37 @@ export const LayoutWrapper = ({
               {title}
             </Typography>
           )}
-          <div className={topContentClassName}>{topContent}</div>
+          <div className={cn('mt-4', topContentClassName)}>{topContent}</div>
         </div>
       </Constraints>
 
       <Constraints
-        wrapperClassName={cn('flex flex-1 gap-5 grow', mainWrapperClassName)}
-        className={cn('flex flex-1 grow flex-col gap-5 lg:flex-row', mainContainerClassName)}
+        wrapperClassName={cn(
+          'bg-baseBg flex flex-1 gap-5 grow',
+          asideContent ? '!pt-0' : '',
+          mainWrapperClassName
+        )}
+        className={cn(
+          'bg-baseBg flex flex-1 grow flex-col gap-5 lg:flex-row',
+          mainContainerClassName
+        )}
       >
         {asideContent && (
           <aside
             className={cn(
-              'bg-baseWhite shrink-0 rounded-sm px-4 lg:w-[248px] lg:px-0 xl:!block',
+              'bg-baseWhite shrink-0 rounded-none px-4 lg:w-[248px] lg:rounded-sm lg:p-5 xl:!block',
               asideContentClassName
             )}
           >
             {asideContent}
           </aside>
         )}
-        <main className={cn('flex flex-1 grow flex-col overflow-auto', mainContentClassName)}>
+        <main
+          className={cn(
+            'bg-baseBg lg:my-section flex flex-1 grow flex-col overflow-auto',
+            mainContentClassName
+          )}
+        >
           {children}
         </main>
       </Constraints>

@@ -23,3 +23,9 @@ export * from './months';
 export * from './about';
 
 export * from './block';
+
+export * from './blog';
+
+export * from './faq';
+
+export * from './feedback';

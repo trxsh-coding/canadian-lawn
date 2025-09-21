@@ -2,6 +2,6 @@
  * blog router
  */
 
-import { factories } from '@strapi/strapi';
+import { createSlugAPI } from '../../../utils/factoryBuilder';
 
-export default factories.createCoreRouter('api::blog.blog');
+export default createSlugAPI('blog').router;

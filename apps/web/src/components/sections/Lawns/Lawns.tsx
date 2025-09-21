@@ -1,9 +1,11 @@
 'use client';
 
 import { LawnCard } from '@canadian-lawn/ui-kit';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { Spinner } from '@/components/atoms/Loaders/Spinner';
+import { detailRoutes } from '@/config/routes';
 import { useLawns } from '@/hooks/api/useLawns';
 import { useQueryParams } from '@/hooks/useUrlArrayParam';
 import { getParams, lawnFilters } from '@/utils/filters';
@@ -12,10 +14,19 @@ export const Lawns = () => {
   const { pageParams } = useQueryParams();
   const partnerTypes = getParams(pageParams.partnerTypes as string);
   const lawnTypes = getParams(pageParams.lawnTypes as string);
-
+  const router = useRouter();
   const filters = React.useMemo(
     () => lawnFilters({ partnerTypes, lawnTypes }),
     [partnerTypes, lawnTypes]
+  );
+
+  const handleClick = React.useCallback(
+    (slug: string | null) => {
+      if (slug) {
+        router.push(detailRoutes.lawn(slug));
+      }
+    },
+    [router]
   );
 
   const { useHook: lawns } = useLawns({ filters });
@@ -48,7 +59,7 @@ export const Lawns = () => {
             growth={speed || 0}
             handleButtonChange={() => null}
             handleButtonClick={() => null}
-            handleCardClick={() => null}
+            handleCardClick={() => handleClick(slug)}
             value={0}
           />
         ))}

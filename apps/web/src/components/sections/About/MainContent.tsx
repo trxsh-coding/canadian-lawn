@@ -8,8 +8,10 @@ type AboutMainContentProps = {
 
 export const AboutMainContent = ({ items }: AboutMainContentProps) => (
   <div className="py-section flex w-full flex-col">
-    {items.map((item) => (
-      <AccordionItemContent key={item.id} title={item.title} text={item.block} />
-    ))}
+    <div className="flex flex-col gap-5">
+      {items.map((item) => (
+        <AccordionItemContent key={item.id} title={item.title} text={item.block} />
+      ))}
+    </div>
   </div>
 );

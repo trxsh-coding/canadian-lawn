@@ -19,6 +19,8 @@ type ModalProps = {
   footer?: React.ReactNode;
   showCloseButton?: boolean;
   disable?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
 export const Modal = ({
@@ -29,10 +31,12 @@ export const Modal = ({
   footer,
   className,
   disable,
+  open,
+  onOpenChange,
   showCloseButton = true,
 }: ModalProps) => {
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       {disable ? trigger : <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent className={className} showCloseButton={showCloseButton}>
         <DialogHeader>

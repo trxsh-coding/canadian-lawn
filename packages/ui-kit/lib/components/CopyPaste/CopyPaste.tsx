@@ -28,7 +28,7 @@ export const CopyPaste = ({ value, className }: CopyPasteProps) => {
 
   return (
     <div className={cn('ui:flex ui:gap-2 ui:items-center', className)}>
-      <TooltipWrapper content="Скопировано!" open={copied} delay={1000}>
+      <TooltipWrapper content="Скопировано!" className="!bg-baseWhite" open={copied} delay={1000}>
         <Icon
           width={24}
           height={24}

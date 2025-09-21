@@ -2,6 +2,6 @@
  * faq router
  */
 
-import { factories } from '@strapi/strapi';
+import { createSlugAPI } from '../../../utils/factoryBuilder';
 
-export default factories.createCoreRouter('api::faq.faq');
+export default createSlugAPI('faq').router;

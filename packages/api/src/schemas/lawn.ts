@@ -30,6 +30,13 @@ export const lawnSchema = z
     speed: z.number().min(0).max(10).optional(),
     resistance: z.number().min(0).max(10).optional(),
     image: mediaSchema.optional().nullable(),
+    seasonality: z.string().optional().nullable(),
+    frost_resistance: z.string().optional().nullable(),
+    shade_tolerance: z.string().optional().nullable(),
+    heat_resistance: z.string().optional().nullable(),
+    germination_time: z.string().optional().nullable(),
+    full_cover_time: z.string().optional().nullable(),
+    density: z.string().optional().nullable(),
     gallery: z.array(mediaSchema).optional().nullable(),
     landing: monthsSchema.optional().nullable(),
     price: z.array(packages),
@@ -40,6 +47,10 @@ export const lawnSchema = z
   .transform(({ partners_types, type, ...item }) => ({
     ...item,
     partnersType: partners_types,
+    frostResistance: item.frost_resistance,
+    shadeTolerance: item.shade_tolerance,
+    germinationTime: item.germination_time,
+    fullCoverTime: item.full_cover_time,
     type: type.map(({ ...item }) => ({ percent: item.percent, lawnType: item.lawn_type })),
   }));
 
