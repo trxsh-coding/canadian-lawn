@@ -13,7 +13,7 @@
     "@canadian-lawn/api": "*",
     "@canadian-lawn/ui-kit": "*",
     "next": "15.4.7",
-    "next-auth": "^4.24.11",
+    "next-auth": "^4.24.12",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "sharp": "^0.34.2",
