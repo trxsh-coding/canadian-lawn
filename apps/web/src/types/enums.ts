@@ -7,6 +7,8 @@ export enum OverlayType {
 
 export enum ProviderType {
   Google = 'google',
+  Credentials = 'credentials',
+  Yandex = 'yandex',
 }
 
 export enum ProfileTabs {

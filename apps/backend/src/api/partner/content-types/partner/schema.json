@@ -59,6 +59,12 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "partners_types": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::partners-type.partners-type",
+      "inversedBy": "partners"
     }
   }
 }

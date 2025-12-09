@@ -25,9 +25,13 @@ export const lawnFilters = ({
   partnerTypes: number[];
   lawnTypes: number[];
 }) => ({
-  filters: {
-    partners_types: { id: { $in: partnerTypes } },
-    type: { lawn_type: { id: { $in: lawnTypes } } },
+  partners_types: {
+    id: { $in: partnerTypes },
+  },
+  lawn: {
+    type: {
+      id: { $in: lawnTypes },
+    },
   },
 });
 

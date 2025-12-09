@@ -23,7 +23,15 @@ export default defineConfig({
     },
     copyPublicDir: false,
     rollupOptions: {
-      external: ['react', 'react/jsx-runtime', 'classnames', 'tailwindcss', 'next/link'],
+      external: [
+        'react',
+        'react/jsx-runtime',
+        'classnames',
+        'tailwindcss',
+        'next/link',
+        'react-dom',
+        'react-dom/client',
+      ],
       output: {
         assetFileNames: 'style.css',
         globals: {

@@ -1,6 +1,8 @@
 export default ({ env }) => ({
   host: env('HOST', '0.0.0.0'),
   port: env.int('PORT', 1337),
+  yandex_secret: env('YANDEX_CLIENT_SECRET'),
+  yandex_client_id: env('YANDEX_CLIENT_ID'),
   app: {
     keys: env.array('APP_KEYS'),
   },
@@ -12,4 +14,5 @@ export default ({ env }) => ({
       enabled: true,
     },
   },
+  features: ['deepFilters'],
 });

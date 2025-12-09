@@ -28,6 +28,8 @@ export const useLawns = ({ filters = {}, limit = 10 }: useLawnsProps = {}) =>
         'type.lawn_type',
         'partner',
         'partners_types',
+        'parent',
+        'children',
       ],
     },
   });

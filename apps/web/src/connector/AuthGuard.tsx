@@ -1,9 +1,11 @@
 'use client';
 
+import { redirect } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 
 import { MapleSpinner } from '@/components/atoms/Loaders/MappleSpinner';
+import { ROUTES } from '@/config/routes';
 import { AuthStatus } from '@/types/enums';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
@@ -16,7 +18,9 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
       </div>
     );
 
-  if (status === AuthStatus.UnAuthenticated) return null;
+  if (status === AuthStatus.UnAuthenticated) {
+    redirect(ROUTES.home.url);
+  }
 
   return <>{children}</>;
 }

@@ -12,7 +12,7 @@ export const userSchema = z.object({
   lastName: z.string().optional().nullable(),
   confirmed: z.boolean(),
   blocked: z.boolean(),
-  role: roleSchema,
+  role: roleSchema.optional().nullable(),
   avatar: mediaSchema.nullable().optional(),
 });
 

@@ -7,7 +7,7 @@
     "displayName": "Purpose"
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {

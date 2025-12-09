@@ -21,6 +21,15 @@ export const useLawnDetail = ({ filter, limit, slug }: useLawnsProps) =>
         ...filter,
       },
       limit,
-      populate: ['image', 'gallery', 'landing', 'price', 'type', 'type.lawn_type'],
+      populate: [
+        'image',
+        'gallery',
+        'landing',
+        'price',
+        'type',
+        'type.lawn_type',
+        'parent',
+        'children',
+      ],
     },
   });

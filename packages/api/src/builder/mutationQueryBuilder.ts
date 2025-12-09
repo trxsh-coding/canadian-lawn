@@ -25,7 +25,7 @@ export class MutationBuilder<TInput extends z.ZodTypeAny, TOutput extends z.ZodT
   async post(data: z.infer<TInput>): Promise<z.infer<TOutput>> {
     const parsed = this.inputSchema.parse(data);
 
-    const response = await this.client.post(this.endpoint, { data: parsed });
+    const response = await this.client.post(this.endpoint, parsed);
 
     return validateResponse(this.outputSchema, response.data);
   }

@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_products_techniques",
+  "info": {
+    "displayName": "Technique"
+  },
+  "options": {},
+  "attributes": {
+    "model": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

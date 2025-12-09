@@ -7,7 +7,7 @@
     "displayName": "Lawn"
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
@@ -67,12 +67,6 @@
       "required": true,
       "unique": true
     },
-    "partners_types": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::partners-type.partners-type",
-      "mappedBy": "partners"
-    },
     "partner": {
       "type": "relation",
       "relation": "oneToOne",
@@ -112,6 +106,18 @@
     },
     "heat_resistance": {
       "type": "string"
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::lawn.lawn",
+      "inversedBy": "children"
+    },
+    "children": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::lawn.lawn",
+      "mappedBy": "parent"
     }
   }
 }

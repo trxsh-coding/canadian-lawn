@@ -7,7 +7,7 @@
     "displayName": "Partners Type"
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
@@ -34,9 +34,9 @@
     },
     "partners": {
       "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::lawn.lawn",
-      "inversedBy": "partners_types"
+      "relation": "manyToMany",
+      "target": "api::partner.partner",
+      "mappedBy": "partners_types"
     }
   }
 }

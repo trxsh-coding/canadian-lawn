@@ -58,7 +58,7 @@ export const LawnFilters = () => {
     return filtersConfig.map((config) => {
       const filter = filters[config.key as keyof typeof filters];
       return !data || !data[config.dataKey]?.length ? null : (
-        <RenderFilter config={config} filter={filter} view={view} />
+        <RenderFilter key={config.key} config={config} filter={filter} view={view} />
       );
     });
   };

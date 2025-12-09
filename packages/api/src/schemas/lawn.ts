@@ -10,7 +10,7 @@ const packages = z.object({
   price: z.number(),
 });
 
-const LawnTypeSchema = z.object({
+export const LawnTypeSchema = z.object({
   id: z.number(),
   name: z.string(),
   slug: z.string(),
@@ -43,6 +43,14 @@ export const lawnSchema = z
     type: z.array(type),
     partners_types: z.array(filterSchema).optional().nullable(),
     partner: partnerSchema.optional().nullable(),
+    parent: z
+      .lazy(() => lawnSchema)
+      .nullable()
+      .optional(),
+    children: z
+      .array(z.lazy(() => lawnSchema))
+      .optional()
+      .nullable(),
   })
   .transform(({ partners_types, type, ...item }) => ({
     ...item,

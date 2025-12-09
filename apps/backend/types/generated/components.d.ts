@@ -90,6 +90,53 @@ export interface CommonRequisite extends Struct.ComponentSchema {
   };
 }
 
+export interface ProductsCompositionItem extends Struct.ComponentSchema {
+  collectionName: 'components_products_composition_items';
+  info: {
+    displayName: 'Composition Item';
+  };
+  attributes: {
+    percent: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 100;
+        },
+        number
+      >;
+    product: Schema.Attribute.Relation<'oneToOne', 'api::product.product'>;
+  };
+}
+
+export interface ProductsLawnSingle extends Struct.ComponentSchema {
+  collectionName: 'components_products_lawn_singles';
+  info: {
+    displayName: 'Lawn';
+  };
+  attributes: {
+    density: Schema.Attribute.String;
+    full_cover_time: Schema.Attribute.String;
+    germinition_time: Schema.Attribute.String;
+    landing: Schema.Attribute.Component<'common.months', false>;
+    mix: Schema.Attribute.Component<'products.composition-item', true>;
+    package: Schema.Attribute.Component<'common.packages', true> & Schema.Attribute.Required;
+    resistance: Schema.Attribute.Integer;
+    seasonality: Schema.Attribute.String;
+    shade_tolerance: Schema.Attribute.String;
+    speed: Schema.Attribute.Integer;
+    type: Schema.Attribute.Relation<'oneToOne', 'api::lawn-type.lawn-type'>;
+  };
+}
+
+export interface ProductsTechnique extends Struct.ComponentSchema {
+  collectionName: 'components_products_techniques';
+  info: {
+    displayName: 'Technique';
+  };
+  attributes: {
+    model: Schema.Attribute.String;
+  };
+}
+
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
@@ -99,6 +146,9 @@ declare module '@strapi/strapi' {
       'common.months': CommonMonths;
       'common.packages': CommonPackages;
       'common.requisite': CommonRequisite;
+      'products.composition-item': ProductsCompositionItem;
+      'products.lawn-single': ProductsLawnSingle;
+      'products.technique': ProductsTechnique;
     }
   }
 }
