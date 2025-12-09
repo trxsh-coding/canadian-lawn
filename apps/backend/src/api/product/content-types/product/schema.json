@@ -1,0 +1,92 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "lawn_type": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::lawn-type.lawn-type",
+      "configurable": false,
+      "visible": false
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255,
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "required": true
+    },
+    "partner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::partner.partner"
+    },
+    "price": {
+      "type": "integer",
+      "required": true
+    },
+    "old_price": {
+      "type": "integer"
+    },
+    "description": {
+      "type": "richtext",
+      "required": true
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "videos",
+        "images"
+      ]
+    },
+    "sku": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "integer"
+    },
+    "type": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "lawn",
+        "lawn-mix",
+        "tractor",
+        "technique"
+      ]
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "inversedBy": "products"
+    },
+    "lawn": {
+      "type": "component",
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "type"
+            },
+            "lawn"
+          ]
+        }
+      },
+      "component": "products.lawn-single",
+      "repeatable": false
+    }
+  }
+}

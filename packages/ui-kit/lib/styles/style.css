@@ -1,3 +1,54 @@
 @import 'tailwindcss' prefix(ui);
-@import '../../../../theme/theme.css';
+@import '../../../../theme/theme.css'; /* тут твои токены --color-* */
 @import './fonts.css';
+@import "tw-animate-css";
+
+@theme inline {
+  --background: var(--color-baseBg);
+  --foreground: var(--color-baseBlack);
+
+  --card: var(--color-baseWhite);
+  --card-foreground: var(--color-baseBlack);
+
+  --popover: var(--color-baseWhite);
+  --popover-foreground: var(--color-baseBlack);
+
+  --primary: var(--color-primary);
+  --primary-foreground: var(--color-baseWhite);
+
+  --secondary: var(--color-secondary);
+  --secondary-foreground: var(--color-baseWhite);
+
+  --muted: var(--color-baseSilvery);
+  --muted-foreground: var(--color-baseGrey);
+
+  --accent: var(--color-tertiary);
+  --accent-foreground: var(--color-baseWhite);
+
+  --destructive: var(--color-secondaryRed);
+  --destructive-foreground: var(--color-baseWhite);
+
+  --border: var(--color-baseSilvery);
+  --input: var(--color-baseSilvery);
+  --ring: var(--color-primary);
+
+  --sidebar: var(--color-baseSecondaryBg);
+  --sidebar-foreground: var(--color-baseBlack);
+  --sidebar-primary: var(--color-primary);
+  --sidebar-primary-foreground: var(--color-baseWhite);
+  --sidebar-accent: var(--color-tertiary);
+  --sidebar-accent-foreground: var(--color-baseWhite);
+  --sidebar-border: var(--color-baseSilvery);
+  --sidebar-ring: var(--color-primary);
+
+  --radius: var(--radius-xs);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-background: var(--color-baseWhite);
+  --color-foreground: var(--color-baseBlack);
+}
+
+/* Базовые стили */

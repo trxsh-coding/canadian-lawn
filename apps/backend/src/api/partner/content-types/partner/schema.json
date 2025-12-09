@@ -7,7 +7,7 @@
     "displayName": "Partner"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -52,6 +52,19 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::partners-type.partners-type"
+    },
+    "marker": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "partners_types": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::partners-type.partners-type",
+      "inversedBy": "partners"
     }
   }
 }

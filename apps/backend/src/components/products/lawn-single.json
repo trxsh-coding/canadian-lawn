@@ -1,0 +1,52 @@
+{
+  "collectionName": "components_products_lawn_singles",
+  "info": {
+    "displayName": "Lawn"
+  },
+  "options": {},
+  "attributes": {
+    "speed": {
+      "type": "integer"
+    },
+    "resistance": {
+      "type": "integer"
+    },
+    "landing": {
+      "type": "component",
+      "component": "common.months",
+      "repeatable": false
+    },
+    "seasonality": {
+      "type": "string"
+    },
+    "germinition_time": {
+      "type": "string"
+    },
+    "full_cover_time": {
+      "type": "string"
+    },
+    "density": {
+      "type": "string"
+    },
+    "shade_tolerance": {
+      "type": "string"
+    },
+    "package": {
+      "type": "component",
+      "component": "common.packages",
+      "repeatable": true,
+      "required": true
+    },
+    "mix": {
+      "type": "component",
+      "component": "products.composition-item",
+      "repeatable": true
+    },
+    "type": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::lawn-type.lawn-type"
+    }
+  },
+  "config": {}
+}

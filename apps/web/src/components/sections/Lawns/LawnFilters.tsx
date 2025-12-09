@@ -1,55 +1,90 @@
 'use client';
 
+import { Filter, Filters } from '@canadian-lawn/api';
+import { BottomSheet, Button } from '@canadian-lawn/ui-kit';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
+import { useToggle } from 'usehooks-ts';
 
-import { CheckboxFiltersList } from '@/components/layout/CheckboxFiltersList';
+import { FilterList } from '@/components/layout/CheckboxFiltersList';
+import { filtersTypes } from '@/const';
 import { useLawnFilters } from '@/hooks/api/useLawnFilters';
-import { useFilterState } from '@/hooks/useFiltersState';
+import { FiltersWithQueryReturn, useFiltersWithQuery } from '@/hooks/useFiltersWithQuery';
+
+import { FiltersConfigType, getFiltersConfig } from './config';
+
+interface RenderFilterProps {
+  config: FiltersConfigType;
+  filter: FiltersWithQueryReturn;
+  view: 'desktop' | 'mobile';
+}
 
 export const LawnFilters = () => {
+  const router = useRouter();
+
+  const pathname = usePathname();
+
+  const [bottomSheetOpen, toggle] = useToggle();
+
   const { useHook: lawnsFilters } = useLawnFilters();
 
   const lawnFilters = lawnsFilters();
 
   const data = lawnFilters?.data?.data;
 
-  const partnerTypeFilter = useFilterState(data?.partnerTypes || []);
-  const lawnTypesFilter = useFilterState(data?.lawnTypes || []);
-  const lawnBrands = useFilterState(data?.brands || []);
-  const lawnFeatures = useFilterState(data?.features || []);
+  const filtersConfig = React.useMemo(() => getFiltersConfig(data as Filters), [data]);
 
-  if (lawnFilters.isLoading) return <div>Loading...</div>;
+  const filters = {
+    partnerTypes: useFiltersWithQuery(data?.partnerTypes || [], filtersTypes.PARTNER_TYPES),
+    lawnTypes: useFiltersWithQuery(data?.lawnTypes || [], filtersTypes.LAWN_TYPES),
+    brands: useFiltersWithQuery(data?.brands || [], filtersTypes.BRANDS),
+    features: useFiltersWithQuery(data?.features || [], filtersTypes.FEATURES),
+  };
+
+  const RenderFilter = ({ config, filter, view }: RenderFilterProps) => {
+    const props = {
+      key: config.key,
+      items: config.items,
+      title: config.title,
+      selectedIds: filter.selectedIds,
+      onChange: (item: Filter) => filter.onChange(item),
+      selectedItems: filter.selectedItems,
+    };
+
+    return <FilterList view={view} {...props} />;
+  };
+
+  const RenderFilters = ({ view }: { view: 'mobile' | 'desktop' }) => {
+    return filtersConfig.map((config) => {
+      const filter = filters[config.key as keyof typeof filters];
+      return !data || !data[config.dataKey]?.length ? null : (
+        <RenderFilter key={config.key} config={config} filter={filter} view={view} />
+      );
+    });
+  };
+
+  const handleReset = React.useCallback(() => router.replace(pathname), [pathname, router]);
+
+  if (lawnFilters.isError) return <div>Error...</div>;
 
   return (
-    <div className="flex flex-col gap-8 p-4">
-      <CheckboxFiltersList
-        items={data?.partnerTypes || []}
-        title="Назначение"
-        selectedIds={partnerTypeFilter.selectedIds}
-        onChange={partnerTypeFilter.onChange}
-        selectedItems={partnerTypeFilter.selectedItems}
-      />
-      <CheckboxFiltersList
-        items={data?.lawnTypes || []}
-        title="Растения в составе"
-        selectedIds={lawnTypesFilter.selectedIds}
-        onChange={lawnTypesFilter.onChange}
-        selectedItems={lawnTypesFilter.selectedItems}
-      />
-      <CheckboxFiltersList
-        items={data?.features || []}
-        title="Особенности"
-        selectedIds={lawnFeatures.selectedIds}
-        onChange={lawnFeatures.onChange}
-        selectedItems={lawnFeatures.selectedItems}
-      />
-      <CheckboxFiltersList
-        items={data?.brands || []}
-        title="Растения в составе"
-        selectedIds={lawnBrands.selectedIds}
-        onChange={lawnBrands.onChange}
-        selectedItems={lawnBrands.selectedItems}
-      />
-    </div>
+    <>
+      <div className="mb-4 lg:hidden">
+        <BottomSheet
+          open={bottomSheetOpen}
+          onOpenChange={toggle}
+          title="Фильтры"
+          mainContent={<RenderFilters view="mobile" />}
+        >
+          <Button iconName="common/filter" radius="large" className="!text-baseBlack" />
+        </BottomSheet>
+      </div>
+      <div className="hidden flex-col gap-4 p-4 lg:flex">
+        <RenderFilters view="desktop" />
+        <Button color="secondary" buttonType="button" onClick={handleReset}>
+          Сбросить
+        </Button>
+      </div>
+    </>
   );
 };

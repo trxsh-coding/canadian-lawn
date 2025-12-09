@@ -23,6 +23,18 @@ apiClient.interceptors.request.use(
   }
 );
 
+export function userClient(token: string) {
+  return axios.create({
+    baseURL: apiClient.defaults.baseURL,
+    timeout: apiClient.defaults.timeout,
+    withCredentials: apiClient.defaults.withCredentials,
+    paramsSerializer: apiClient.defaults.paramsSerializer,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {

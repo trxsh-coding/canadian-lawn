@@ -66,6 +66,58 @@
       "type": "string",
       "required": true,
       "unique": true
+    },
+    "partner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::partner.partner"
+    },
+    "description": {
+      "type": "text"
+    },
+    "purposes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::purpose.purpose",
+      "mappedBy": "lawn"
+    },
+    "characteristic": {
+      "type": "component",
+      "component": "common.characteristic",
+      "repeatable": true
+    },
+    "seasonality": {
+      "type": "string"
+    },
+    "germination_time": {
+      "type": "string"
+    },
+    "full_cover_time": {
+      "type": "string"
+    },
+    "density": {
+      "type": "string"
+    },
+    "frost_resistance": {
+      "type": "string"
+    },
+    "shade_tolerance": {
+      "type": "string"
+    },
+    "heat_resistance": {
+      "type": "string"
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::lawn.lawn",
+      "inversedBy": "children"
+    },
+    "children": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::lawn.lawn",
+      "mappedBy": "parent"
     }
   }
 }

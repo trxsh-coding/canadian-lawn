@@ -6,10 +6,13 @@ export interface SpritesMap {
     | 'box'
     | 'cart'
     | 'check'
+    | 'copy'
     | 'cross'
     | 'download'
     | 'error'
+    | 'filter'
     | 'garbage'
+    | 'google'
     | 'grass'
     | 'info'
     | 'logo'
@@ -19,6 +22,7 @@ export interface SpritesMap {
     | 'plus'
     | 'share'
     | 'text-logo'
+    | 'yandex'
     | 'zoom';
   navigation: 'coin' | 'grass' | 'profile' | 'star' | 'tractor' | 'volt';
 }
@@ -30,10 +34,13 @@ export const SPRITES_META: {
     | 'box'
     | 'cart'
     | 'check'
+    | 'copy'
     | 'cross'
     | 'download'
     | 'error'
+    | 'filter'
     | 'garbage'
+    | 'google'
     | 'grass'
     | 'info'
     | 'logo'
@@ -43,6 +50,7 @@ export const SPRITES_META: {
     | 'plus'
     | 'share'
     | 'text-logo'
+    | 'yandex'
     | 'zoom'
   >;
   navigation: Array<'coin' | 'grass' | 'profile' | 'star' | 'tractor' | 'volt'>;
@@ -54,10 +62,13 @@ export const SPRITES_META: {
     'box',
     'cart',
     'check',
+    'copy',
     'cross',
     'download',
     'error',
+    'filter',
     'garbage',
+    'google',
     'grass',
     'info',
     'logo',
@@ -67,6 +78,7 @@ export const SPRITES_META: {
     'plus',
     'share',
     'text-logo',
+    'yandex',
     'zoom',
   ],
   navigation: ['coin', 'grass', 'profile', 'star', 'tractor', 'volt'],

@@ -7,7 +7,7 @@ variables:
   FRONTEND_DEST_DIR: "/var/www/canadian-lawn-frontend"
   FRONTEND_WORKING_DIR: "apps/web"
   BACKEND_WORKING_DIR: "apps/backend"
-  YARN_CACHE_FOLDER: ".yarn/cache"
+  YARN_CACHE_FOLDER: ".yarn/cache/*.zip"
   POSTGRES_SERVICE: "postgres"
 
 # Глобальные настройки, выполняемые перед каждым заданием
@@ -39,7 +39,7 @@ setup:
     - yarn install --no-immutable
 
   when: always
-  timeout: 5m
+  timeout: 15m
 
 # Задание: Сборка и развертывание веб-приложения
 build-frontend:

@@ -1,7 +1,6 @@
 export default [
   'strapi::logger',
   'strapi::errors',
-  'strapi::security',
   {
     name: 'strapi::cors',
     config: {
@@ -14,10 +13,11 @@ export default [
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
       headers: ['Content-Type', 'Authorization'],
       expose: ['Content-Range', 'X-Total-Count'],
-      keepHeader: false,
+      keepHeaderOnError: true,
       credentials: true,
     },
   },
+  'strapi::security',
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',

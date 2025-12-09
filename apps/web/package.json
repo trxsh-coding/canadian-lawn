@@ -12,7 +12,8 @@
   "dependencies": {
     "@canadian-lawn/api": "*",
     "@canadian-lawn/ui-kit": "*",
-    "next": "^15.3.4",
+    "next": "15.4.7",
+    "next-auth": "^4.24.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "sharp": "^0.34.2",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@next/eslint-plugin-next": "^15.3.4",
+    "@react-google-maps/api": "^2.20.7",
     "@reactuses/core": "^6.0.3",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4.1.8",
@@ -29,8 +31,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sanitize-html": "^2",
     "@typescript-eslint/eslint-plugin": "^8.34.1",
     "@typescript-eslint/parser": "^8.34.1",
+    "@vis.gl/react-google-maps": "^1.5.5",
     "axios": "^1.9.0",
     "classnames": "^2.5.1",
     "eslint": "^9.29.0",
@@ -43,12 +47,13 @@
     "postcss": "^8.5.4",
     "react-content-loader": "^7.0.2",
     "react-hook-form": "^7.57.0",
+    "sanitize-html": "^2.17.0",
     "sharp": "^0.34.2",
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.8",
     "typescript": "^5",
     "usehooks-ts": "^3.1.1",
-    "zod": "^3.25.64"
+    "zod": "^4.1.12"
   },
   "packageManager": "yarn@4.9.2"
 }

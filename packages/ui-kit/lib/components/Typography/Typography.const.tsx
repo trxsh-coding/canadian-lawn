@@ -12,6 +12,7 @@ export const colors: TypographyColorsKeys = {
   primary: 'ui:text-baseBlack',
   secondary: 'ui:text-secondary',
   tertiary: 'ui:text-tertiary',
+  silvery: 'ui:text-baseSilvery',
   'base-bg': 'ui:ui:text-baseBg',
   'base-white': 'ui:text-baseWhite',
   'base-grey': 'ui:text-baseGrey',
@@ -22,7 +23,7 @@ export const colors: TypographyColorsKeys = {
 
 export const views: TypographyViewsKeys = {
   heading1:
-    'ui:text-xl ui:leading-[120%] ui:uppercase ui:tracking-[-4%] ui:font-gothic ui:lg:text-9 ui:lg:leading-[117%]',
+    'ui:text-xl ui:leading-[120%] ui:uppercase ui:tracking-[-4%] ui:font-gothic ui:lg:text-[36px] ui:lg:leading-[117%]',
   heading2:
     'ui:text-lg ui:leading-normal ui:uppercase ui:font-gothic ui:lg:text ui:lg:text-8 ui:lg:leading-[130%]',
   heading3:

@@ -40,6 +40,7 @@ export type BaseInputProps = {
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   min?: number;
   max?: number;
+  type?: 'password' | 'text' | 'tel';
 };
 
 /**

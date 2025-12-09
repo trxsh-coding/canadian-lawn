@@ -1,31 +1,36 @@
+import { AxiosInstance } from 'axios';
 import { z } from 'zod';
 
-import { apiClient } from '@/clients/axios';
+import { apiClient, userClient } from '@/clients/axios';
+import { Populate } from '@/populate';
 import {
   collectionResponseSchema,
   FetchMode,
   itemResponseSchema,
+  objectResponseSchema,
   plainArraySchema,
   type ResponseType,
 } from '@/schemas/collectionGeneric';
 import { validateResponse } from '@/utils/validateResponse';
 
-export class FetchBuilder<T extends z.ZodTypeAny, M extends FetchMode> {
-  private readonly schema: z.ZodType<T>;
+export class FetchBuilder<T extends z.ZodType, M extends FetchMode> {
+  private readonly schema: T;
   private readonly endpoint: string;
-  private populate?: string[];
+  private populate?: Populate;
   private params?: Record<string, unknown>;
   private filters?: Record<string, unknown>;
   private limit?: number;
-  private readonly mode: FetchMode = FetchMode.COLLECTION;
+  private readonly mode: M;
+  private readonly client: AxiosInstance;
 
-  constructor(schema: z.ZodType<T>, endpoint: string, mode: M) {
+  constructor(schema: T, endpoint: string, mode: M, client: AxiosInstance = apiClient) {
     this.schema = schema;
     this.endpoint = endpoint;
     this.mode = mode;
+    this.client = client;
   }
 
-  withPopulate(populate: string[]) {
+  withPopulate(populate: Populate) {
     this.populate = populate;
     return this;
   }
@@ -45,44 +50,46 @@ export class FetchBuilder<T extends z.ZodTypeAny, M extends FetchMode> {
     return this;
   }
 
-  async fetch(): Promise<ResponseType<T, M>> {
-    const response = await apiClient.get(this.endpoint, {
+  fetch(): Promise<ResponseType<z.infer<T>, M>>;
+
+  async fetch() {
+    const response = await this.client.get(this.endpoint, {
       params: {
         ...this.params,
         ...(this.filters ? { filters: this.filters } : {}),
         ...(this.populate ? { populate: this.populate } : {}),
-        ...(this.limit !== undefined ? { pagination: { pageSize: this.limit } } : {}), // Strapi v4 pagination
+        ...(this.limit !== undefined ? { pagination: { pageSize: this.limit } } : {}),
       },
     });
 
-    let parsedSchema: z.ZodTypeAny;
-
-    switch (this.mode) {
-      case FetchMode.COLLECTION: {
-        parsedSchema = collectionResponseSchema(this.schema);
-        break;
-      }
-      case FetchMode.ITEM: {
-        parsedSchema = itemResponseSchema(this.schema);
-        break;
-      }
-      case FetchMode.ARRAY: {
-        parsedSchema = plainArraySchema(this.schema);
-        break;
-      }
-      default: {
-        throw new Error(`Unknown mode '${this.mode}'`);
-      }
+    if (this.mode === FetchMode.COLLECTION) {
+      return validateResponse(collectionResponseSchema(this.schema), response.data);
     }
 
-    return validateResponse(parsedSchema, response.data);
+    if (this.mode === FetchMode.ITEM) {
+      return validateResponse(itemResponseSchema(this.schema), response.data);
+    }
+
+    if (this.mode === FetchMode.ARRAY) {
+      return validateResponse(plainArraySchema(this.schema), response.data);
+    }
+
+    if (this.mode === FetchMode.OBJECT) {
+      return validateResponse(objectResponseSchema(this.schema), response.data);
+    }
+
+    throw new Error(`Unknown mode ${this.mode}`);
   }
 }
 
-export function createFetchBuilder<S extends z.ZodTypeAny, M extends FetchMode>(
+export function createFetchBuilder<S extends z.ZodType, M extends FetchMode>(
   schema: S,
   endpoint: string,
-  mode: M
+  mode: M,
+  token?: string,
+  client?: AxiosInstance
 ): FetchBuilder<S, M> {
-  return new FetchBuilder(schema, endpoint, mode);
+  const effectiveClient = client ?? (token ? userClient(token) : apiClient);
+
+  return new FetchBuilder(schema, endpoint, mode, effectiveClient);
 }

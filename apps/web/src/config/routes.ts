@@ -19,16 +19,16 @@ export const ROUTES: RoutesType = {
     url: '/partners',
     name: 'Партнеры',
   },
-  blog: {
-    url: '/blog',
-    name: 'Главная',
+  blogs: {
+    url: '/blogs',
+    name: 'Блог',
   },
   about: {
     url: '/about',
     name: 'О нас',
   },
   contact: {
-    url: '/contact',
+    url: '/contacts',
     name: 'Контакты',
   },
   faq: {
@@ -44,4 +44,5 @@ export const ROUTES: RoutesType = {
 
 export const detailRoutes = {
   lawn: (slug: string) => `/lawn/${slug}`,
+  blog: (slug: string) => `/blogs/${slug}`,
 };

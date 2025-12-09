@@ -31,6 +31,12 @@
     },
     "slug": {
       "type": "string"
+    },
+    "partners": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::partner.partner",
+      "mappedBy": "partners_types"
     }
   }
 }

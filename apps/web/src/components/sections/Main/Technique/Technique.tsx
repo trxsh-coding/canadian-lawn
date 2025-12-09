@@ -28,9 +28,11 @@ export const Technique = ({ className }: TractorsProps) => {
 
   return (
     <SectionWrapper
-      className={cn('mb-section', className)}
+      className={cn('lg:mb-section', className)}
       color="light"
+      wrapperClassName="!pr-0"
       headline="Свежие объявления"
+      isSection
       isError={isError}
     >
       {!isLoading ? (

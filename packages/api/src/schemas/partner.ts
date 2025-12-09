@@ -23,7 +23,7 @@ export const partnerSchema = z
     workingHours: working_hours,
     openOnWeekends: open_on_weekends,
     howToGet: how_to_get,
-    partnerType: partner_type, // Renamed to camelCase
+    partnerType: partner_type,
   }));
 
 export type Partner = z.infer<typeof partnerSchema>;

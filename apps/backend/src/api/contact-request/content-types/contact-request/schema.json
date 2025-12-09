@@ -7,7 +7,7 @@
     "displayName": "Contact Request"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -17,11 +17,12 @@
     "email": {
       "type": "email"
     },
-    "phone": {
-      "type": "string"
-    },
     "message": {
       "type": "string"
+    },
+    "phone": {
+      "type": "biginteger",
+      "max": "11"
     }
   }
 }

@@ -36,6 +36,7 @@ button {
   cursor: pointer;
 }
 
+
 a {
   color: inherit;
   text-decoration: none;
@@ -76,4 +77,8 @@ img {
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+figure img {
+  width: 100%;
 }

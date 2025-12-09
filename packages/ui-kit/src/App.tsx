@@ -1,6 +1,8 @@
 import React from 'react';
+import { toast } from 'sonner';
 
-import { Button } from '@/lib';
+import { Button, CopyPaste, Icon, Toast } from '@/lib';
+import { BottomSheet } from '@/lib/components/BottomSheet';
 import { ButtonCounter } from '@/lib/components/ButtonCounter';
 import { Checkbox } from '@/lib/components/Checkbox';
 import { Progress } from '@/lib/components/Progress';
@@ -8,7 +10,7 @@ import { SliderRange } from '@/lib/components/SliderRange';
 
 function App() {
   const [value, setValue] = React.useState<number>(0);
-
+  const [bottomSheetOpen, setBottomSheetOpen] = React.useState(false);
   const [sliderValue, setSliderValue] = React.useState<[number, number]>([4, 10]);
 
   const handleChange = React.useCallback((value: number) => {
@@ -24,9 +26,23 @@ function App() {
     setSliderValue(value);
   }, []);
 
+  const handleToast = React.useCallback(() => {
+    toast.success('Форма отправлена!');
+  }, []);
+
   return (
     <div className="ui:p-section ui:bg-secondaryGrey ui:w-[100vh] ui:flex ui:flex-col ui:gap-10">
-      <Button width="fit" color="primary" iconName="common/cart">
+      <Icon name="common/check" className="ui:text-primary ui:h-4 ui:w-4" />
+      <Toast />
+      <BottomSheet
+        open={bottomSheetOpen}
+        onOpenChange={(value) => setBottomSheetOpen(value)}
+        title="Фильтры"
+        mainContent={<div className="ui:p-4">Тут форма фильтров или что-то ещё</div>}
+      >
+        <Button iconName="common/filter" radius="large" />
+      </BottomSheet>
+      <Button width="fit" color="primary" iconName="common/cart" onClick={handleToast}>
         Я primary кнопка
       </Button>
       <Button width="fit" color="secondary" iconName="common/cart" suffixIconName="common/zoom">
@@ -65,6 +81,10 @@ function App() {
         value={sliderValue}
         onChange={handleSliderValueChange}
       />
+
+      <div>
+        <CopyPaste value="123" />
+      </div>
     </div>
   );
 }

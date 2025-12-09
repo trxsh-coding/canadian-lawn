@@ -7,7 +7,7 @@ import { Constraints } from '@/components/layout/Constraints';
 
 export const Footer = () => {
   return (
-    <div className="bg-baseBg w-full">
+    <div className="bg-primary w-full">
       <Constraints color="dark-green" wrapperClassName="rounded-t-lg">
         <div className="py-section">
           <div className="text-baseWhite flex w-full flex-col items-center gap-10">

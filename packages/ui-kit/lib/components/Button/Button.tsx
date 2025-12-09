@@ -15,12 +15,15 @@ type ButtonIconProps = {
   className?: string;
   name: IconName;
   onIconClick?: VoidFunction;
+  radius?: 'small' | 'medium' | 'large';
 };
 
 export const Button = React.memo(
   ({
     className,
     children,
+    radius,
+    disabled,
     color = 'primary',
     width = 'fill',
     loading = false,
@@ -54,7 +57,7 @@ export const Button = React.memo(
 
     const Content = React.useMemo(() => {
       if (buttonType === 'icon' && iconName) {
-        return <ButtonIcon name={iconName} className={iconClassName} />;
+        return <ButtonIcon name={iconName} className={iconClassName} radius={radius} />;
       }
 
       if (iconName || suffixIconName) {
@@ -63,11 +66,17 @@ export const Button = React.memo(
             className={cn('ui:gap-2.5 ui:flex ui:flex-row ui:items-center', iconWrapperClassName)}
           >
             {iconName && (
-              <ButtonIcon name={iconName} className={iconClassName} onIconClick={onIconClick} />
+              <ButtonIcon
+                radius={radius}
+                name={iconName}
+                className={cn(iconClassName, radius === 'large' && 'ui:rounded-lg')}
+                onIconClick={onIconClick}
+              />
             )}
             {children}
             {suffixIconName && (
               <ButtonIcon
+                radius={radius}
                 name={suffixIconName}
                 className={suffixIconClassName}
                 onIconClick={onSuffixIconClick}
@@ -93,6 +102,7 @@ export const Button = React.memo(
               {children}
             </Typography>
             <ButtonIcon
+              radius={radius}
               name="common/arrow"
               className={cn(
                 'ui:group-hover:text-secondaryRed ui:group-hover:delay-75',
@@ -107,14 +117,15 @@ export const Button = React.memo(
     }, [
       buttonType,
       iconName,
-      iconClassName,
-      children,
       suffixIconName,
-      suffixIconClassName,
-      onIconClick,
-      onSuffixIconClick,
-      iconWrapperClassName,
+      children,
       ButtonIcon,
+      iconClassName,
+      iconWrapperClassName,
+      radius,
+      onIconClick,
+      suffixIconClassName,
+      onSuffixIconClick,
     ]);
 
     return (
@@ -122,6 +133,9 @@ export const Button = React.memo(
         as="button"
         type={htmlType}
         className={cn(
+          radius === 'small' && 'ui:!rounded-sm',
+          radius === 'medium' && 'ui:!rounded-md',
+          radius === 'large' && 'ui:!rounded-lg',
           'ui:flex ui:group ui:cursor-pointer ui:transition-all ui:delay-75 ui:items-center ui:justify-center ui:text-center ui:outline-none ui:ease-linear',
           buttonType === 'button' && 'ui:px-[30px] ui:rounded-xs ui:h-10',
           loading && 'ui:pointer-events-none ui:cursor-none',
@@ -142,8 +156,9 @@ export const Button = React.memo(
           views['button'],
           (suffixIconName || iconName) && `ui:flex ui:items-center ui:justify-center`,
           buttonType === 'icon' &&
-            `ui:p-6 ui:rounded-full ui:max-w-fit ui:bg-baseWhite ui:text-baseBlack ui:hover:text-baseBlack ${!inactive && 'ui:hover:bg-baseSilvery'} ${iconName === 'common/cross' && 'ui:text-secondaryRed ui:p-1 ui:lg:p-[9px]'}`,
+            `ui:p-4 ui:rounded-full ui:max-w-fit ui:bg-baseBg ui:text-baseBlack ui:hover:text-baseBlack ${!inactive && 'ui:hover:bg-baseSilvery'} ${iconName === 'common/cross' && 'ui:text-secondaryRed ui:p-1 ui:lg:p-[9px]'}`,
           inactive && 'ui:opacity-60',
+          disabled && 'ui:bg-baseSilvery',
           className
         )}
         {...clickActionProps}

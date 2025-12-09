@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_common_blocks",
+  "info": {
+    "displayName": "Blocks"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "block": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "canadian-lawn"
+      }
+    }
+  },
+  "config": {}
+}

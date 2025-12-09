@@ -11,8 +11,10 @@ type SectionWrapperProps = {
   children: React.ReactNode;
   withLink?: boolean;
   isError?: boolean;
+  isSection?: boolean;
   linkClassName?: string;
   headlineClassName?: string;
+  wrapperClassName?: string;
   color?: 'dark-green' | 'green' | 'light';
 };
 
@@ -23,12 +25,18 @@ export const SectionWrapper = ({
   childClassName,
   headlineClassName,
   linkClassName,
+  wrapperClassName,
   color,
+  isSection,
   withLink = true,
   isError,
 }: SectionWrapperProps) => {
   return (
-    <Constraints isSection className={cn(className)} color={color}>
+    <Constraints
+      wrapperClassName={cn(isSection && '!pr-0', wrapperClassName)}
+      className={cn(isSection && '!mx-0', className)}
+      color={color}
+    >
       <div
         className={cn(
           'flex flex-col gap-1 lg:flex-row lg:justify-between',

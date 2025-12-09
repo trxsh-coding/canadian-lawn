@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "svgr.d.ts", "eslint.config.mjs"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "svgr.d.ts", "eslint.config.mjs", "src/types/**/*.d.ts"],
   "exclude": ["node_modules"]
 }

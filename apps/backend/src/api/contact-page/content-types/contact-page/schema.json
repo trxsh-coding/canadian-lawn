@@ -1,0 +1,46 @@
+{
+  "kind": "singleType",
+  "collectionName": "contact_pages",
+  "info": {
+    "singularName": "contact-page",
+    "pluralName": "contact-pages",
+    "displayName": "ContactPage"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "company_name": {
+      "type": "string"
+    },
+    "address": {
+      "type": "customField",
+      "customField": "plugin::google-maps.location-picker"
+    },
+    "inn": {
+      "type": "string"
+    },
+    "kpp": {
+      "type": "string"
+    },
+    "request_mail": {
+      "type": "email"
+    },
+    "offer_mail": {
+      "type": "email"
+    },
+    "PSRN": {
+      "type": "component",
+      "component": "common.requisite",
+      "repeatable": false
+    },
+    "document": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files"
+      ]
+    }
+  }
+}

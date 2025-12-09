@@ -18,9 +18,11 @@ export type ButtonProps = React.PropsWithChildren<
   {
     className?: string;
     width?: 'fit' | 'fill';
+    radius?: 'small' | 'medium' | 'large';
     color?: ButtonColor;
     loading?: boolean;
     inactive?: boolean;
+    disabled?: boolean;
     suffixIconName?: IconName;
     suffixIconClassName?: string;
     iconName?: IconName;
@@ -30,6 +32,7 @@ export type ButtonProps = React.PropsWithChildren<
     htmlType?: NativeButtonType;
     onIconClick?: VoidFunction;
     onSuffixIconClick?: VoidFunction;
+    rounded?: boolean;
   } & Exclude<BaseClickableProps<'button'>, 'onTouchStart'>
 >;
 

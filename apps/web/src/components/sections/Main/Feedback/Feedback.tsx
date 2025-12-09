@@ -3,27 +3,54 @@
 import { Button, Input, Pic, Typography } from '@canadian-lawn/ui-kit';
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { Container } from '@/components/layout/Container';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
+import { useFeedback } from '@/hooks/api/useFeedback';
 import { useUsers } from '@/hooks/api/useUsers';
+import cn from '@/utils/cnMerge';
 
 interface FormValues {
   name: string;
   email: string;
   phone: string;
-  question: string;
+  message: string;
 }
 
-export const Feedback = () => {
+export const Feedback = ({
+  className,
+  wrapperClassName,
+}: {
+  className?: string;
+  wrapperClassName?: string;
+}) => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormValues>();
   const { useHook: useUserHook } = useUsers();
 
   const { data: userData, isError, isLoading } = useUserHook();
+
+  const { mutateAsync, isPending } = useFeedback();
+
+  const onSubmit = async (data: FormValues) => {
+    const validatedData = {
+      ...data,
+      phone: Number(data.phone),
+    };
+    try {
+      await mutateAsync(validatedData);
+
+      reset();
+      toast.success('Заявка отправлена');
+    } catch {
+      toast.error('Ошибка при отправлении');
+    }
+  };
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -32,12 +59,12 @@ export const Feedback = () => {
   }
 
   return (
-    <Container className="bg-primary">
+    <Container className={cn('!bg-section-gradient', wrapperClassName)}>
       <SectionWrapper
         withLink={false}
         headline="свяжитесь с нами"
         headlineClassName="!text-baseWhite"
-        className="pt-section mb-[180px]"
+        className={cn('pt-section !bg-section-gradient lg:px-0', className)}
         color="green"
       >
         <div className="bg-secondary gap-section flex w-full flex-col justify-between rounded-lg p-10 lg:flex-row lg:gap-0">
@@ -63,7 +90,7 @@ export const Feedback = () => {
               </div>
               <div className="flex flex-col gap-1">
                 <Typography view="card-header" color="base-white">
-                  {userData?.map(({ username }) => username).join(' и ')}
+                  Яна и Кирилл
                 </Typography>
                 <Typography view="regular" color="base-white">
                   Менеджеры по продажам
@@ -82,6 +109,7 @@ export const Feedback = () => {
               render={({ field }) => (
                 <Input
                   {...field}
+                  value={field.value ?? ''}
                   onChangeValue={field.onChange}
                   errorMessage={errors.name?.message}
                   placeholder="Ваше имя*"
@@ -102,6 +130,7 @@ export const Feedback = () => {
               render={({ field }) => (
                 <Input
                   {...field}
+                  value={field.value ?? ''}
                   onChangeValue={field.onChange}
                   errorMessage={errors.email?.message}
                   placeholder="Почта*"
@@ -112,9 +141,18 @@ export const Feedback = () => {
             <Controller
               name="phone"
               control={control}
+              rules={{
+                required: 'Введите телефон',
+                pattern: {
+                  value: /^(\+7|7|8)\d{10}$/,
+                  message: 'Некорректный номер телефона',
+                },
+              }}
               render={({ field }) => (
                 <Input
                   {...field}
+                  value={field.value ?? ''}
+                  inputType="numeric-deferred"
                   onChangeValue={field.onChange}
                   errorMessage={errors.phone?.message}
                   placeholder="Телефон"
@@ -123,19 +161,20 @@ export const Feedback = () => {
             />
 
             <Controller
-              name="question"
+              name="message"
               control={control}
               render={({ field }) => (
                 <Input
                   {...field}
+                  value={field.value ?? ''}
                   onChangeValue={field.onChange}
-                  errorMessage={errors.question?.message}
+                  errorMessage={errors.message?.message}
                   placeholder="Ваш вопрос"
                 />
               )}
             />
 
-            <Button color="primary" type="submit" className="w-full max-w-full">
+            <Button color="primary" loading={isPending} type="submit" className="w-full max-w-full">
               Отправить
             </Button>
           </form>
