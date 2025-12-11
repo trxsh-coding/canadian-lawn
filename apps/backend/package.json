@@ -28,7 +28,7 @@
     "@strapi/provider-upload-local": "^5.31.2",
     "@strapi/strapi": "^5.31.2",
     "install": "^0.13.0",
-    "nodemailer": "^7.0.3",
+    "nodemailer": "^7.0.7",
     "pg": "8.8.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
