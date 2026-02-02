@@ -12,7 +12,7 @@
   "dependencies": {
     "@canadian-lawn/api": "*",
     "@canadian-lawn/ui-kit": "*",
-    "next": "15.4.7",
+    "next": "16.1.5",
     "next-auth": "^4.24.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
