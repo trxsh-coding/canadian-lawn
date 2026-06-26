@@ -1,9 +1,12 @@
 import { z } from 'zod';
 
+import { mediaSchema } from '@/schemas/media';
+
 export const ProductInCartSchema = z.object({
   id: z.number(),
   name: z.string(),
   price: z.number(),
+  image: mediaSchema.nullable().optional(),
 });
 
 export const CartItemSchema = z.object({

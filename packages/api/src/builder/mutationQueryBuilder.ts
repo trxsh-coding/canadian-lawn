@@ -38,7 +38,25 @@ export class MutationBuilder<TInput extends z.ZodTypeAny, TOutput extends z.ZodT
     return validateResponse(this.outputSchema, response.data);
   }
 
-  async delete(id: string | number): Promise<void> {
-    await this.client.delete(`${this.endpoint}/${id}`);
+  async patch(data: z.infer<TInput>): Promise<z.infer<TOutput>> {
+    const parsed = this.inputSchema.parse(data);
+
+    const response = await this.client.patch(this.endpoint, parsed);
+
+    return validateResponse(this.outputSchema, response.data);
+  }
+
+  async patchById(id: string | number, data: z.infer<TInput>): Promise<z.infer<TOutput>> {
+    const parsed = this.inputSchema.parse(data);
+
+    const response = await this.client.patch(`${this.endpoint}/${id}`, parsed);
+
+    return validateResponse(this.outputSchema, response.data);
+  }
+
+  async delete(id: string | number): Promise<z.infer<TOutput>> {
+    const response = await this.client.delete(`${this.endpoint}/${id}`);
+
+    return validateResponse(this.outputSchema, response.data);
   }
 }

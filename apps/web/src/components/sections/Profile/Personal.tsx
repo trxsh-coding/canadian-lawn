@@ -1,12 +1,13 @@
 import { User } from '@canadian-lawn/api';
 import { Button, Typography } from '@canadian-lawn/ui-kit';
+import { User as NextUser } from 'next-auth';
 import { useForm } from 'react-hook-form';
 
 import { FormInput } from '@/components/layout/FormInput';
 import { FORM_FIELDS, FormValues } from '@/components/sections/Profile/const';
 
 type PersonalProps = {
-  user?: User;
+  user?: User | NextUser;
 };
 
 export const Personal = ({ user }: PersonalProps) => {

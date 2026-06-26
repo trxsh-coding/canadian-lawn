@@ -26,9 +26,9 @@ export const Partners = () => {
   return (
     <LayoutWrapper
       title="Нам доверяют 500+ объектов в России"
-      mainWrapperClassName="bg-primary"
+      contentWrapperClassName="bg-primary"
       mainContainerClassName="bg-primary"
-      mainContentClassName="bg-primary"
+      contentContainerClassName="bg-primary"
       topContent={<TopContent partners={partnerData} />}
     >
       {partnerData && <MainContent partners={partnerData} onMarkerClick={handleMarkerClick} />}

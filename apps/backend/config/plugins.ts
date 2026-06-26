@@ -3,6 +3,7 @@ export default ({ env }) => ({
     config: {
       provider: 'aws-s3',
       providerOptions: {
+        baseUrl: `${env('AWS_ENDPOINT')}/${env('AWS_BUCKET_NAME')}`,
         s3Options: {
           credentials: {
             accessKeyId: env('AWS_ACCESS_KEY_ID'),
@@ -10,11 +11,15 @@ export default ({ env }) => ({
           },
           region: env('AWS_REGION'),
           endpoint: env('AWS_ENDPOINT'),
+          params: {
+            Bucket: env('AWS_BUCKET_NAME'),
+          },
         },
-        params: {
-          Bucket: env('AWS_BUCKET_NAME'),
-          basePath: 'uploads',
-        },
+      },
+      actionOptions: {
+        upload: {},
+        uploadStream: {},
+        delete: {},
       },
     },
   },

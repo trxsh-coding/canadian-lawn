@@ -11,15 +11,16 @@ export type LayoutWrapperProps = {
   topContent?: React.ReactNode;
   children?: React.ReactNode;
   asideContent?: React.ReactNode;
-  mainContentClassName?: string;
-  topContentClassName?: string;
-  mainContainerClassName?: string;
-  mainWrapperClassName?: string;
-  asideContentClassName?: string;
-  topContentWrapperClassName?: string;
   className?: string;
+  headerSectionClassName?: string;
+  headerContentClassName?: string;
+  contentWrapperClassName?: string;
+  contentContainerClassName?: string;
+  asideClassName?: string;
+  mainClassName?: string;
   title?: string;
   image?: string;
+  asideReversed?: boolean;
 };
 
 export const LayoutWrapper = ({
@@ -28,19 +29,20 @@ export const LayoutWrapper = ({
   topContent,
   className,
   asideContent,
-  topContentClassName,
-  topContentWrapperClassName,
-  mainContainerClassName,
-  mainContentClassName,
-  asideContentClassName,
-  mainWrapperClassName,
+  headerSectionClassName,
+  headerContentClassName,
+  contentWrapperClassName,
+  contentContainerClassName,
+  asideClassName,
+  mainClassName,
+  asideReversed,
   image,
 }: LayoutWrapperProps) => {
   return (
     <div className={cn('bg-baseBg flex min-h-[100vh] w-full flex-col', className)}>
       <Constraints
         className={cn('lg:px-0')}
-        wrapperClassName={cn('relative', topContentWrapperClassName)}
+        wrapperClassName={cn('relative', headerSectionClassName)}
       >
         {image && (
           <>
@@ -64,7 +66,7 @@ export const LayoutWrapper = ({
               {title}
             </Typography>
           )}
-          <div className={cn('mt-4', topContentClassName)}>{topContent}</div>
+          <div className={cn('mt-4', headerContentClassName)}>{topContent}</div>
         </div>
       </Constraints>
 
@@ -72,18 +74,19 @@ export const LayoutWrapper = ({
         wrapperClassName={cn(
           'bg-baseBg flex flex-1 gap-5 grow',
           asideContent ? '!pt-0' : '',
-          mainWrapperClassName
+          contentWrapperClassName
         )}
         className={cn(
           'bg-baseBg flex flex-1 grow flex-col gap-5 lg:flex-row',
-          mainContainerClassName
+          asideReversed && 'lg:flex-row-reverse',
+          contentContainerClassName
         )}
       >
         {asideContent && (
           <aside
             className={cn(
               'bg-baseWhite shrink-0 rounded-none px-4 lg:w-[248px] lg:rounded-sm lg:p-5 xl:!block',
-              asideContentClassName
+              asideClassName
             )}
           >
             {asideContent}
@@ -92,7 +95,7 @@ export const LayoutWrapper = ({
         <main
           className={cn(
             'bg-baseBg lg:my-section flex flex-1 grow flex-col overflow-auto',
-            mainContentClassName
+            mainClassName
           )}
         >
           {children}

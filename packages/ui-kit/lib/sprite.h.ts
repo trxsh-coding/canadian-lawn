@@ -21,6 +21,7 @@ export interface SpritesMap {
     | 'plus-menu'
     | 'plus'
     | 'share'
+    | 'telegram'
     | 'text-logo'
     | 'yandex'
     | 'zoom';
@@ -49,6 +50,7 @@ export const SPRITES_META: {
     | 'plus-menu'
     | 'plus'
     | 'share'
+    | 'telegram'
     | 'text-logo'
     | 'yandex'
     | 'zoom'
@@ -77,6 +79,7 @@ export const SPRITES_META: {
     'plus-menu',
     'plus',
     'share',
+    'telegram',
     'text-logo',
     'yandex',
     'zoom',

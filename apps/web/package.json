@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@canadian-lawn/api": "*",
+    "@canadian-lawn/env": "*",
     "@canadian-lawn/ui-kit": "*",
+    "@next/swc-darwin-arm64": "^16.2.9",
     "next": "15.4.7",
     "next-auth": "^4.24.11",
     "react": "^19.1.0",

@@ -21,6 +21,7 @@ export type PRODUCT_COMPONENTS = (typeof PRODUCT_COMPONENTS)[keyof typeof PRODUC
  */
 export enum ProductType {
   Lawn = 'lawn',
+  LawnMix = 'lawn-mix',
   Tractor = 'tractor',
   Technique = 'technique',
 }

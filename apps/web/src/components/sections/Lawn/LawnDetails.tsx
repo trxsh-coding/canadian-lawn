@@ -1,5 +1,6 @@
 'use client';
-import { Lawn } from '@canadian-lawn/api';
+
+import { LawnProduct } from '@canadian-lawn/api';
 import { OptionEntity, Tabs } from '@canadian-lawn/ui-kit';
 import React from 'react';
 
@@ -7,11 +8,11 @@ import { AboutLawn } from '@/components/sections/Lawn/About';
 import { LawnDetailOptions } from '@/const/tabs';
 import { LawnDetailsTabs } from '@/types/enums';
 
-export const LawnDetails = ({ lawn }: { lawn?: Lawn }) => {
+export const LawnDetails = ({ product }: { product?: LawnProduct }) => {
   const [tab, setTab] = React.useState<OptionEntity>(LawnDetailOptions[0]);
 
   const tabComponents: Record<string, React.ReactNode> = {
-    [LawnDetailsTabs.About]: <AboutLawn lawn={lawn} />,
+    [LawnDetailsTabs.About]: <AboutLawn product={product} />,
     [LawnDetailsTabs.Documents]: <div />,
   };
 

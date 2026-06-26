@@ -1,14 +1,14 @@
-import { ENDPOINTS, FetchMode, Filters, filtersSchema } from '@canadian-lawn/api';
-import { z } from 'zod';
+import { ENDPOINTS, FetchMode, filtersSchema } from '@canadian-lawn/api';
 
 import { buildCollectionPrefetchQuery } from '@/hooks/buildCollectionPrefetchQuery';
 
-const queryKey = 'lawn-by-slug';
-
-export const useLawnFilters = () =>
-  buildCollectionPrefetchQuery<z.ZodType<Filters>, FetchMode.ITEM>({
+export const useLawnFilters = (productType: string) =>
+  buildCollectionPrefetchQuery({
     endpoint: ENDPOINTS.common.lawnFilters,
     schema: filtersSchema,
-    queryKey: [queryKey],
+    queryKey: ['filters', productType],
     mode: FetchMode.ITEM,
+    params: {
+      params: { productType },
+    },
   });

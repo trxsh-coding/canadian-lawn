@@ -25,7 +25,16 @@
     "cart_items": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::cart-item.cart-item"
+      "target": "api::cart-item.cart-item",
+      "mappedBy": "cart"
+    },
+    "cart_status": {
+      "type": "enumeration",
+      "enum": [
+        "active",
+        "ordered",
+        "abandoned"
+      ]
     }
   }
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { ENV } from '@canadian-lawn/env';
 import { Button } from '@canadian-lawn/ui-kit';
 import { APIProvider, Map, AdvancedMarker, useMap } from '@vis.gl/react-google-maps';
 import React from 'react';
@@ -21,8 +22,8 @@ type Props = {
   withMarkers?: boolean;
 };
 
-const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API!;
-const MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAP_ID!;
+const API_KEY = ENV.GOOGLE_MAPS_TOKEN;
+const MAP_ID = ENV.GOOGLE_MAP_ID;
 
 const ZoomControls = () => {
   const map = useMap();

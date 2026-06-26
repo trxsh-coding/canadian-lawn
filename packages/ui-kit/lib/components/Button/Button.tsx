@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ElementType } from 'react';
 
 import {
   BaseClickable,
@@ -19,7 +19,7 @@ type ButtonIconProps = {
 };
 
 export const Button = React.memo(
-  ({
+  <T extends ElementType = 'button'>({
     className,
     children,
     radius,
@@ -37,8 +37,9 @@ export const Button = React.memo(
     htmlType = 'button',
     onIconClick,
     onSuffixIconClick,
+    as,
     ...clickActionProps
-  }: ButtonProps) => {
+  }: ButtonProps<T>) => {
     const ButtonIcon = React.useCallback(
       ({ className, name, onIconClick }: ButtonIconProps) => (
         <Icon
@@ -130,8 +131,8 @@ export const Button = React.memo(
 
     return (
       <BaseClickable
-        as="button"
-        type={htmlType}
+        as={as || 'button'}
+        {...((!as || as === 'button') && { type: htmlType })}
         className={cn(
           radius === 'small' && 'ui:!rounded-sm',
           radius === 'medium' && 'ui:!rounded-md',

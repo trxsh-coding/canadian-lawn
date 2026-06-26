@@ -39,8 +39,8 @@ export const FAQ = () => {
 
   return (
     <LayoutWrapper
-      mainContentClassName="p-0 lg:mt-0"
-      mainWrapperClassName="lg:my-section"
+      contentContainerClassName="p-0 lg:mt-0"
+      contentWrapperClassName="lg:my-section"
       topContentWrapperClassName="lg:my-0"
       asideContent={
         options &&

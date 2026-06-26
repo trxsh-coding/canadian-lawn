@@ -1,9 +1,15 @@
-import { apiClient, ENDPOINTS } from '@canadian-lawn/api';
+import { ENV } from '@canadian-lawn/env';
+import axios from 'axios';
 import { Account, Profile, User } from 'next-auth';
 import { AdapterUser } from 'next-auth/adapters';
 import { JWT } from 'next-auth/jwt';
 
 import { ProviderType } from '@/types/enums';
+
+const oauthClient = axios.create({
+  timeout: 10000,
+  headers: { 'Content-Type': 'application/json' },
+});
 
 interface AuthJwtParams {
   token: JWT;
@@ -28,26 +34,7 @@ interface StrapiAuthResponse {
 
 const buildOAuthCallbackUrl = (provider: ProviderType, accessToken?: string): string => {
   const params = new URLSearchParams({ access_token: accessToken || '' });
-  return `${process.env.NEXT_PUBLIC_STRAPI_HOST}/auth/${provider}/callback?${params}`;
-};
-
-const extractProfileNames = (profile: Profile) => ({
-  firstname: profile.given_name || profile.name || '',
-  lastname: profile.family_name || '',
-});
-
-const updateUserProfile = async (userId: string, profile: Profile, jwt: string): Promise<void> => {
-  const names = extractProfileNames(profile);
-
-  if (!names.firstname && !names.lastname) {
-    return;
-  }
-
-  await apiClient.put(`${ENDPOINTS.common.user}/${userId}`, names, {
-    headers: {
-      Authorization: `Bearer ${jwt}`,
-    },
-  });
+  return `${ENV.STRAPI_HOST}/auth/${provider}/callback?${params}`;
 };
 
 const handleOAuthAuthentication = async (
@@ -57,12 +44,10 @@ const handleOAuthAuthentication = async (
   provider: ProviderType
 ): Promise<void> => {
   const callbackUrl = buildOAuthCallbackUrl(provider, account.access_token);
-  const res = await apiClient.get<StrapiAuthResponse>(callbackUrl);
 
+  const res = await oauthClient.get<StrapiAuthResponse>(callbackUrl);
   token.strapiJWT = res.data.jwt;
   token.strapiUser = res.data.user;
-
-  await updateUserProfile(res.data.user.id, profile, res.data.jwt);
 };
 
 export const authJwt = async ({
@@ -81,7 +66,26 @@ export const authJwt = async ({
     try {
       await handleOAuthAuthentication(token, account, profile, provider);
     } catch (err) {
-      console.error('Ошибка авторизации Strapi:', err);
+      if (axios.isAxiosError(err)) {
+        console.error(
+          'Ошибка авторизации Strapi:',
+          JSON.stringify(
+            {
+              message: err.message,
+              code: err.code,
+              url: err.config?.url,
+              method: err.config?.method,
+              status: err.response?.status,
+              statusText: err.response?.statusText,
+              data: err.response?.data,
+            },
+            null,
+            2
+          )
+        );
+      } else {
+        console.error('Неизвестная ошибка авторизации Strapi:', err);
+      }
     }
   }
 

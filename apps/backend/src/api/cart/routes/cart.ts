@@ -19,5 +19,20 @@ export default {
         auth: false,
       },
     },
+    {
+      method: 'POST',
+      path: '/cart/items',
+      handler: 'cart.addItem',
+    },
+    {
+      method: 'PATCH',
+      path: '/cart/items/:itemId',
+      handler: 'cart.updateItem',
+    },
+    {
+      method: 'DELETE',
+      path: '/cart/items/:itemId',
+      handler: 'cart.removeItem',
+    },
   ],
 };

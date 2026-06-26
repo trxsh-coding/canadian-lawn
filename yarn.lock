@@ -2934,6 +2934,7 @@ __metadata:
   resolution: "@canadian-lawn/api@workspace:packages/api"
   dependencies:
     "@canadian-lawn/api": "npm:*"
+    "@canadian-lawn/env": "npm:*"
     "@esbuild-plugins/node-modules-polyfill": "npm:^0.2.2"
     "@eslint/js": "npm:^9.28.0"
     "@strapi/blocks-react-renderer": "npm:^1.0.2"
@@ -2965,6 +2966,7 @@ __metadata:
     "@amicaldo/strapi-google-maps": "npm:^2.0.2"
     "@aws-sdk/client-s3": "npm:^3.835.0"
     "@canadian-lawn/api": "npm:*"
+    "@faker-js/faker": "npm:^10.5.0"
     "@strapi/design-system": "npm:^1.19.0"
     "@strapi/plugin-cloud": "npm:^5.31.2"
     "@strapi/plugin-documentation": "npm:^5.31.2"
@@ -2979,6 +2981,7 @@ __metadata:
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
     "@types/sanitize-html": "npm:^2"
+    axios: "npm:^1.18.1"
     install: "npm:^0.13.0"
     nodemailer: "npm:^7.0.3"
     pg: "npm:8.8.0"
@@ -2998,12 +3001,19 @@ __metadata:
   resolution: "@canadian-lawn/bot@workspace:packages/bot"
   dependencies:
     "@canadian-lawn/api": "npm:*"
+    "@canadian-lawn/env": "npm:*"
     axios: "npm:^1.4.0"
     dotenv: "npm:^16.5.0"
     telegraf: "npm:^4.16.3"
     ts-node: "npm:^10.9.2"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.4.0"
+  languageName: unknown
+  linkType: soft
+
+"@canadian-lawn/env@npm:*, @canadian-lawn/env@workspace:packages/env":
+  version: 0.0.0-use.local
+  resolution: "@canadian-lawn/env@workspace:packages/env"
   languageName: unknown
   linkType: soft
 
@@ -3062,9 +3072,11 @@ __metadata:
   resolution: "@canadian-lawn/web@workspace:apps/web"
   dependencies:
     "@canadian-lawn/api": "npm:*"
+    "@canadian-lawn/env": "npm:*"
     "@canadian-lawn/ui-kit": "npm:*"
     "@eslint/eslintrc": "npm:^3"
     "@next/eslint-plugin-next": "npm:^15.3.4"
+    "@next/swc-darwin-arm64": "npm:^16.2.9"
     "@react-google-maps/api": "npm:^2.20.7"
     "@reactuses/core": "npm:^6.0.3"
     "@svgr/webpack": "npm:^8.1.0"
@@ -4845,6 +4857,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@faker-js/faker@npm:^10.5.0":
+  version: 10.5.0
+  resolution: "@faker-js/faker@npm:10.5.0"
+  checksum: 10c0/2de3c7b8f41592d52cefc3ab4c99536656249bca78d5ad184a3b7ac43ecc9d946056cef2c4d37060373ef06ad992d82530de08479fabe16fdbe77b911d842446
+  languageName: node
+  linkType: hard
+
 "@floating-ui/core@npm:^1.7.3":
   version: 1.7.3
   resolution: "@floating-ui/core@npm:1.7.3"
@@ -6120,6 +6139,14 @@ __metadata:
 "@next/swc-darwin-arm64@npm:15.4.7":
   version: 15.4.7
   resolution: "@next/swc-darwin-arm64@npm:15.4.7"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@next/swc-darwin-arm64@npm:^16.2.9":
+  version: 16.2.9
+  resolution: "@next/swc-darwin-arm64@npm:16.2.9"
+  checksum: 10c0/d2522d5bde55974e42f7af115a859117c6ae0c767be2200bde31a7715791cb64cc7e5dfb03ae6853b37ee0f53c9907c4fae46786910a189c17a116f1db099765
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
@@ -13384,6 +13411,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"agent-base@npm:6":
+  version: 6.0.2
+  resolution: "agent-base@npm:6.0.2"
+  dependencies:
+    debug: "npm:4"
+  checksum: 10c0/dc4f757e40b5f3e3d674bc9beb4f1048f4ee83af189bae39be99f57bf1f48dde166a8b0a5342a84b5944ee8e6ed1e5a9d801858f4ad44764e84957122fe46261
+  languageName: node
+  linkType: hard
+
 "agent-base@npm:^7.1.0, agent-base@npm:^7.1.2":
   version: 7.1.4
   resolution: "agent-base@npm:7.1.4"
@@ -13927,6 +13963,18 @@ __metadata:
     form-data: "npm:^4.0.4"
     proxy-from-env: "npm:^1.1.0"
   checksum: 10c0/80b063e318cf05cd33a4d991cea0162f3573481946f9129efb7766f38fde4c061c34f41a93a9f9521f02b7c9565ccbc197c099b0186543ac84a24580017adfed
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.18.1":
+  version: 1.18.1
+  resolution: "axios@npm:1.18.1"
+  dependencies:
+    follow-redirects: "npm:^1.16.0"
+    form-data: "npm:^4.0.5"
+    https-proxy-agent: "npm:^5.0.1"
+    proxy-from-env: "npm:^2.1.0"
+  checksum: 10c0/9d9378a3af0d0ad730a52ad9d15ec7201f3926ad6e7e8bbffc5ae21ca2835ad11d1d9598698f5dd9718917486039f55ea1d7dc23d8e44fa827a55cc3262c02fc
   languageName: node
   linkType: hard
 
@@ -17911,6 +17959,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"follow-redirects@npm:^1.16.0":
+  version: 1.16.0
+  resolution: "follow-redirects@npm:1.16.0"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 10c0/a1e2900163e6f1b4d1ed5c221b607f41decbab65534c63fe7e287e40a5d552a6496e7d9d7d976fa4ba77b4c51c11e5e9f683f10b43011ea11e442ff128d0e181
+  languageName: node
+  linkType: hard
+
 "for-each@npm:^0.3.3, for-each@npm:^0.3.5":
   version: 0.3.5
   resolution: "for-each@npm:0.3.5"
@@ -17979,6 +18037,19 @@ __metadata:
     hasown: "npm:^2.0.2"
     mime-types: "npm:^2.1.12"
   checksum: 10c0/373525a9a034b9d57073e55eab79e501a714ffac02e7a9b01be1c820780652b16e4101819785e1e18f8d98f0aee866cc654d660a435c378e16a72f2e7cac9695
+  languageName: node
+  linkType: hard
+
+"form-data@npm:^4.0.5":
+  version: 4.0.6
+  resolution: "form-data@npm:4.0.6"
+  dependencies:
+    asynckit: "npm:^0.4.0"
+    combined-stream: "npm:^1.0.8"
+    es-set-tostringtag: "npm:^2.1.0"
+    hasown: "npm:^2.0.4"
+    mime-types: "npm:^2.1.35"
+  checksum: 10c0/43947a77bf0ff45c6ceed789778982d47a3f3e720a74b71721174ebf3310a5f1a8be1d6b38a3ee3688e8a18a2c4273073ec0844cd37efda3eaf46d41c9c318ff
   languageName: node
   linkType: hard
 
@@ -18776,6 +18847,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hasown@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "hasown@npm:2.0.4"
+  dependencies:
+    function-bind: "npm:^1.1.2"
+  checksum: 10c0/2d8de939e270b70618f8cebb69746620db10617dbb495bc66ddad326955ea24d3ca4af133aff3eb7c1853e0218f867bc2b050ec26fe02e3aea58f880ffc5e506
+  languageName: node
+  linkType: hard
+
 "hast-util-to-jsx-runtime@npm:^2.0.0":
   version: 2.3.6
   resolution: "hast-util-to-jsx-runtime@npm:2.3.6"
@@ -19048,6 +19128,16 @@ __metadata:
     quick-lru: "npm:^5.1.1"
     resolve-alpn: "npm:^1.0.0"
   checksum: 10c0/6a9b72a033e9812e1476b9d776ce2f387bc94bc46c88aea0d5dab6bd47d0a539b8178830e77054dd26d1142c866d515a28a4dc7c3ff4232c88ff2ebe4f5d12d1
+  languageName: node
+  linkType: hard
+
+"https-proxy-agent@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "https-proxy-agent@npm:5.0.1"
+  dependencies:
+    agent-base: "npm:6"
+    debug: "npm:4"
+  checksum: 10c0/6dd639f03434003577c62b27cafdb864784ef19b2de430d8ae2a1d45e31c4fd60719e5637b44db1a88a046934307da7089e03d6089ec3ddacc1189d8de8897d1
   languageName: node
   linkType: hard
 
@@ -22024,7 +22114,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mime-types@npm:2.1.35, mime-types@npm:^2.1.12, mime-types@npm:^2.1.18, mime-types@npm:^2.1.27, mime-types@npm:^2.1.28, mime-types@npm:^2.1.31, mime-types@npm:~2.1.24, mime-types@npm:~2.1.34":
+"mime-types@npm:2.1.35, mime-types@npm:^2.1.12, mime-types@npm:^2.1.18, mime-types@npm:^2.1.27, mime-types@npm:^2.1.28, mime-types@npm:^2.1.31, mime-types@npm:^2.1.35, mime-types@npm:~2.1.24, mime-types@npm:~2.1.34":
   version: 2.1.35
   resolution: "mime-types@npm:2.1.35"
   dependencies:
@@ -24331,6 +24421,13 @@ __metadata:
   version: 1.1.0
   resolution: "proxy-from-env@npm:1.1.0"
   checksum: 10c0/fe7dd8b1bdbbbea18d1459107729c3e4a2243ca870d26d34c2c1bcd3e4425b7bcc5112362df2d93cc7fb9746f6142b5e272fd1cc5c86ddf8580175186f6ad42b
+  languageName: node
+  linkType: hard
+
+"proxy-from-env@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "proxy-from-env@npm:2.1.0"
+  checksum: 10c0/ed01729fd4d094eab619cd7e17ce3698b3413b31eb102c4904f9875e677cd207392795d5b4adee9cec359dfd31c44d5ad7595a3a3ad51c40250e141512281c58
   languageName: node
   linkType: hard
 

@@ -17,13 +17,16 @@ export default [
       credentials: true,
     },
   },
-  'strapi::security',
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
+  {
+    name: 'global::jwt-from-cookie',
+    config: {},
+  },
   {
     name: 'strapi::security',
     config: {
@@ -38,7 +41,8 @@ export default [
             'data:',
             'https://maps.gstatic.com',
             'https://maps.googleapis.com',
-            'https://canadian-lawn-storage.storage.yandexcloud.net',
+            'https://s3.twcstorage.ru',
+            'https://*.s3.twcstorage.ru',
           ],
           'img-src': [
             "'self'",
@@ -66,7 +70,8 @@ export default [
             'khms3.googleapis.com',
             'streetviewpixels-pa.googleapis.com',
             'market-assets.strapi.io',
-            'https://canadian-lawn-storage.storage.yandexcloud.net',
+            'https://s3.twcstorage.ru',
+            'https://*.s3.twcstorage.ru',
           ],
         },
       },

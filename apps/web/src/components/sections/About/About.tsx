@@ -15,7 +15,7 @@ export const About = () => {
   return (
     <LayoutWrapper
       title="О компании"
-      topContentClassName="pt-[30px]"
+      headerContentClassName="pt-[30px]"
       topContent={<TopContent text={data?.description} pic={data?.image?.url} />}
     >
       {data?.items.length && <AboutMainContent items={data?.items} />}

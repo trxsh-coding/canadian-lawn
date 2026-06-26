@@ -2,6 +2,7 @@
 import { Button } from '@canadian-lawn/ui-kit';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { useScrollLock } from 'usehooks-ts';
@@ -93,7 +94,13 @@ export const Header = ({
             <div className="flex items-center gap-4 lg:gap-8">
               <Button iconName="common/zoom" color="icon-primary" className="!px-0" />
               <LoginButton />
-              <Button iconName="common/cart" color="icon-primary" className="!px-0" />
+              <Button
+                iconName="common/cart"
+                color="icon-primary"
+                className="!px-0"
+                as={Link}
+                href={ROUTES.cart.url}
+              />
             </div>
           </div>
           {isOpen && (

@@ -1,17 +1,20 @@
+import ImageCard from 'assets/images/image.png';
 import React from 'react';
 import { toast } from 'sonner';
 
-import { Button, CopyPaste, Icon, Toast } from '@/lib';
+import { Button, ButtonGroup, CopyPaste, Icon, Toast } from '@/lib';
 import { BottomSheet } from '@/lib/components/BottomSheet';
 import { ButtonCounter } from '@/lib/components/ButtonCounter';
 import { Checkbox } from '@/lib/components/Checkbox';
+import { ProductCard } from '@/lib/components/ProductCard/ProductCard';
 import { Progress } from '@/lib/components/Progress';
 import { SliderRange } from '@/lib/components/SliderRange';
-
 function App() {
   const [value, setValue] = React.useState<number>(0);
   const [bottomSheetOpen, setBottomSheetOpen] = React.useState(false);
   const [sliderValue, setSliderValue] = React.useState<[number, number]>([4, 10]);
+  const [selectedSize, setSelectedSize] = React.useState<string>('medium');
+  const [selectedColors, setSelectedColors] = React.useState<string[]>(['red']);
 
   const handleChange = React.useCallback((value: number) => {
     setValue(value);
@@ -84,6 +87,49 @@ function App() {
 
       <div>
         <CopyPaste value="123" />
+      </div>
+
+      <ProductCard
+        image={ImageCard}
+        title="Декоративный теневой, 20 кг"
+        handleButtonChange={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+        handleButtonClick={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+        count={1}
+      />
+
+      <div className="ui:flex ui:flex-col ui:gap-4">
+        <div>
+          <h3 className="ui:mb-2 ui:text-lg ui:font-bold">Выбор размера (single):</h3>
+          <ButtonGroup
+            options={[
+              { value: 'small', label: 'Маленький' },
+              { value: 'medium', label: 'Средний' },
+              { value: 'large', label: 'Большой' },
+              { value: 'xlarge', label: 'Очень большой', disabled: true },
+            ]}
+            value={selectedSize}
+            onChange={(value) => setSelectedSize(value as string)}
+          />
+        </div>
+
+        <div>
+          <h3 className="ui:mb-2 ui:text-lg ui:font-bold">Выбор цветов (multiple):</h3>
+          <ButtonGroup
+            multiple
+            options={[
+              { value: 'red', label: 'Красный' },
+              { value: 'green', label: 'Зелёный' },
+              { value: 'blue', label: 'Синий' },
+              { value: 'yellow', label: 'Жёлтый' },
+            ]}
+            value={selectedColors}
+            onChange={(value) => setSelectedColors(value as string[])}
+          />
+        </div>
       </div>
     </div>
   );

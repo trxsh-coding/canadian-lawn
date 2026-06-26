@@ -15,8 +15,33 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::lawn-type.lawn-type",
-      "configurable": false,
-      "visible": false
+      "configurable": true,
+      "visible": true,
+      "conditions": {
+        "visible": {
+          "==": [{ "var": "type" }, "lawn"]
+        }
+      }
+    },
+    "brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::brand.brand",
+      "conditions": {
+        "visible": {
+          "==": [{ "var": "type" }, "lawn"]
+        }
+      }
+    },
+    "features": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::feature.feature",
+      "conditions": {
+        "visible": {
+          "==": [{ "var": "type" }, "lawn"]
+        }
+      }
     },
     "name": {
       "type": "string",
@@ -77,16 +102,28 @@
       "type": "component",
       "conditions": {
         "visible": {
-          "==": [
-            {
-              "var": "type"
-            },
-            "lawn"
-          ]
+          "in": [{ "var": "type" }, ["lawn", "lawn-mix"]]
         }
       },
       "component": "products.lawn-single",
       "repeatable": false
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "lawns": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "conditions": {
+        "visible": {
+          "==": [{ "var": "type" }, "lawn-mix"]
+        }
+      }
     }
   }
 }

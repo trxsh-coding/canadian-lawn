@@ -15,8 +15,8 @@ export const NotFoundPage = () => {
   return (
     <LayoutWrapper
       mainContainerClassName="!m-0 !p-0 relative"
-      mainWrapperClassName="!p-0 !mx-0 bg-primary h-full min-h-[400px] lg:min-h-auto"
-      mainContentClassName="!h-full flex lg:px-section lg:!my-0 flex-col-reverse lg:flex-col px-4 bg-primary"
+      contentWrapperClassName="!p-0 !mx-0 bg-primary h-full min-h-[400px] lg:min-h-auto"
+      contentContainerClassName="!h-full flex lg:px-section lg:!my-0 flex-col-reverse lg:flex-col px-4 bg-primary"
     >
       <>
         <div className="bg-primary relative flex h-full w-full items-start justify-start lg:justify-end">

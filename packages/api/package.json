@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@canadian-lawn/api": "*",
+    "@canadian-lawn/env": "*",
     "@tanstack/react-query": "^5.80.6",
     "axios": "^1.11.0",
     "dotenv": "^16.5.0",

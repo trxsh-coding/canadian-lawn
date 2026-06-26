@@ -35,6 +35,10 @@ export const ROUTES: RoutesType = {
     url: '/faq',
     name: 'faq',
   },
+  cart: {
+    url: '/cart',
+    name: 'Корзина',
+  },
   profile: {
     url: '/profile',
     name: 'Профиль',
@@ -45,4 +49,8 @@ export const ROUTES: RoutesType = {
 export const detailRoutes = {
   lawn: (slug: string) => `/lawn/${slug}`,
   blog: (slug: string) => `/blogs/${slug}`,
+  lawnMix: (slug: string) => `/lawn-mix/${slug}`,
+  mix: (slug: string) => `/mix/${slug}`,
+  traktor: (slug: string) => `/traktor/${slug}`,
+  technique: (slug: string) => `/technique/${slug}`,
 };

@@ -1,71 +1,88 @@
 'use client';
 
-import { Filter, Filters } from '@canadian-lawn/api';
-import { BottomSheet, Button } from '@canadian-lawn/ui-kit';
+import { CheckboxFilter, FilterItem, FilterValue, RangeFilter } from '@canadian-lawn/api';
+import { BottomSheet, Button, SliderRange } from '@canadian-lawn/ui-kit';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { useToggle } from 'usehooks-ts';
 
 import { FilterList } from '@/components/layout/CheckboxFiltersList';
-import { filtersTypes } from '@/const';
 import { useLawnFilters } from '@/hooks/api/useLawnFilters';
-import { FiltersWithQueryReturn, useFiltersWithQuery } from '@/hooks/useFiltersWithQuery';
+import { useFilterState } from '@/hooks/useFiltersState';
+import { useQueryParams } from '@/hooks/useUrlArrayParam';
 
-import { FiltersConfigType, getFiltersConfig } from './config';
-
-interface RenderFilterProps {
-  config: FiltersConfigType;
-  filter: FiltersWithQueryReturn;
+const CheckboxFilterItem = ({
+  filter,
+  view,
+}: {
+  filter: CheckboxFilter;
   view: 'desktop' | 'mobile';
+}) => {
+  const state = useFilterState<FilterValue>(filter.values, filter.field);
+
+  return (
+    <FilterList
+      view={view}
+      title={filter.title}
+      items={filter.values}
+      selectedIds={state.selectedIds}
+      onChange={state.onChange}
+      selectedItems={state.selectedItems}
+    />
+  );
+};
+
+const RangeFilterItem = ({ filter }: { filter: RangeFilter }) => {
+  const { getNumericArrayParam, setNumericArrayParam } = useQueryParams();
+
+  const values = getNumericArrayParam(filter.field);
+  const value: [number, number] =
+    values.length === 2 ? [values[0], values[1]] : [filter.min, filter.max];
+
+  const onChange = React.useCallback(
+    (val: [number, number]) => {
+      if (val[0] === filter.min && val[1] === filter.max) {
+        setNumericArrayParam(filter.field, []);
+      } else {
+        setNumericArrayParam(filter.field, [...val]);
+      }
+    },
+    [filter.field, filter.min, filter.max, setNumericArrayParam]
+  );
+
+  return (
+    <SliderRange
+      label={filter.title}
+      min={filter.min}
+      max={filter.max}
+      value={value}
+      onChange={onChange}
+    />
+  );
+};
+
+const FilterRenderer = ({ filter, view }: { filter: FilterItem; view: 'desktop' | 'mobile' }) => {
+  if (filter.type === 'range') return <RangeFilterItem filter={filter} />;
+  return <CheckboxFilterItem filter={filter} view={view} />;
+};
+
+interface LawnFiltersProps {
+  productType: string;
 }
 
-export const LawnFilters = () => {
+export const LawnFilters = ({ productType }: LawnFiltersProps) => {
   const router = useRouter();
-
   const pathname = usePathname();
-
   const [bottomSheetOpen, toggle] = useToggle();
 
-  const { useHook: lawnsFilters } = useLawnFilters();
+  const { useHook } = useLawnFilters(productType);
+  const { data, isError } = useHook();
 
-  const lawnFilters = lawnsFilters();
-
-  const data = lawnFilters?.data?.data;
-
-  const filtersConfig = React.useMemo(() => getFiltersConfig(data as Filters), [data]);
-
-  const filters = {
-    partnerTypes: useFiltersWithQuery(data?.partnerTypes || [], filtersTypes.PARTNER_TYPES),
-    lawnTypes: useFiltersWithQuery(data?.lawnTypes || [], filtersTypes.LAWN_TYPES),
-    brands: useFiltersWithQuery(data?.brands || [], filtersTypes.BRANDS),
-    features: useFiltersWithQuery(data?.features || [], filtersTypes.FEATURES),
-  };
-
-  const RenderFilter = ({ config, filter, view }: RenderFilterProps) => {
-    const props = {
-      key: config.key,
-      items: config.items,
-      title: config.title,
-      selectedIds: filter.selectedIds,
-      onChange: (item: Filter) => filter.onChange(item),
-      selectedItems: filter.selectedItems,
-    };
-
-    return <FilterList view={view} {...props} />;
-  };
-
-  const RenderFilters = ({ view }: { view: 'mobile' | 'desktop' }) => {
-    return filtersConfig.map((config) => {
-      const filter = filters[config.key as keyof typeof filters];
-      return !data || !data[config.dataKey]?.length ? null : (
-        <RenderFilter key={config.key} config={config} filter={filter} view={view} />
-      );
-    });
-  };
+  const filters = data?.data ?? [];
 
   const handleReset = React.useCallback(() => router.replace(pathname), [pathname, router]);
 
-  if (lawnFilters.isError) return <div>Error...</div>;
+  if (isError) return <div>Error...</div>;
 
   return (
     <>
@@ -74,13 +91,21 @@ export const LawnFilters = () => {
           open={bottomSheetOpen}
           onOpenChange={toggle}
           title="Фильтры"
-          mainContent={<RenderFilters view="mobile" />}
+          mainContent={
+            <>
+              {filters.map((filter) => (
+                <FilterRenderer key={filter.field} filter={filter} view="mobile" />
+              ))}
+            </>
+          }
         >
           <Button iconName="common/filter" radius="large" className="!text-baseBlack" />
         </BottomSheet>
       </div>
       <div className="hidden flex-col gap-4 p-4 lg:flex">
-        <RenderFilters view="desktop" />
+        {filters.map((filter) => (
+          <FilterRenderer key={filter.field} filter={filter} view="desktop" />
+        ))}
         <Button color="secondary" buttonType="button" onClick={handleReset}>
           Сбросить
         </Button>

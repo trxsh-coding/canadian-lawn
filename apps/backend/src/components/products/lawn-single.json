@@ -31,12 +31,6 @@
     "shade_tolerance": {
       "type": "string"
     },
-    "package": {
-      "type": "component",
-      "component": "common.packages",
-      "repeatable": true,
-      "required": true
-    },
     "mix": {
       "type": "component",
       "component": "products.composition-item",
@@ -46,6 +40,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::lawn-type.lawn-type"
+    },
+    "package": {
+      "type": "component",
+      "component": "common.packages",
+      "repeatable": true
     }
   },
   "config": {}

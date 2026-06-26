@@ -1,6 +1,6 @@
 'use client';
 
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import React from 'react';
 
 import { MapleSpinner } from '@/components/atoms/Loaders/MappleSpinner';
@@ -15,7 +15,8 @@ import { useMe } from '@/hooks/api/useMe';
 export const Profile = () => {
   const [tab, setTab] = React.useState(profileTabsOptions[0]);
 
-  const { useHook: user } = useMe();
+  const { data: session } = useSession();
+  const { useHook: user } = useMe(session?.user.jwt);
 
   const onLogout = React.useCallback(() => signOut({ callbackUrl: ROUTES.home.url }), []);
 
@@ -31,8 +32,8 @@ export const Profile = () => {
 
   return (
     <LayoutWrapper
-      mainWrapperClassName="!px-0 !b-0"
-      mainContentClassName="!rounded-sm"
+      contentWrapperClassName="!px-0 !b-0"
+      contentContainerClassName="!rounded-sm"
       mainContainerClassName="px-0 !mb-0"
       title="Профиль"
       asideContent={

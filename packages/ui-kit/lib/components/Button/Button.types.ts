@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ElementType } from 'react';
 
 import { type BaseClickableProps, type IconName } from '@/lib';
 
@@ -14,7 +14,7 @@ export type ButtonColor =
 
 export type ButtonType = 'text' | 'button' | 'icon';
 
-export type ButtonProps = React.PropsWithChildren<
+export type ButtonProps<T extends ElementType = 'button'> = React.PropsWithChildren<
   {
     className?: string;
     width?: 'fit' | 'fill';
@@ -33,7 +33,9 @@ export type ButtonProps = React.PropsWithChildren<
     onIconClick?: VoidFunction;
     onSuffixIconClick?: VoidFunction;
     rounded?: boolean;
-  } & Exclude<BaseClickableProps<'button'>, 'onTouchStart'>
+    effect?: 'ripple' | 'none';
+    iconPos?: 'left' | 'right';
+  } & Omit<BaseClickableProps<T>, 'onTouchStart'>
 >;
 
 export type NativeButtonType = 'button' | 'submit' | 'reset';

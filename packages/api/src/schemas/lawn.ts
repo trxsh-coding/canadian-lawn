@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { filterSchema } from '@/schemas/filters';
+import { filterValueSchema } from '@/schemas/filters';
 import { mediaSchema } from '@/schemas/media';
 import { monthsSchema } from '@/schemas/months';
 import { partnerSchema } from '@/schemas/partner';
@@ -41,7 +41,7 @@ export const lawnSchema = z
     landing: monthsSchema.optional().nullable(),
     price: z.array(packages),
     type: z.array(type),
-    partners_types: z.array(filterSchema).optional().nullable(),
+    partners_types: z.array(filterValueSchema).optional().nullable(),
     partner: partnerSchema.optional().nullable(),
     parent: z
       .lazy(() => lawnSchema)

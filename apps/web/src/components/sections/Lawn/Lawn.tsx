@@ -4,12 +4,12 @@ import { MapleSpinner } from '@/components/atoms/Loaders/MappleSpinner';
 import { LayoutWrapper } from '@/components/layout/LayoutWrapper';
 import { LawnDetails } from '@/components/sections/Lawn/LawnDetails';
 import { TopContent } from '@/components/sections/Lawn/TopContent';
-import { useLawnDetail } from '@/hooks/api/useLawnDetail';
+import { useProductDetail } from '@/hooks/api/useProductDetail';
 
 export const Lawn = ({ slug }: { slug: string }) => {
-  const { useHook: lawns } = useLawnDetail({ slug });
-  const { data, isError, isLoading } = lawns();
-  const lawnData = data?.data;
+  const { useHook } = useProductDetail({ slug });
+  const { data, isError, isLoading } = useHook();
+  const product = data?.data;
 
   if (isLoading)
     return (
@@ -17,11 +17,14 @@ export const Lawn = ({ slug }: { slug: string }) => {
         <MapleSpinner />
       </div>
     );
-  if (isError) return null;
+  if (isError || !product) return null;
 
   return (
-    <LayoutWrapper topContentClassName="lg:py-section" topContent={<TopContent lawn={lawnData} />}>
-      <LawnDetails lawn={lawnData} />
+    <LayoutWrapper
+      topContentClassName="lg:py-section"
+      topContent={<TopContent product={product} />}
+    >
+      <LawnDetails product={product} />
     </LayoutWrapper>
   );
 };

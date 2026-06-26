@@ -7,6 +7,7 @@ import { ProductType } from '@/types';
 
 export const productTypeEnum = z.enum([
   ProductType.Lawn,
+  ProductType.LawnMix,
   ProductType.Tractor,
   ProductType.Technique,
 ]);
@@ -34,6 +35,7 @@ const baseProductSchema = z.object({
   quantity: z.number().nullable(),
 
   images: z.array(mediaSchema).nullable(),
+  image: mediaSchema.nullable().optional(),
   categories: z.array(categorySchema).optional(),
 
   createdAt: z.string(),
@@ -41,8 +43,14 @@ const baseProductSchema = z.object({
   publishedAt: z.string().nullable(),
 });
 
-export const lawnProductSchema = baseProductSchema.extend({
+// Strict single-type schemas — used in productSchema discriminated union
+const lawnOnlySchema = baseProductSchema.extend({
   type: z.literal(ProductType.Lawn),
+  lawn: lawnSingleSchema,
+});
+
+const lawnMixOnlySchema = baseProductSchema.extend({
+  type: z.literal(ProductType.LawnMix),
   lawn: lawnSingleSchema,
 });
 
@@ -56,10 +64,29 @@ export const tractorProductSchema = baseProductSchema.extend({
   lawn: z.null(),
 });
 
-export const productSchema = z.discriminatedUnion('type', [
-  lawnProductSchema,
+// Schema for lawn + lawn-mix products (catalog listing & detail)
+export const lawnProductSchema = baseProductSchema.extend({
+  type: z.union([z.literal(ProductType.Lawn), z.literal(ProductType.LawnMix)]),
+  lawn: lawnSingleSchema.nullable(),
+});
+
+// Schema for machinery products (tractor + technique)
+export const machineryProductSchema = z.discriminatedUnion('type', [
+  tractorProductSchema,
+  techniqueProductSchema,
+]);
+
+export const nonLawnProductSchema = z.discriminatedUnion('type', [
   techniqueProductSchema,
   tractorProductSchema,
+  lawnMixOnlySchema,
+]);
+
+export const productSchema = z.discriminatedUnion('type', [
+  lawnOnlySchema,
+  techniqueProductSchema,
+  tractorProductSchema,
+  lawnMixOnlySchema,
 ]);
 
 export type Product = z.infer<typeof productSchema>;
@@ -69,3 +96,7 @@ export type LawnProduct = z.infer<typeof lawnProductSchema>;
 export type TechniqueProduct = z.infer<typeof techniqueProductSchema>;
 
 export type TractorProduct = z.infer<typeof tractorProductSchema>;
+
+export type MachineryProduct = z.infer<typeof machineryProductSchema>;
+
+export type NonLawnProduct = z.infer<typeof nonLawnProductSchema>;

@@ -1,6 +1,6 @@
 'use client';
 
-import { Lawn, Media, months } from '@canadian-lawn/api';
+import { LawnProduct, Media, months } from '@canadian-lawn/api';
 import { Button, DateRange, Pic, Progress, Typography } from '@canadian-lawn/ui-kit';
 import React from 'react';
 
@@ -8,23 +8,25 @@ import { MonthKey, monthsLocale } from '@/const/months';
 import cn from '@/utils/cnMerge';
 
 type TopContentProps = {
-  lawn?: Lawn;
+  product?: LawnProduct;
 };
 
-export const TopContent = ({ lawn }: TopContentProps) => {
-  const [weight, setWeight] = React.useState<{
-    price: number;
-    weight: number;
-  } | null>(lawn?.price?.[0] || null);
-  const [image, setImage] = React.useState<Media | null>(lawn?.gallery?.[0] || lawn?.image || null);
+export const TopContent = ({ product }: TopContentProps) => {
+  const packages = product?.lawn?.package ?? [];
+  const [selectedPkg, setSelectedPkg] = React.useState(packages[0] ?? null);
+  const [image, setImage] = React.useState<Media | null>(
+    product?.images?.[0] ?? product?.image ?? null
+  );
 
-  const active: MonthKey[] = Object.keys(lawn?.landing ?? {}).filter(
-    (key) => lawn?.landing?.[key as MonthKey]
+  const landing = product?.lawn?.landing;
+  const active: MonthKey[] = Object.keys(landing ?? {}).filter(
+    (key) => landing?.[key as MonthKey]
   ) as MonthKey[];
 
   const rangeSuffix =
-    active &&
-    `${monthsLocale.months[active[0]]?.slice(0, 3)}-${monthsLocale.months[active[active.length - 1]].slice(0, 3)}`;
+    active.length > 0
+      ? `${monthsLocale.months[active[0]]?.slice(0, 3)}-${monthsLocale.months[active[active.length - 1]]?.slice(0, 3)}`
+      : undefined;
 
   return (
     <div className="flex flex-col gap-2 lg:flex-row">
@@ -32,7 +34,7 @@ export const TopContent = ({ lawn }: TopContentProps) => {
         <div className="flex flex-col gap-5 lg:flex-row">
           <div className="flex flex-col-reverse lg:flex-row">
             <div className="flex items-center gap-5 lg:flex-col">
-              {lawn?.gallery?.map((item) => (
+              {product?.images?.map((item) => (
                 <Pic
                   key={item.id}
                   className={cn(
@@ -49,47 +51,51 @@ export const TopContent = ({ lawn }: TopContentProps) => {
             </div>
           </div>
           <div className="flex flex-col gap-5">
-            <Typography view="large1">{lawn?.name}</Typography>
+            <Typography view="large1">{product?.name}</Typography>
             <div className="flex w-full max-w-full gap-4">
-              {lawn?.speed && (
+              {product?.lawn?.speed && (
                 <Progress
-                  progress={lawn?.speed}
+                  progress={product.lawn.speed}
                   titleClassName="!text-baseBlack"
                   title="скорость роста"
                   className="ui:max-w-full"
                 />
               )}
-              {lawn?.resistance && (
+              {product?.lawn?.resistance && (
                 <Progress
-                  progress={lawn.resistance}
+                  progress={product.lawn.resistance}
                   titleClassName="!text-baseBlack"
                   title="устойчивость"
                 />
               )}
             </div>
-            {lawn?.type.map((type) => (
-              <div key={type.lawnType?.id} className="flex w-[80%] justify-between">
-                <Typography>{type.lawnType?.name}:</Typography>
-                <Typography>{type.percent}%</Typography>
+            {product?.lawn?.mix?.map((item, i) => (
+              <div key={i} className="flex w-[80%] justify-between">
+                <Typography>{item.product?.name}:</Typography>
+                <Typography>{item.percent}%</Typography>
               </div>
             ))}
-            <DateRange prefix="Посадка" suffix={rangeSuffix} list={months} active={active} />
+            {active.length > 0 && (
+              <DateRange prefix="Посадка" suffix={rangeSuffix} list={months} active={active} />
+            )}
             <div className="flex gap-1">
-              {lawn?.price.map((price, index) => (
+              {packages.map((pkg, i) => (
                 <Button
-                  key={index}
-                  disabled={weight?.weight !== price.weight}
+                  key={i}
+                  disabled={selectedPkg?.weight !== pkg.weight}
                   radius="large"
                   width="fit"
-                  onClick={() => setWeight(price)}
+                  onClick={() => setSelectedPkg(pkg)}
                 >
-                  {price.weight}кг
+                  {pkg.weight} {pkg.unit ?? 'кг'}
                 </Button>
               ))}
             </div>
             <div>
               <Typography color="secondary-grey">
-                {weight?.weight} кг за {weight?.price} руб
+                {selectedPkg
+                  ? `${selectedPkg.weight} ${selectedPkg.unit ?? 'кг'} за ${selectedPkg.price} руб`
+                  : `${product?.price} руб`}
               </Typography>
             </div>
           </div>
@@ -97,7 +103,7 @@ export const TopContent = ({ lawn }: TopContentProps) => {
       </div>
       <div className="mt-4 ml-2 flex flex-col gap-4">
         <Typography color="base-white" view="large1">
-          {weight?.price}₽
+          {selectedPkg?.price ?? product?.price} ₽
         </Typography>
         <Button suffixIconName="common/cart">Добавить в корзину</Button>
       </div>
