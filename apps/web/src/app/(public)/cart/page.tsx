@@ -1,5 +1,5 @@
 import { Cart } from '@/components/sections/Cart';
 
-export default async function ProfilePage() {
+export default function CartPage() {
   return <Cart />;
 }
