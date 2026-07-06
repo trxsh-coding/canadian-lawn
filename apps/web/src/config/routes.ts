@@ -15,9 +15,17 @@ export const ROUTES: RoutesType = {
     url: '/lawn',
     name: 'Семена',
   },
+  lawnMix: {
+    url: '/lawn-mix',
+    name: 'Травосмеси',
+  },
   partners: {
     url: '/partners',
     name: 'Партнеры',
+  },
+  technique: {
+    url: '/technique',
+    name: 'Техника',
   },
   blogs: {
     url: '/blogs',

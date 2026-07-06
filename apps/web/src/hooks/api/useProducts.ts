@@ -21,7 +21,7 @@ export const useProducts = <T extends z.ZodTypeAny>({
   buildCollectionPrefetchQuery<T, FetchMode.COLLECTION>({
     endpoint: ENDPOINTS.common.products,
     schema,
-    queryKey: [queryKey, filters?.toString()],
+    queryKey: [queryKey, JSON.stringify(filters), JSON.stringify(populate), String(limit)],
     mode: FetchMode.COLLECTION,
     params: {
       filters,

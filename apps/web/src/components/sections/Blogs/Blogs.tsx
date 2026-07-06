@@ -5,6 +5,7 @@ import { BlogCard } from '@canadian-lawn/ui-kit';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
+import CardPlaceholder from '@/assets/img/blog.png';
 import { MapleSpinner } from '@/components/atoms/Loaders/MappleSpinner';
 import { LayoutWrapper } from '@/components/layout/LayoutWrapper';
 import { detailRoutes } from '@/config/routes';
@@ -35,6 +36,7 @@ export const Blogs = () => {
           <BlogCard
             key={blog.id}
             image={blog.image?.url}
+            placeholder={CardPlaceholder.src}
             title={blog.title}
             date={blog.date}
             onClick={() => handleClick(blog.slug)}

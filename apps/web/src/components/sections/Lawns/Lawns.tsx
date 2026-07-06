@@ -1,30 +1,75 @@
 'use client';
 
-import { LawnProduct, lawnProductSchema, PRODUCT_POPULATE_LAWN } from '@canadian-lawn/api';
+import {
+  LawnProduct,
+  lawnProductSchema,
+  PRODUCT_POPULATE_LAWN,
+  ProductType,
+} from '@canadian-lawn/api';
 import { LawnCard } from '@canadian-lawn/ui-kit';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import React from 'react';
-import { toast } from 'sonner';
 import { z } from 'zod';
 
-import { Spinner } from '@/components/atoms/Loaders/Spinner';
+import CardPlaceholder from '@/assets/img/card-placeholder.png';
+import { MapleSpinner } from '@/components/atoms/Loaders/MappleSpinner';
 import { detailRoutes } from '@/config/routes';
-import { useAddItemToCart } from '@/hooks/api/useCart';
 import { useProducts } from '@/hooks/api/useProducts';
+import { useAddToCart } from '@/hooks/useAddToCart';
+import { useInfiniteScrollTrigger } from '@/hooks/useInfiniteScrollTrigger';
 import { useQueryParams } from '@/hooks/useUrlArrayParam';
-import { AuthStatus } from '@/types/enums';
 import { STRAPI_FILTER_MAP } from '@/utils/filters';
 
 interface LawnsProps {
   productType: string;
 }
 
-export const Lawns = ({ productType }: LawnsProps) => {
-  const session = useSession();
-  const addItemMutation = useAddItemToCart(session.data?.user.jwt);
+const LawnCardItem = ({ product, productType }: { product: LawnProduct; productType: string }) => {
+  const { addToCart } = useAddToCart();
   const router = useRouter();
+  const packages = product.lawn?.package ?? [];
+  const [selectedWeight, setSelectedWeight] = React.useState(packages[0]?.weight);
+  const selected = packages.find((pkg) => pkg.weight === selectedWeight);
 
+  return (
+    <LawnCard
+      slug={product.slug || ''}
+      className="!max-w-full self-center lg:!max-w-[480px]"
+      image={product.image?.url || ''}
+      placeholder={CardPlaceholder.src}
+      name={product.name}
+      packages={packages}
+      price={product.price}
+      resistance={product.lawn?.resistance ?? 0}
+      growth={product.lawn?.speed ?? 0}
+      onTypeChange={(value) => setSelectedWeight(Number(value))}
+      handleButtonChange={() => null}
+      handleButtonClick={() =>
+        addToCart({
+          productId: product.id,
+          name: product.name,
+          slug: product.slug,
+          type: product.type,
+          price: selected?.price ?? product.price,
+          quantity: 1,
+          image: product.image?.url,
+          packageWeight: selected?.weight,
+          packageUnit: selected?.unit,
+        })
+      }
+      handleCardClick={() =>
+        router.push(
+          productType === ProductType.LawnMix
+            ? detailRoutes.lawnMix(product.slug || '')
+            : detailRoutes.lawn(product.slug || '')
+        )
+      }
+      value={0}
+    />
+  );
+};
+
+export const Lawns = ({ productType }: LawnsProps) => {
   const { pageParams } = useQueryParams();
 
   const filters = React.useMemo(() => {
@@ -54,60 +99,49 @@ export const Lawns = ({ productType }: LawnsProps) => {
     return result;
   }, [pageParams]);
 
-  const handleAdd = React.useCallback(
-    (item: LawnProduct) => {
-      if (session.status !== AuthStatus.Authenticated) {
-        toast.error('Войдите в аккаунт, чтобы добавить товар в корзину');
-        return;
-      }
-      addItemMutation.mutate(
-        { productId: item.id, quantity: 1, price: item.price },
-        {
-          onSuccess: () => toast.success(`${item.name} добавлен в корзину`),
-          onError: (error) => toast.error(`Ошибка: ${error.message}`),
-        }
-      );
-    },
-    [addItemMutation, session.status]
-  );
-
   const lawn = useProducts<z.ZodType<LawnProduct>>({
     populate: { ...PRODUCT_POPULATE_LAWN },
     schema: lawnProductSchema,
     filters: { ...filters, type: productType },
-  }).useHook();
-  if (lawn.isLoading) {
+  }).useInfiniteHook();
+
+  const { data, isLoading, isFetching, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    lawn;
+
+  const sentinelRef = useInfiniteScrollTrigger(() => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, Boolean(hasNextPage));
+
+  if (isLoading) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
-        <Spinner />
+      <div className="relative h-[50vh] w-full">
+        <MapleSpinner />
       </div>
     );
   }
 
-  if (lawn.isError) return null;
+  if (isError) return null;
+
+  const items = data?.pages.flatMap((page) => page.data) ?? [];
 
   return (
-    <div className="relative">
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3">
-        {lawn?.data?.data.map((product) => (
-          <LawnCard
-            slug={product.slug || ''}
-            key={product.id}
-            className="!max-w-full self-center lg:!max-w-[480px]"
-            buttonClassName="sm:!max-w-[50%] md:max-w-full sm:!w-[50%] md:!w-full"
-            image={product.image?.url || ''}
-            name={product.name}
-            packages={product.lawn?.package ?? []}
-            price={product.price}
-            resistance={product.lawn?.resistance ?? 0}
-            growth={product.lawn?.speed ?? 0}
-            handleButtonChange={() => null}
-            handleButtonClick={() => handleAdd(product)}
-            handleCardClick={() => router.push(detailRoutes.lawn(product.slug || ''))}
-            value={0}
-          />
+    <div className="relative flex flex-col gap-5">
+      {isFetching && !isFetchingNextPage && (
+        <div className="absolute inset-0 z-10 bg-white/60">
+          <MapleSpinner />
+        </div>
+      )}
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5 lg:grid-cols-[repeat(auto-fill,minmax(480px,1fr))]">
+        {items.map((product) => (
+          <LawnCardItem key={product.id} product={product} productType={productType} />
         ))}
       </div>
+      <div ref={sentinelRef} />
+      {isFetchingNextPage && (
+        <div className="relative h-16 w-full">
+          <MapleSpinner />
+        </div>
+      )}
     </div>
   );
 };

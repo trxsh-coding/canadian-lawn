@@ -14,6 +14,7 @@ export type LayoutWrapperProps = {
   className?: string;
   headerSectionClassName?: string;
   headerContentClassName?: string;
+  topContentClassName?: string;
   contentWrapperClassName?: string;
   contentContainerClassName?: string;
   asideClassName?: string;
@@ -31,6 +32,7 @@ export const LayoutWrapper = ({
   asideContent,
   headerSectionClassName,
   headerContentClassName,
+  topContentClassName,
   contentWrapperClassName,
   contentContainerClassName,
   asideClassName,
@@ -66,7 +68,9 @@ export const LayoutWrapper = ({
               {title}
             </Typography>
           )}
-          <div className={cn('mt-4', headerContentClassName)}>{topContent}</div>
+          <div className={cn('mt-4', headerContentClassName, topContentClassName)}>
+            {topContent}
+          </div>
         </div>
       </Constraints>
 
@@ -85,7 +89,7 @@ export const LayoutWrapper = ({
         {asideContent && (
           <aside
             className={cn(
-              'bg-baseWhite shrink-0 rounded-none px-4 lg:w-[248px] lg:rounded-sm lg:p-5 xl:!block',
+              'bg-baseWhite shrink-0 rounded-none px-4 lg:w-[248px] lg:self-start lg:rounded-sm lg:p-5 xl:!block',
               asideClassName
             )}
           >

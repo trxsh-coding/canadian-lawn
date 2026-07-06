@@ -1,5 +1,6 @@
 import React from 'react';
 
+import lawnCardPlaceholder from '@/assets/images/lawn-placeholder.png';
 import { ButtonGroup, Pic, Typography } from '@/lib';
 import { ButtonCounter } from '@/lib/components/ButtonCounter';
 import { Progress } from '@/lib/components/Progress';
@@ -15,6 +16,7 @@ type LawnCardProps = {
   className?: string;
   buttonClassName?: string;
   image: string;
+  placeholder?: string;
   name: string;
   slug: string;
   buttonText?: string;
@@ -31,6 +33,7 @@ type LawnCardProps = {
 
 export const LawnCard = ({
   image,
+  placeholder,
   name,
   growth,
   packages,
@@ -76,16 +79,16 @@ export const LawnCard = ({
   return (
     <div
       className={cn(
-        'ui:cursor-pointer ui:relative ui:max-w-full ui:min-w-0 ui:rounded-sm ui:bg-baseWhite ui:gap-3 ui:lg:gap-5 ui:2xl:p-6 ui:md:gap-3 ui:flex ui:xs:flex-row ui:p-6',
+        'ui:relative ui:max-w-full ui:min-w-0 ui:rounded-sm ui:bg-baseWhite ui:gap-3 ui:lg:gap-5 ui:2xl:p-6 ui:md:gap-3 ui:flex ui:xs:flex-row ui:p-6',
         className
       )}
-      onClick={() => handleCardClick(slug)}
     >
       <div className="ui:2xl:flex">
         <div className="ui:flex ui:flex-col ui:justify-between ui:gap-3">
           <Pic
             className="ui:h-[104px] ui:w-[104px] ui:md:h-[86px] ui:md:w-[85px] ui:2xl:h-[133px] ui:2xl:w-[133px]"
-            src={image}
+            src={image || lawnCardPlaceholder}
+            skeleton={placeholder}
             alt="Газон"
           />
           {shouldShowPackages && (
@@ -93,14 +96,18 @@ export const LawnCard = ({
               options={packageOptions}
               value={String(selectedWeight)}
               onChange={handlePackageChange}
-              className="ui:flex-col"
+              className="ui:flex"
             />
           )}
         </div>
       </div>
-      <div className="ui:flex ui:flex-col ui:justify-between ui:w-full">
+      <div className="ui:flex ui:flex-1 ui:min-w-0 ui:flex-col ui:justify-between ui:w-full">
         <div className="ui:flex ui:flex-col ui:justify-between">
-          <Typography view="card-price" className="ui:mb-3">
+          <Typography
+            view="card-price"
+            className="ui:mb-3 ui:cursor-pointer ui:hover:underline"
+            onClick={() => handleCardClick(slug)}
+          >
             {name}
           </Typography>
           <div className="ui:flex ui:gap-4 ui:mb-[30px] ui:max-w-full ui:w-full">
@@ -121,19 +128,17 @@ export const LawnCard = ({
             )}
           </div>
         </div>
-        <div onClick={(e) => e.stopPropagation()}>
-          <ButtonCounter
-            className={buttonClassName}
-            onChange={handleButtonChange}
-            value={value}
-            max={20}
-            min={0}
-            text="500 м²"
-            onClick={() => handleButtonClick(true)}
-            onSuffixIconClick={() => handleButtonClick(true)}
-            onIconClick={() => handleButtonClick(false)}
-          />
-        </div>
+        <ButtonCounter
+          className={cn('', buttonClassName)}
+          onChange={handleButtonChange}
+          value={value}
+          max={20}
+          min={0}
+          text="заказать"
+          onClick={() => handleButtonClick(true)}
+          onSuffixIconClick={() => handleButtonClick(true)}
+          onIconClick={() => handleButtonClick(false)}
+        />
       </div>
     </div>
   );

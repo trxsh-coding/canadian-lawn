@@ -5,7 +5,7 @@ import cn from '@/lib/utils/cnMerge';
 
 type ButtonCounterProps = {
   value: number;
-  text: string;
+  text?: string;
   onClick: VoidFunction;
   onSuffixIconClick: VoidFunction;
   onIconClick: VoidFunction;
@@ -66,7 +66,7 @@ export const ButtonCounter = ({
   }, [value]);
 
   return (
-    <div className="ui:flex ui:items-center ui:gap-2">
+    <div className="ui:flex ui:items-center ui:gap-2 ui:w-full">
       <Button {...buttonProps} width="fill" className={cn('ui:max-w-full ui:w-full', className)}>
         {isActive ? (
           <Input

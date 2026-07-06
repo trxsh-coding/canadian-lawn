@@ -21,6 +21,8 @@ export const addItemToCartSchema = z.object({
   productId: z.number(),
   quantity: z.number(),
   price: z.number(),
+  packageWeight: z.number().optional(),
+  packageUnit: z.string().optional(),
 });
 
 export const updateCartItemSchema = z.object({

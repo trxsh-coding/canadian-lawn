@@ -1,12 +1,16 @@
 'use client';
 
+import { TractorProduct, tractorProductSchema, ProductType } from '@canadian-lawn/api';
 import { Card } from '@canadian-lawn/ui-kit';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import { z } from 'zod';
 
 import CardPlaceholder from '@/assets/img/card-placeholder.png';
-import { TechniqueCardLoader } from '@/components/atoms/Loaders/TechniqueLoader';
+import { MapleSpinner } from '@/components/atoms/Loaders/MappleSpinner';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
-import { useTechnique } from '@/hooks/api/useTechnique';
-import { useResponsiveValue } from '@/hooks/useResponsiveCounts';
+import { detailRoutes } from '@/config/routes';
+import { useProducts } from '@/hooks/api/useProducts';
 import cn from '@/utils/cnMerge';
 
 type TractorsProps = {
@@ -14,41 +18,48 @@ type TractorsProps = {
 };
 
 export const Technique = ({ className }: TractorsProps) => {
-  const { useHook: technique } = useTechnique();
-  const { data: techniqueData, isError, isLoading } = technique();
+  const router = useRouter();
 
-  const count = useResponsiveValue({ desktop: 3, mobile: 1, tablet: 2, mobileSm: 3 });
+  const { useHook } = useProducts<z.ZodType<TractorProduct>>({
+    schema: tractorProductSchema,
+    filters: { type: ProductType.Tractor },
+    populate: { image: true, images: true },
+    limit: 4,
+  });
 
-  const LoadingList = () =>
-    Array.from({ length: count }).map((_, index) => (
-      <div className="flex gap-5 overflow-scroll" key={index}>
-        <TechniqueCardLoader uniqueKey={`technique-loader-${index}`} />
+  const { data, isLoading, isError } = useHook();
+
+  if (isLoading)
+    return (
+      <div>
+        <MapleSpinner />
       </div>
-    ));
+    );
 
   return (
     <SectionWrapper
       className={cn('lg:mb-section', className)}
       color="light"
-      wrapperClassName="!pr-0"
-      headline="Свежие объявления"
+      headline="Тракторы и техника"
       isSection
       isError={isError}
     >
-      {!isLoading ? (
-        techniqueData?.data.map(({ price, title, description, id, image }) => (
-          <Card
-            key={id}
-            price={price}
-            subtitle={description}
-            title={title}
-            image={image?.url}
-            placeholder={CardPlaceholder.src}
-          />
-        ))
-      ) : (
-        <LoadingList />
-      )}
+      <div className="flex gap-6">
+        {data?.data.map((product) => (
+          <div key={product.id} className="flex-shrink-0">
+            <Card
+              title={product.name}
+              subtitle={product.sku || null}
+              price={product.price}
+              image={product.image?.url}
+              placeholder={CardPlaceholder.src}
+              onTitleClick={
+                product.slug ? () => router.push(detailRoutes.traktor(product.slug!)) : undefined
+              }
+            />
+          </div>
+        ))}
+      </div>
     </SectionWrapper>
   );
 };

@@ -2,59 +2,69 @@
 
 import { LawnProduct, ProductType } from '@canadian-lawn/api';
 import { Button, Pic, Progress, Typography } from '@canadian-lawn/ui-kit';
-import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import React from 'react';
-import { toast } from 'sonner';
 
+import CardPlaceholder from '@/assets/img/lawn-placeholder.png';
 import { MapleSpinner } from '@/components/atoms/Loaders/MappleSpinner';
+import { PlantingPeriodRange } from '@/components/atoms/PlantingPeriodRange';
 import { ProductDetailWrapper } from '@/components/sections/Product/ProductDetailWrapper';
-import { useAddItemToCart } from '@/hooks/api/useCart';
+import { detailRoutes } from '@/config/routes';
 import { useProductDetail } from '@/hooks/api/useProductDetail';
-import { AuthStatus } from '@/types/enums';
+import { useAddToCart } from '@/hooks/useAddToCart';
+import cn from '@/utils/cnMerge';
+import { formatPlantingPeriod } from '@/utils/months';
 
 type SelectedPackage = { weight: number; price: number; unit?: string };
 
 const TopContent = ({ product }: { product: LawnProduct }) => {
-  const session = useSession();
-  const addItemMutation = useAddItemToCart(session.data?.user.jwt);
+  const { addToCart } = useAddToCart();
   const packages = product.lawn?.package ?? [];
   const [selected, setSelected] = React.useState<SelectedPackage | null>(packages[0] ?? null);
   const [image, setImage] = React.useState(product.images?.[0] ?? product.image ?? null);
 
   const handleAdd = React.useCallback(() => {
-    if (session.status !== AuthStatus.Authenticated) {
-      toast.error('Войдите в аккаунт, чтобы добавить товар в корзину');
-      return;
-    }
-    addItemMutation.mutate(
-      { productId: product.id, quantity: 1, price: selected?.price ?? product.price },
-      {
-        onSuccess: () => toast.success(`${product.name} добавлен в корзину`),
-        onError: (error) => toast.error(`Ошибка: ${error.message}`),
-      }
-    );
-  }, [session.status, addItemMutation, product, selected]);
+    addToCart({
+      productId: product.id,
+      name: product.name,
+      slug: product.slug,
+      type: product.type,
+      price: selected?.price ?? product.price,
+      quantity: 1,
+      image: product.image?.url,
+      packageWeight: selected?.weight,
+      packageUnit: selected?.unit,
+    });
+  }, [addToCart, product, selected]);
 
   return (
     <div className="flex flex-col gap-2 lg:flex-row">
-      <div className="bg-baseWhite rounded-sm p-4 lg:rounded-lg lg:p-6 lg:py-[30px]">
+      <div className="bg-baseWhite flex-1 rounded-sm p-4 lg:rounded-lg lg:p-6 lg:py-[30px] xl:flex-[0.7]">
         <div className="flex flex-col gap-5 lg:flex-row">
           <div className="flex flex-col-reverse lg:flex-row">
             <div className="flex items-center gap-5 lg:flex-col">
               {product.images?.map((item) => (
                 <Pic
                   key={item.id}
-                  className="h-[82px] w-[82px] cursor-pointer rounded-sm p-4"
+                  className={cn(
+                    'h-[82px] w-[82px] cursor-pointer rounded-sm p-4',
+                    item.id === image?.id && 'bg-baseSilvery'
+                  )}
                   src={item.url}
+                  skeleton={CardPlaceholder.src}
                   onClick={() => setImage(item)}
                 />
               ))}
             </div>
             <div className="flex w-full justify-center">
-              <Pic src={image?.url} className="h-[180px] w-[180px] lg:h-[300px] lg:w-[300px]" />
+              <Pic
+                src={image?.url}
+                skeleton={CardPlaceholder.src}
+                className="h-[180px] w-[180px] lg:h-[300px] lg:w-[300px]"
+              />
             </div>
           </div>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-1 flex-col gap-5">
             <Typography view="large1">{product.name}</Typography>
             <div className="flex w-full max-w-full gap-4">
               {product.lawn?.speed != null && (
@@ -73,18 +83,31 @@ const TopContent = ({ product }: { product: LawnProduct }) => {
                 />
               )}
             </div>
-            {product.lawn?.mix?.map((item, i) => (
-              <div key={i} className="flex w-[80%] justify-between">
-                <Typography>{item.product?.name}:</Typography>
-                <Typography>{item.percent}%</Typography>
-              </div>
-            ))}
+            {product.lawn?.mix?.map((item, i) => {
+              const slug = item.product?.slug;
+
+              return (
+                <div key={i} className="flex w-[80%] justify-between">
+                  {slug ? (
+                    <Link href={detailRoutes.lawn(slug)}>
+                      <Typography color="primary" className="hover:underline">
+                        {item.product?.name}:
+                      </Typography>
+                    </Link>
+                  ) : (
+                    <Typography>{item.product?.name}:</Typography>
+                  )}
+                  <Typography>{item.percent}%</Typography>
+                </div>
+              );
+            })}
+            <PlantingPeriodRange landing={product.lawn?.landing} />
             {packages.length > 0 && (
               <div className="flex gap-1">
                 {packages.map((pkg, i) => (
                   <Button
                     key={i}
-                    disabled={selected?.weight === pkg.weight}
+                    disabled={selected?.weight !== pkg.weight}
                     radius="large"
                     width="fit"
                     onClick={() => setSelected(pkg)}
@@ -116,6 +139,11 @@ const TopContent = ({ product }: { product: LawnProduct }) => {
 
 const DetailContent = ({ product }: { product: LawnProduct }) => {
   const lawn = product.lawn;
+  const purpose = product.categories
+    ?.map((category) => category.name)
+    .filter(Boolean)
+    .join(', ');
+  const plantingPeriod = formatPlantingPeriod(lawn?.landing);
 
   const DetailsItem = ({ label, value }: { label: string; value?: string | number | null }) =>
     value ? (
@@ -141,11 +169,16 @@ const DetailContent = ({ product }: { product: LawnProduct }) => {
             Характеристики
           </Typography>
           <div className="flex flex-col gap-3">
+            <DetailsItem label="Назначение" value={purpose} />
             <DetailsItem label="Сезонность" value={lawn.seasonality} />
             <DetailsItem label="Время первых всходов, дни" value={lawn.germinition_time} />
-            <DetailsItem label="Время до полного покрытия, недели" value={lawn.full_cover_time} />
-            <DetailsItem label="Плотность (побегов на 1 м²)" value={lawn.density} />
+            <DetailsItem
+              label="Время до полного покрытия участка, недели"
+              value={lawn.full_cover_time}
+            />
+            <DetailsItem label="Плотность (количество побегов на 1 м²)" value={lawn.density} />
             <DetailsItem label="Теневыносливость" value={lawn.shade_tolerance} />
+            <DetailsItem label="Период высадки" value={plantingPeriod} />
           </div>
         </div>
       )}

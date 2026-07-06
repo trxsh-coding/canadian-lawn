@@ -3,22 +3,24 @@
 import { PartnerCard } from '@canadian-lawn/ui-kit';
 import React from 'react';
 
+import PartnerPlaceholder from '@/assets/img/partner-placeholder.png';
+import { MapleSpinner } from '@/components/atoms/Loaders/MappleSpinner';
 import { Container } from '@/components/layout/Container';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { usePartners } from '@/hooks/api/usePartners';
 import { useBreakpoints } from '@/hooks/useBreakpoints';
-import { featureFilter, partnerLimit } from '@/utils/filters';
+import { featureFilter } from '@/utils/filters';
 
 export const Partners: React.FunctionComponent = () => {
   const { useHook: partners } = usePartners({
-    limit: partnerLimit,
+    limit: 3,
     filter: featureFilter,
   });
   const { data: partnersData, isError, isLoading } = partners();
 
   const { isTablet } = useBreakpoints();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <MapleSpinner />;
 
   return (
     <Container backgroundColor="light-green" className="pt-section">
@@ -31,7 +33,12 @@ export const Partners: React.FunctionComponent = () => {
       >
         <div className="flex w-full flex-col gap-3 md:flex-row md:gap-5">
           {partnersData?.data.map(({ name, logo, id }) => (
-            <PartnerCard key={id} className="!w-full flex-1 grow" title={name} image={logo?.url} />
+            <PartnerCard
+              key={id}
+              className="!w-full flex-1 grow"
+              title={name}
+              image={logo?.url || PartnerPlaceholder.src}
+            />
           ))}
         </div>
       </SectionWrapper>

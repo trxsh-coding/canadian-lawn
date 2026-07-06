@@ -7,11 +7,26 @@ type CardProps = {
   price: number;
   image?: string;
   placeholder?: string;
+  className?: string;
+  onTitleClick?: () => void;
 };
 
-export const Card = ({ title, subtitle, price, image, placeholder }: CardProps) => {
+export const Card = ({
+  title,
+  className,
+  subtitle,
+  price,
+  image,
+  placeholder,
+  onTitleClick,
+}: CardProps) => {
   return (
-    <div className="ui:rounded-sm ui:bg-baseWhite ui:flex ui:flex-col ui:max-w-[220px] ui:lg:max-w-[315px]">
+    <div
+      className={cn(
+        'ui:rounded-sm ui:bg-baseWhite ui:flex ui:flex-col ui:max-w-[220px] ui:lg:max-w-[315px]',
+        className
+      )}
+    >
       <Pic
         src={image}
         skeleton={placeholder}
@@ -24,7 +39,14 @@ export const Card = ({ title, subtitle, price, image, placeholder }: CardProps) 
       />
       <div className="ui:flex ui:flex-col ui:p-4 ui:lg:p-6 ui:justify-between ui:min-h-[149px] ui:lg:min-h-[188px]">
         <div className="ui:flex ui:flex-col ui:gap-3">
-          <Typography view="card-price" className="ui:font-golosBold">
+          <Typography
+            view="card-price"
+            className={cn(
+              'ui:font-golosBold',
+              onTitleClick && 'ui:cursor-pointer ui:hover:underline'
+            )}
+            onClick={onTitleClick}
+          >
             {title}
           </Typography>
           <Typography view="small">{subtitle}</Typography>

@@ -34,5 +34,18 @@ export default {
       path: '/cart/items/:itemId',
       handler: 'cart.removeItem',
     },
+    {
+      method: 'POST',
+      path: '/cart/checkout',
+      handler: 'cart.checkout',
+      config: {
+        auth: false,
+      },
+    },
+    {
+      method: 'GET',
+      path: '/cart/orders',
+      handler: 'cart.myOrders',
+    },
   ],
 };

@@ -6,6 +6,7 @@ import { Button, ButtonGroup, CopyPaste, Icon, Toast } from '@/lib';
 import { BottomSheet } from '@/lib/components/BottomSheet';
 import { ButtonCounter } from '@/lib/components/ButtonCounter';
 import { Checkbox } from '@/lib/components/Checkbox';
+import { LawnCard } from '@/lib/components/LawnCard/LawnCard';
 import { ProductCard } from '@/lib/components/ProductCard/ProductCard';
 import { Progress } from '@/lib/components/Progress';
 import { SliderRange } from '@/lib/components/SliderRange';
@@ -99,6 +100,24 @@ function App() {
           throw new Error('Function not implemented.');
         }}
         count={1}
+      />
+
+      <LawnCard
+        image={ImageCard}
+        name="Декоративный теневой"
+        slug="dekorativnyj-tenevoj"
+        resistance={7}
+        growth={5}
+        packages={[
+          { weight: 1, price: 420, unit: 'кг' },
+          { weight: 5, price: 1950, unit: 'кг' },
+          { weight: 10, price: 3700, unit: 'кг' },
+        ]}
+        value={value}
+        onTypeChange={(type) => toast.success(`Выбрана фасовка: ${type} кг`)}
+        handleButtonChange={handleChange}
+        handleButtonClick={() => handleClick(true)}
+        handleCardClick={() => toast.success('Переход в карточку товара')}
       />
 
       <div className="ui:flex ui:flex-col ui:gap-4">

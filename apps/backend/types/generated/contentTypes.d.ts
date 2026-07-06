@@ -507,14 +507,17 @@ export interface ApiCartItemCartItem extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    cart: Schema.Attribute.Relation<'oneToOne', 'api::cart.cart'>;
+    cart: Schema.Attribute.Relation<'manyToOne', 'api::cart.cart'>;
+    cart_status: Schema.Attribute.Enumeration<['active', 'ordered', 'abondoned']>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::cart-item.cart-item'> &
       Schema.Attribute.Private;
+    package_unit: Schema.Attribute.String;
+    package_weight: Schema.Attribute.Integer;
     price: Schema.Attribute.Integer;
-    product: Schema.Attribute.Relation<'oneToOne', 'api::product.product'>;
+    product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
     publishedAt: Schema.Attribute.DateTime;
     quantity: Schema.Attribute.Integer;
     total: Schema.Attribute.BigInteger;
@@ -535,11 +538,26 @@ export interface ApiCartCart extends Struct.CollectionTypeSchema {
   };
   attributes: {
     cart_items: Schema.Attribute.Relation<'oneToMany', 'api::cart-item.cart-item'>;
+    cart_status: Schema.Attribute.Enumeration<['active', 'ordered', 'abandoned']>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    delivery_address: Schema.Attribute.String;
+    delivery_type: Schema.Attribute.Enumeration<['russia', 'courier', 'pickup']>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::cart.cart'> &
       Schema.Attribute.Private;
+    order_comment: Schema.Attribute.Text;
+    order_email: Schema.Attribute.String;
+    order_name: Schema.Attribute.String;
+    order_patronymic: Schema.Attribute.String;
+    order_phone: Schema.Attribute.String;
+    order_status: Schema.Attribute.Enumeration<
+      ['new', 'confirmed', 'paid', 'completed', 'cancelled']
+    > &
+      Schema.Attribute.DefaultTo<'new'>;
+    order_surname: Schema.Attribute.String;
+    ordered_at: Schema.Attribute.DateTime;
+    payment_type: Schema.Attribute.Enumeration<['invoice', 'online']>;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
@@ -784,6 +802,31 @@ export interface ApiLawnLawn extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPackagePackage extends Struct.CollectionTypeSchema {
+  collectionName: 'packages';
+  info: {
+    displayName: 'Package';
+    pluralName: 'packages';
+    singularName: 'package';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::package.package'> &
+      Schema.Attribute.Private;
+    price: Schema.Attribute.Integer;
+    publishedAt: Schema.Attribute.DateTime;
+    unit: Schema.Attribute.Enumeration<['kg']> & Schema.Attribute.DefaultTo<'kg'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    weight: Schema.Attribute.Decimal & Schema.Attribute.Required;
+  };
+}
+
 export interface ApiPartnerPartner extends Struct.CollectionTypeSchema {
   collectionName: 'partners';
   info: {
@@ -859,13 +902,19 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    brand: Schema.Attribute.Relation<'manyToOne', 'api::brand.brand'>;
     categories: Schema.Attribute.Relation<'manyToMany', 'api::category.category'>;
+    characteristic: Schema.Attribute.Component<'common.characteristic', true>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     description: Schema.Attribute.RichText & Schema.Attribute.Required;
+    features: Schema.Attribute.Relation<'manyToMany', 'api::feature.feature'>;
+    image: Schema.Attribute.Media<'images'>;
     images: Schema.Attribute.Media<'videos' | 'images', true>;
     lawn: Schema.Attribute.Component<'products.lawn-single', false>;
-    lawn_type: Schema.Attribute.Relation<'manyToOne', 'api::lawn-type.lawn-type'>;
+    lawn_type: Schema.Attribute.Relation<'manyToOne', 'api::lawn-type.lawn-type'> &
+      Schema.Attribute.Configurable;
+    lawns: Schema.Attribute.Relation<'manyToMany', 'api::product.product'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::product.product'> &
       Schema.Attribute.Private;
@@ -1368,10 +1417,13 @@ export interface PluginUsersPermissionsUser extends Struct.CollectionTypeSchema 
     draftAndPublish: false;
   };
   attributes: {
+    address: Schema.Attribute.String;
     avatar: Schema.Attribute.Media<'images' | 'files'>;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    consent_marketing: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    consent_personal_data: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
     email: Schema.Attribute.Email &
@@ -1397,6 +1449,7 @@ export interface PluginUsersPermissionsUser extends Struct.CollectionTypeSchema 
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    patronymic: Schema.Attribute.String;
     phone: Schema.Attribute.BigInteger;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
@@ -1436,6 +1489,7 @@ declare module '@strapi/strapi' {
       'api::feature.feature': ApiFeatureFeature;
       'api::lawn-type.lawn-type': ApiLawnTypeLawnType;
       'api::lawn.lawn': ApiLawnLawn;
+      'api::package.package': ApiPackagePackage;
       'api::partner.partner': ApiPartnerPartner;
       'api::partners-type.partners-type': ApiPartnersTypePartnersType;
       'api::product.product': ApiProductProduct;

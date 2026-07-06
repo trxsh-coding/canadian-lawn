@@ -1,11 +1,12 @@
 'use client';
 
 import { CheckboxFilter, FilterItem, FilterValue, RangeFilter } from '@canadian-lawn/api';
-import { BottomSheet, Button, SliderRange } from '@canadian-lawn/ui-kit';
+import { Button, SliderRange } from '@canadian-lawn/ui-kit';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { useToggle } from 'usehooks-ts';
 
+import { AdaptiveModal } from '@/components/layout/AdaptiveModal/AdaptiveModal';
 import { FilterList } from '@/components/layout/CheckboxFiltersList';
 import { useLawnFilters } from '@/hooks/api/useLawnFilters';
 import { useFilterState } from '@/hooks/useFiltersState';
@@ -87,20 +88,17 @@ export const LawnFilters = ({ productType }: LawnFiltersProps) => {
   return (
     <>
       <div className="mb-4 lg:hidden">
-        <BottomSheet
+        <AdaptiveModal
           open={bottomSheetOpen}
           onOpenChange={toggle}
           title="Фильтры"
-          mainContent={
-            <>
-              {filters.map((filter) => (
-                <FilterRenderer key={filter.field} filter={filter} view="mobile" />
-              ))}
-            </>
-          }
+          trigger={<Button iconName="common/filter" radius="large" className="!text-baseBlack" />}
+          disableTrigger={false}
         >
-          <Button iconName="common/filter" radius="large" className="!text-baseBlack" />
-        </BottomSheet>
+          {filters.map((filter) => (
+            <FilterRenderer key={filter.field} filter={filter} view="mobile" />
+          ))}
+        </AdaptiveModal>
       </div>
       <div className="hidden flex-col gap-4 p-4 lg:flex">
         {filters.map((filter) => (

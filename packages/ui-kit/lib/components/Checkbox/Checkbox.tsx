@@ -41,7 +41,7 @@ export const Checkbox = ({
             transition={{ duration: 0.3 }}
           >
             <Icon
-              className={cn('ui:inherit ui:h-[18px] ui:w-[18px]', iconClassName)}
+              className={cn('ui:inherit ui:h-[18px] ui:w-[18px] ui:text-white', iconClassName)}
               name="common/check"
             />
           </motion.div>

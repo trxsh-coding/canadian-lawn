@@ -12,8 +12,8 @@ type TopContentProps = {
 
 export const TopContent = ({ text, pic }: TopContentProps) => {
   return (
-    <div className="flex w-full flex-col items-end lg:flex-row">
-      <div className="flex-1">
+    <div className="flex w-full flex-col items-end p-6 lg:flex-row">
+      <div className="flex-1 !text-white">
         <TextBlocks htmlText={text} />
       </div>
       <div className="flex-1 rounded-sm">

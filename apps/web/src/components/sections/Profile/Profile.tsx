@@ -32,9 +32,9 @@ export const Profile = () => {
 
   return (
     <LayoutWrapper
-      contentWrapperClassName="!px-0 !b-0"
-      contentContainerClassName="!rounded-sm"
-      mainContainerClassName="px-0 !mb-0"
+      contentWrapperClassName="!px-0 !b-0 "
+      contentContainerClassName="!rounded-sm lg:!m-section"
+      mainClassName="px-0 !mb-0 !mt-0"
       title="Профиль"
       asideContent={
         <LeftContent

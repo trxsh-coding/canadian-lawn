@@ -1,10 +1,13 @@
 'use client';
 
-import { LawnProduct, Media, months } from '@canadian-lawn/api';
-import { Button, DateRange, Pic, Progress, Typography } from '@canadian-lawn/ui-kit';
+import { LawnProduct, Media } from '@canadian-lawn/api';
+import { Button, Pic, Progress, Typography } from '@canadian-lawn/ui-kit';
+import Link from 'next/link';
 import React from 'react';
 
-import { MonthKey, monthsLocale } from '@/const/months';
+import Placeholder from '@/assets/img/lawn-placeholder.png';
+import { PlantingPeriodRange } from '@/components/atoms/PlantingPeriodRange';
+import { detailRoutes } from '@/config/routes';
 import cn from '@/utils/cnMerge';
 
 type TopContentProps = {
@@ -17,20 +20,9 @@ export const TopContent = ({ product }: TopContentProps) => {
   const [image, setImage] = React.useState<Media | null>(
     product?.images?.[0] ?? product?.image ?? null
   );
-
-  const landing = product?.lawn?.landing;
-  const active: MonthKey[] = Object.keys(landing ?? {}).filter(
-    (key) => landing?.[key as MonthKey]
-  ) as MonthKey[];
-
-  const rangeSuffix =
-    active.length > 0
-      ? `${monthsLocale.months[active[0]]?.slice(0, 3)}-${monthsLocale.months[active[active.length - 1]]?.slice(0, 3)}`
-      : undefined;
-
   return (
-    <div className="flex flex-col gap-2 lg:flex-row">
-      <div className="bg-baseWhite rounded-sm p-4 lg:rounded-lg lg:p-6 lg:py-[30px]">
+    <div className="flex flex-1 flex-col gap-2 lg:flex-row">
+      <div className="bg-baseWhite flex-1 rounded-sm p-4 lg:rounded-lg lg:p-6 lg:py-[30px]">
         <div className="flex flex-col gap-5 lg:flex-row">
           <div className="flex flex-col-reverse lg:flex-row">
             <div className="flex items-center gap-5 lg:flex-col">
@@ -47,7 +39,10 @@ export const TopContent = ({ product }: TopContentProps) => {
               ))}
             </div>
             <div className="flex w-full justify-center">
-              <Pic src={image?.url} className="h-[180px] w-[180px] lg:h-[300px] lg:w-[300px]" />
+              <Pic
+                src={image?.url || Placeholder.src}
+                className="h-[180px] w-[180px] lg:h-[300px] lg:w-[300px]"
+              />
             </div>
           </div>
           <div className="flex flex-col gap-5">
@@ -69,15 +64,25 @@ export const TopContent = ({ product }: TopContentProps) => {
                 />
               )}
             </div>
-            {product?.lawn?.mix?.map((item, i) => (
-              <div key={i} className="flex w-[80%] justify-between">
-                <Typography>{item.product?.name}:</Typography>
-                <Typography>{item.percent}%</Typography>
-              </div>
-            ))}
-            {active.length > 0 && (
-              <DateRange prefix="Посадка" suffix={rangeSuffix} list={months} active={active} />
-            )}
+            {product?.lawn?.mix?.map((item, i) => {
+              const slug = item.product?.slug;
+
+              return (
+                <div key={i} className="flex w-[80%] justify-between">
+                  {slug ? (
+                    <Link href={detailRoutes.lawn(slug)}>
+                      <Typography color="base-black" className="hover:underline">
+                        {item.product?.name}:
+                      </Typography>
+                    </Link>
+                  ) : (
+                    <Typography>{item.product?.name}:</Typography>
+                  )}
+                  <Typography>{item.percent}%</Typography>
+                </div>
+              );
+            })}
+            <PlantingPeriodRange landing={product?.lawn?.landing} />
             <div className="flex gap-1">
               {packages.map((pkg, i) => (
                 <Button

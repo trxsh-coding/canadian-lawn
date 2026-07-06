@@ -20,6 +20,7 @@ export class FetchBuilder<T extends z.ZodType, M extends FetchMode> {
   private params?: Record<string, unknown>;
   private filters?: Record<string, unknown>;
   private limit?: number;
+  private page?: number;
   private readonly mode: M;
   private readonly client: AxiosInstance;
 
@@ -50,15 +51,24 @@ export class FetchBuilder<T extends z.ZodType, M extends FetchMode> {
     return this;
   }
 
-  fetch(): Promise<ResponseType<z.infer<T>, M>>;
+  withPage(page: number) {
+    this.page = page;
+    return this;
+  }
 
-  async fetch() {
+  fetch(page?: number): Promise<ResponseType<z.infer<T>, M>>;
+
+  async fetch(page?: number) {
+    const targetPage = page ?? this.page;
+
     const response = await this.client.get(this.endpoint, {
       params: {
         ...this.params,
         ...(this.filters ? { filters: this.filters } : {}),
         ...(this.populate ? { populate: this.populate } : {}),
-        ...(this.limit !== undefined ? { pagination: { pageSize: this.limit } } : {}),
+        ...(this.limit !== undefined
+          ? { pagination: { pageSize: this.limit, ...(targetPage ? { page: targetPage } : {}) } }
+          : {}),
       },
     });
 

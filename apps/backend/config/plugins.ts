@@ -1,25 +1,20 @@
 export default ({ env }) => ({
   upload: {
     config: {
-      provider: 'aws-s3',
+      provider: '@strapi/provider-upload-aws-s3',
       providerOptions: {
-        baseUrl: `${env('AWS_ENDPOINT')}/${env('AWS_BUCKET_NAME')}`,
         s3Options: {
           credentials: {
             accessKeyId: env('AWS_ACCESS_KEY_ID'),
             secretAccessKey: env('AWS_ACCESS_SECRET'),
           },
+          endpoint: env('AWS_ENDPOINT'), // Overrides AWS with Timeweb
           region: env('AWS_REGION'),
-          endpoint: env('AWS_ENDPOINT'),
+          forcePathStyle: true, // Required for most S3-compatible providers
           params: {
             Bucket: env('AWS_BUCKET_NAME'),
           },
         },
-      },
-      actionOptions: {
-        upload: {},
-        uploadStream: {},
-        delete: {},
       },
     },
   },

@@ -43,3 +43,5 @@ export * from './cart';
 export * from './cartItem';
 
 export * from './login';
+
+export * from './order';

@@ -1,29 +1,70 @@
 'use client';
 
+import {
+  LawnProduct,
+  lawnProductSchema,
+  PRODUCT_POPULATE_LAWN,
+  ProductType,
+} from '@canadian-lawn/api';
 import { LawnCard } from '@canadian-lawn/ui-kit';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { z } from 'zod';
 
+import CardPlaceholder from '@/assets/img/card-placeholder.png';
 import { MapleSpinner } from '@/components/atoms/Loaders/MappleSpinner';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { detailRoutes } from '@/config/routes';
-import { useLawns } from '@/hooks/api/useLawns';
-import { useBreakpoints } from '@/hooks/useBreakpoints';
-import { lawnLimit } from '@/utils/filters';
+import { useProducts } from '@/hooks/api/useProducts';
+import { useAddToCart } from '@/hooks/useAddToCart';
+
+const LawnCardItem = ({ product }: { product: LawnProduct }) => {
+  const { addToCart } = useAddToCart();
+  const router = useRouter();
+  const packages = product.lawn?.package ?? [];
+  const [selectedWeight, setSelectedWeight] = React.useState(packages[0]?.weight);
+  const selected = packages.find((pkg) => pkg.weight === selectedWeight);
+
+  return (
+    <LawnCard
+      image={product.image?.url || ''}
+      placeholder={CardPlaceholder.src}
+      name={product.name}
+      slug={product.slug || ''}
+      resistance={product.lawn?.resistance || 0}
+      growth={product.lawn?.speed || 0}
+      packages={packages}
+      price={product.price}
+      onTypeChange={(value) => setSelectedWeight(Number(value))}
+      handleCardClick={(slug) => router.push(detailRoutes.lawn(slug))}
+      handleButtonChange={() => null}
+      handleButtonClick={() =>
+        addToCart({
+          productId: product.id,
+          name: product.name,
+          slug: product.slug,
+          type: product.type,
+          price: selected?.price ?? product.price,
+          quantity: 1,
+          image: product.image?.url,
+          packageWeight: selected?.weight,
+          packageUnit: selected?.unit,
+        })
+      }
+      value={0}
+    />
+  );
+};
 
 export const Lawns: React.FunctionComponent = () => {
-  const { useHook: lawns } = useLawns({
-    limit: lawnLimit,
+  const { useHook } = useProducts<z.ZodType<LawnProduct>>({
+    schema: lawnProductSchema,
+    filters: { type: ProductType.Lawn },
+    populate: PRODUCT_POPULATE_LAWN,
+    limit: 3,
   });
-  const router = useRouter();
 
-  const { data: lawnsData, isError, isLoading } = lawns();
-  const { isTablet } = useBreakpoints();
-
-  const onLawnClick = React.useCallback(
-    (slug: string) => router.push(detailRoutes.lawn(slug)),
-    [router]
-  );
+  const { data, isLoading, isError } = useHook();
 
   if (isLoading)
     return (
@@ -31,32 +72,12 @@ export const Lawns: React.FunctionComponent = () => {
         <MapleSpinner />
       </div>
     );
+
   return (
-    <SectionWrapper
-      color="light"
-      wrapperClassName="!pr-0"
-      className="pt-section !pr-0 !pb-0"
-      headline="Популярные семена"
-      withLink={isTablet}
-      isError={isError}
-      isSection
-    >
-      <div className="flex gap-3">
-        {lawnsData?.data.map(({ image, slug, name, price, resistance, speed }, index) => (
-          <LawnCard
-            className="!max-w-[380px] xl:!max-w-[480px]"
-            key={index}
-            image={image?.url || ''}
-            name={name}
-            slug={slug || ''}
-            price={price[0]}
-            resistance={resistance || 0}
-            growth={speed || 0}
-            handleButtonChange={() => null}
-            handleButtonClick={() => null}
-            handleCardClick={onLawnClick}
-            value={0}
-          />
+    <SectionWrapper color="light" className="py-12" headline="Популярные семена" isError={isError}>
+      <div className="flex flex-col flex-nowrap gap-3 px-7 md:grid md:grid-cols-2 2xl:grid-cols-3">
+        {data?.data.map((product) => (
+          <LawnCardItem key={product.id} product={product} />
         ))}
       </div>
     </SectionWrapper>

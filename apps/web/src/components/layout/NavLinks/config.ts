@@ -1,5 +1,7 @@
 import { type IconName } from '@canadian-lawn/ui-kit';
 
+import { ROUTES } from '@/config/routes';
+
 export type NavLinkType = {
   url: string;
   text: string;
@@ -8,18 +10,13 @@ export type NavLinkType = {
 
 export const NavLinksItems: NavLinkType[] = [
   {
-    url: '/',
+    url: ROUTES.technique.url,
     text: 'Техника Б/У',
     iconName: 'navigation/tractor',
   },
   {
-    url: '/',
-    text: 'Новая техника',
-    iconName: 'navigation/tractor',
-  },
-  {
-    url: '/',
-    text: 'Семена Оптом',
+    url: ROUTES.lawn.url,
+    text: 'Семена',
     iconName: 'navigation/grass',
   },
   {

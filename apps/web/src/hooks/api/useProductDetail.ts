@@ -27,6 +27,8 @@ export const useProductDetail = ({ slug }: UseProductDetailProps) =>
         'lawn.landing',
         'lawn.type',
         'categories',
+        'features',
+        'characteristic',
       ],
     },
   });

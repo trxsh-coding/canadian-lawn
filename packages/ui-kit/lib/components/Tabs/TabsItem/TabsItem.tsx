@@ -9,6 +9,7 @@ type Props<O extends OptionEntity> = {
   isActive: boolean;
   option: O;
   className?: string;
+  titleClassName?: string;
   view: TabsProps['view'];
   itemTestId?: string;
   titleTestId?: string;
@@ -20,6 +21,7 @@ export const TabsItem = <O extends OptionEntity>({
   option,
   onChange,
   className,
+  titleClassName,
   itemTestId,
   titleTestId,
 }: Props<O>) => {
@@ -43,7 +45,7 @@ export const TabsItem = <O extends OptionEntity>({
           as="div"
           view="button"
           weight="normal"
-          className={cn('ui:!w-fit ui:pb-2', isActive && 'ui:border-tertiary')}
+          className={cn(titleClassName || 'ui:!w-fit', 'ui:pb-2', isActive && 'ui:border-tertiary')}
           color={isActive ? 'tertiary' : 'primary'}
           data-testid={titleTestId}
         >

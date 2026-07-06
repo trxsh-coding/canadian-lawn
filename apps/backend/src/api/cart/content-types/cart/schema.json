@@ -35,6 +35,56 @@
         "ordered",
         "abandoned"
       ]
+    },
+    "ordered_at": {
+      "type": "datetime"
+    },
+    "order_name": {
+      "type": "string"
+    },
+    "order_surname": {
+      "type": "string"
+    },
+    "order_patronymic": {
+      "type": "string"
+    },
+    "order_phone": {
+      "type": "string"
+    },
+    "order_email": {
+      "type": "string"
+    },
+    "order_comment": {
+      "type": "text"
+    },
+    "payment_type": {
+      "type": "enumeration",
+      "enum": [
+        "invoice",
+        "online"
+      ]
+    },
+    "delivery_type": {
+      "type": "enumeration",
+      "enum": [
+        "russia",
+        "courier",
+        "pickup"
+      ]
+    },
+    "delivery_address": {
+      "type": "string"
+    },
+    "order_status": {
+      "type": "enumeration",
+      "enum": [
+        "new",
+        "confirmed",
+        "paid",
+        "completed",
+        "cancelled"
+      ],
+      "default": "new"
     }
   }
 }

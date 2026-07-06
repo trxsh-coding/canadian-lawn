@@ -1,13 +1,16 @@
 'use client';
 
 import { Button, Typography } from '@canadian-lawn/ui-kit';
+import { useRouter } from 'next/navigation';
 
 import Grass from '@/assets/img/preview-grass.png';
 import { Constraints } from '@/components/layout/Constraints';
 import { Header } from '@/components/layout/Header';
 import { NavLinks } from '@/components/layout/NavLinks';
+import { ROUTES } from '@/config/routes';
 
 export const Preview = () => {
+  const router = useRouter();
   return (
     <Constraints className="lg:pb-section relative px-0">
       <div
@@ -25,7 +28,7 @@ export const Preview = () => {
           >
             семена газонов <br /> от производителя
           </Typography>
-          <Button width="fit">
+          <Button width="fit" onClick={() => router.push(ROUTES.lawn.url)}>
             <Typography color="base-white" view="button" family="golos">
               Смотреть каталог
             </Typography>

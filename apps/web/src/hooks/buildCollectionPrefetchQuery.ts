@@ -1,5 +1,11 @@
-import { ResponseType, createFetchBuilder, FetchMode, Populate } from '@canadian-lawn/api';
-import { QueryClient, useQuery } from '@tanstack/react-query';
+import {
+  CollectionResponse,
+  ResponseType,
+  createFetchBuilder,
+  FetchMode,
+  Populate,
+} from '@canadian-lawn/api';
+import { keepPreviousData, QueryClient, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosInstance } from 'axios';
 import { z } from 'zod';
 
@@ -50,6 +56,7 @@ export function buildCollectionPrefetchQuery<S extends z.ZodSchema, M extends Fe
       queryKey,
       queryFn,
       staleTime: 0,
+      placeholderData: keepPreviousData,
     });
   };
 
@@ -60,8 +67,24 @@ export function buildCollectionPrefetchQuery<S extends z.ZodSchema, M extends Fe
     });
   };
 
+  const useInfiniteHook = () => {
+    return useInfiniteQuery<CollectionResponse<SchemaType<S>>, Error>({
+      enabled,
+      queryKey,
+      queryFn: ({ pageParam }) =>
+        builder.fetch(pageParam as number) as Promise<CollectionResponse<SchemaType<S>>>,
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => {
+        const pagination = lastPage.meta?.pagination;
+        if (!pagination) return undefined;
+        return pagination.page < pagination.pageCount ? pagination.page + 1 : undefined;
+      },
+    });
+  };
+
   return {
     useHook,
+    useInfiniteHook,
     prefetch,
   };
 }

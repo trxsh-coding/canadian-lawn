@@ -42,7 +42,7 @@ export default [
             'https://maps.gstatic.com',
             'https://maps.googleapis.com',
             'https://s3.twcstorage.ru',
-            'https://*.s3.twcstorage.ru',
+            's3.timeweb.cloud',
           ],
           'img-src': [
             "'self'",
@@ -72,6 +72,7 @@ export default [
             'market-assets.strapi.io',
             'https://s3.twcstorage.ru',
             'https://*.s3.twcstorage.ru',
+            's3.timeweb.cloud',
           ],
         },
       },

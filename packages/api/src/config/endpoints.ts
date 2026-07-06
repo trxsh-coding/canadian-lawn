@@ -15,6 +15,8 @@ export const ENDPOINTS = {
     faq: '/faqs',
     products: '/products',
     cart: '/cart',
+    checkout: '/cart/checkout',
+    orders: '/cart/orders',
     getBySlug: (slug: string, route: string) => `/${route}/getBySlug/${slug}`,
   },
   telegram: (token: string) => `https://api.telegram.org/bot${token}/sendMessage`,

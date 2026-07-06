@@ -17,7 +17,7 @@ type Props = {
   markers?: MarkerData[];
   height?: number | string;
   width?: number | string;
-  onMarkerClick: (open: boolean) => void;
+  onMarkerClick?: (index: number) => void;
   withZoom?: boolean;
   withMarkers?: boolean;
 };
@@ -68,6 +68,7 @@ export const Maps = ({
   height = '640px',
   withZoom = true,
   withMarkers = false,
+  onMarkerClick,
 }: Props) => {
   const allMarkers: MarkerData[] =
     withMarkers && markers.length > 0
@@ -100,7 +101,11 @@ export const Maps = ({
       <APIProvider apiKey={API_KEY}>
         <Map mapId={MAP_ID} defaultZoom={10} defaultCenter={center} disableDefaultUI>
           {allMarkers.map((marker, index) => (
-            <AdvancedMarker key={index} position={{ lat: marker.lat, lng: marker.lng }}>
+            <AdvancedMarker
+              key={index}
+              position={{ lat: marker.lat, lng: marker.lng }}
+              onClick={() => onMarkerClick?.(index)}
+            >
               <MarkerIcon url={marker.icon || '/sprites/point.svg'} />
             </AdvancedMarker>
           ))}

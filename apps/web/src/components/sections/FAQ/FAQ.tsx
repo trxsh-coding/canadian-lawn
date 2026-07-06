@@ -22,6 +22,12 @@ export const FAQ = () => {
   );
   const [tab, setTab] = React.useState(options?.[0]);
 
+  React.useEffect(() => {
+    if (!tab && options?.length) {
+      setTab(options[0]);
+    }
+  }, [options, tab]);
+
   const content = React.useMemo(
     () => data?.data.find((item) => item.slug === tab?.key),
     [data?.data, tab?.key]
@@ -41,7 +47,8 @@ export const FAQ = () => {
     <LayoutWrapper
       contentContainerClassName="p-0 lg:mt-0"
       contentWrapperClassName="lg:my-section"
-      topContentWrapperClassName="lg:my-0"
+      headerContentClassName="lg:my-0"
+      mainClassName="!my-0"
       asideContent={
         options &&
         tab && (

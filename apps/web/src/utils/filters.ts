@@ -14,7 +14,7 @@ export const featureFilter = {
   },
 };
 
-export const partnerLimit = 4;
+export const partnerLimit = 20;
 
 export const lawnLimit = 4;
 

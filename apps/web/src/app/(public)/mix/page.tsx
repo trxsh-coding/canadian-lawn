@@ -33,7 +33,7 @@ export default async function MixPage({
     <HydrationBoundary state={dehydrate(queryClient)}>
       <LayoutWrapper
         asideContent={<LawnFilters productType={ProductType.LawnMix} />}
-        asideClassName="bg-transparent mt-4 px-0  lg:bg-baseWhite lg:my-section"
+        asideClassName="bg-transparent mt-4 px-0 lg:bg-baseWhite lg:my-section"
         contentWrapperClassName="py-4 !bg-baseBg"
       >
         <Lawns productType={ProductType.LawnMix} />

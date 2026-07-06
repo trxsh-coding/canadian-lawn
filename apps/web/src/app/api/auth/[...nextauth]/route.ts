@@ -30,13 +30,32 @@ const handler = NextAuth({
       credentials: {
         identifier: { type: 'text' },
         password: { type: 'password' },
+        registrationJwt: { type: 'text' },
       },
       async authorize(credentials) {
-        if (!credentials?.identifier || !credentials?.password) {
-          throw new Error('Заполните все поля');
-        }
-
         try {
+          if (credentials?.registrationJwt) {
+            const res = await apiClient.get(ENDPOINTS.common.me, {
+              headers: { Authorization: `Bearer ${credentials.registrationJwt}` },
+            });
+
+            if (res.data?.id) {
+              return {
+                id: String(res.data.id),
+                email: res.data.email,
+                name: res.data.username,
+                jwt: credentials.registrationJwt,
+                strapiUser: res.data,
+              };
+            }
+
+            return null;
+          }
+
+          if (!credentials?.identifier || !credentials?.password) {
+            throw new Error('Заполните все поля');
+          }
+
           const res = await apiClient.post(`${ENDPOINTS.common.login}`, {
             identifier: credentials.identifier,
             password: credentials.password,

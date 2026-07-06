@@ -9,6 +9,7 @@ import { TabsItem } from './TabsItem';
 export const TabsNonMemo = <O extends OptionEntity>({
   className,
   tabItemClassName,
+  titleClassName,
   options,
   value,
   view = 'normal',
@@ -75,6 +76,7 @@ export const TabsNonMemo = <O extends OptionEntity>({
             option={item}
             view={view}
             className={tabItemClassName}
+            titleClassName={titleClassName}
             itemTestId={tabItemTestId}
           />
         );

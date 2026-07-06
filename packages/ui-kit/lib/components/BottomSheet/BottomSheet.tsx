@@ -16,8 +16,8 @@ type BottomSheetProps = {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   children?: React.ReactNode;
-  title?: string;
-  description?: string;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
   mainContent?: React.ReactNode;
   footerContent?: React.ReactNode;
   closeContent?: React.ReactNode;
@@ -45,7 +45,7 @@ export const BottomSheet = ({
           </DrawerHeader>
         )}
 
-        {mainContent}
+        {mainContent && <div className="ui:px-4">{mainContent}</div>}
 
         {(closeContent || footerContent) && (
           <DrawerFooter>

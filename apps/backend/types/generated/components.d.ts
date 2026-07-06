@@ -97,6 +97,7 @@ export interface ProductsCompositionItem extends Struct.ComponentSchema {
   };
   attributes: {
     percent: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<
         {
           max: 100;
@@ -118,7 +119,7 @@ export interface ProductsLawnSingle extends Struct.ComponentSchema {
     germinition_time: Schema.Attribute.String;
     landing: Schema.Attribute.Component<'common.months', false>;
     mix: Schema.Attribute.Component<'products.composition-item', true>;
-    package: Schema.Attribute.Component<'common.packages', true> & Schema.Attribute.Required;
+    package: Schema.Attribute.Component<'common.packages', true>;
     resistance: Schema.Attribute.Integer;
     seasonality: Schema.Attribute.String;
     shade_tolerance: Schema.Attribute.String;

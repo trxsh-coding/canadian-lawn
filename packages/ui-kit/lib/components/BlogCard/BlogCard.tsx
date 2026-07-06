@@ -5,6 +5,7 @@ type BlogCardProps = {
   title: string;
   date: string;
   image?: string;
+  placeholder?: string;
   className?: string;
   picClassName?: string;
   onClick?: VoidFunction;
@@ -13,6 +14,7 @@ type BlogCardProps = {
 export const BlogCard = ({
   title,
   image,
+  placeholder,
   date,
   picClassName,
   className,
@@ -29,6 +31,7 @@ export const BlogCard = ({
           picClassName
         )}
         src={image}
+        skeleton={placeholder}
       />
       <Typography view="regular" className="ui:mb-2" color="secondary-grey">
         {date}

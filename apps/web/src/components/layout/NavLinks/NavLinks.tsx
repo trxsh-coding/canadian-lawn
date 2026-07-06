@@ -11,7 +11,7 @@ export const NavLinks = ({ onClick }: { onClick?: VoidFunction }) => {
           <Button
             iconName={iconName}
             color="secondary"
-            className="!bg-baseWhite group-hover:!text-secondaryRed !w-max lg:py-8"
+            className="!bg-baseWhite hover:!text-secondaryRed !w-max lg:py-8"
           >
             <Typography view="regular" family="golos" color="base-grey" weight="normal">
               {text}

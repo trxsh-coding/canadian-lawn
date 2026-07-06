@@ -1,18 +1,29 @@
 'use client';
 
 import { PartnerInput } from '@canadian-lawn/api';
-import { PartnerCard } from '@canadian-lawn/ui-kit';
+import { Carousel, PartnerCard } from '@canadian-lawn/ui-kit';
 
+import PartnersImage from '@/assets/img/partners.png';
 type TopContentProps = {
   partners?: PartnerInput[];
+  onPartnerClick?: (partner: PartnerInput) => void;
 };
 
-export const TopContent = ({ partners }: TopContentProps) => {
+export const TopContent = ({ partners, onPartnerClick }: TopContentProps) => {
   return (
-    <div className="mt-5 flex flex-col gap-4 lg:flex-row">
+    <Carousel className="mt-5">
       {partners?.map((partner) => (
-        <PartnerCard key={partner.id} title={partner.name} image={partner.logo?.url} />
+        <div
+          key={partner.id}
+          className="w-full flex-shrink-0 sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
+        >
+          <PartnerCard
+            title={partner.name}
+            image={partner.logo?.url || PartnersImage.src}
+            onClick={() => onPartnerClick?.(partner)}
+          />
+        </div>
       ))}
-    </div>
+    </Carousel>
   );
 };

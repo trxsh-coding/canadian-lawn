@@ -12,6 +12,7 @@
     },
     "percent": {
       "type": "integer",
+      "required": true,
       "max": 100
     }
   },

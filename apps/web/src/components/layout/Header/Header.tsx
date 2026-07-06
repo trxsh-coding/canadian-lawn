@@ -88,7 +88,7 @@ export const Header = ({
               />
             </div>
             <Image src={Logo} alt="logo" width={100} height={100} onClick={handleLogoClick} />
-            <div className="xl: hidden w-full !flex-[0.9] justify-between lg:!flex lg:px-[60px] xl:px-[115px]">
+            <div className="xl: hidden w-full !flex-[0.9] justify-between lg:!flex lg:px-0 xl:px-[115px]">
               <NavLinks />
             </div>
             <div className="flex items-center gap-4 lg:gap-8">

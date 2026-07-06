@@ -124,6 +124,16 @@
           "==": [{ "var": "type" }, "lawn-mix"]
         }
       }
+    },
+    "characteristic": {
+      "type": "component",
+      "component": "common.characteristic",
+      "repeatable": true,
+      "conditions": {
+        "visible": {
+          "in": [{ "var": "type" }, ["tractor", "technique"]]
+        }
+      }
     }
   }
 }

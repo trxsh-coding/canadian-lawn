@@ -45,3 +45,5 @@ export * from './components/ProductCard';
 export * from './components/ButtonGroup';
 
 export * from './components/SliderRange';
+
+export * from './components/Carousel';

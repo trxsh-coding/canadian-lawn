@@ -6,13 +6,15 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { z } from 'zod';
 
-import { Spinner } from '@/components/atoms/Loaders/Spinner';
+import CardPlaceholder from '@/assets/img/card-placeholder.png';
+import { MapleSpinner } from '@/components/atoms/Loaders/MappleSpinner';
 import { detailRoutes } from '@/config/routes';
 import { useProducts } from '@/hooks/api/useProducts';
+import { useInfiniteScrollTrigger } from '@/hooks/useInfiniteScrollTrigger';
 import { useQueryParams } from '@/hooks/useUrlArrayParam';
 import { STRAPI_FILTER_MAP } from '@/utils/filters';
 
-const productDetailRoute: Record<string, (slug: string) => string> = {
+const productDetailRoute: Partial<Record<string, (slug: string) => string>> = {
   tractor: detailRoutes.traktor,
   technique: detailRoutes.technique,
 };
@@ -56,38 +58,52 @@ export const Products = ({ productType }: ProductsProps) => {
     populate: { image: true, images: true, categories: true, partner: true },
     schema: machineryProductSchema,
     filters: { ...filters, type: productType },
-  }).useHook();
+  }).useInfiniteHook();
 
-  if (products.isLoading) {
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } = products;
+
+  const sentinelRef = useInfiniteScrollTrigger(() => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, Boolean(hasNextPage));
+
+  if (isLoading) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
-        <Spinner />
+      <div className="relative h-[50vh] w-full">
+        <MapleSpinner />
       </div>
     );
   }
 
-  if (products.isError) return null;
+  if (isError) return null;
+
+  const items = data?.pages.flatMap((page) => page.data) ?? [];
+  const getRoute = productDetailRoute[productType];
 
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 2xl:grid-cols-3">
-      {products.data?.data.map((product) => {
-        const getRoute = productDetailRoute[productType];
-        const slug = product.slug ?? '';
-        return (
-          <div
-            key={product.id}
-            className="cursor-pointer"
-            onClick={() => getRoute && slug && router.push(getRoute(slug))}
-          >
+    <div className="flex flex-col gap-5">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-5 lg:grid-cols-[repeat(auto-fill,minmax(315px,1fr))]">
+        {items.map((product) => {
+          const slug = product.slug ?? '';
+          return (
             <Card
+              className="!max-w-full"
+              key={product.id}
               title={product.name}
               subtitle={product.sku || null}
               price={product.price}
               image={product.image?.url}
+              placeholder={CardPlaceholder.src}
+              onTitleClick={getRoute && slug ? () => router.push(getRoute(slug)) : undefined}
             />
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
+      <div ref={sentinelRef} />
+      {isFetchingNextPage && (
+        <div className="relative h-16 w-full">
+          <MapleSpinner />
+        </div>
+      )}
     </div>
   );
 };

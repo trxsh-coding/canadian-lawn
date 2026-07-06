@@ -3,10 +3,12 @@ import { Button, Typography } from '@canadian-lawn/ui-kit';
 import React from 'react';
 
 import { Spinner } from '@/components/atoms/Loaders/Spinner';
+import { ContactModal } from '@/components/sections/Feedback';
 import { useContacts } from '@/hooks/api/useContacts';
 
 export const TopContent = () => {
   const { useHook: contacts } = useContacts();
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   const contact = contacts();
 
@@ -27,9 +29,13 @@ export const TopContent = () => {
   return (
     <div className="relative">
       <div className="flex h-full w-full flex-col items-center justify-between gap-4 lg:flex-row">
-        <Button className="!mt-section w-full min-w-[250px] lg:mt-0 lg:w-auto lg:self-end">
-          Связатся с нами
+        <Button
+          className="!mt-section w-full min-w-[250px] lg:mt-0 lg:w-auto lg:self-end"
+          onClick={() => setModalOpen(true)}
+        >
+          Связаться с нами
         </Button>
+        <ContactModal open={modalOpen} onOpenChange={setModalOpen} />
         <div className="text-baseWhite mr-auto flex flex-col gap-4 lg:ml-auto">
           {contactData?.requestMail && (
             <div className="flex flex-col gap-2">

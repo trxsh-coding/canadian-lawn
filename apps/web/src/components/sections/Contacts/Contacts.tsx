@@ -56,7 +56,7 @@ export const Contacts = () => {
 
   return (
     <div className="relative">
-      <div className="flex flex-col gap-5 md:flex-row lg:mb-10">
+      <div className="flex flex-col gap-5 md:flex-row lg:mb-10 lg:px-[60px]">
         <RequisiteCard
           title={contactData?.companyName || ''}
           firstValueTitle="ИНН"

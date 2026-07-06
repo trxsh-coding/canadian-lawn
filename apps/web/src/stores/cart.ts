@@ -4,9 +4,25 @@ import { devtools, persist } from 'zustand/middleware';
 
 type Cart = CartResponse;
 
+export type GuestCartItem = {
+  productId: number;
+  name: string;
+  slug?: string;
+  type?: string;
+  price: number;
+  quantity: number;
+  image?: string;
+  packageWeight?: number;
+  packageUnit?: string;
+};
+
+const isSameGuestItem = (a: GuestCartItem, b: { productId: number; packageWeight?: number }) =>
+  a.productId === b.productId && (a.packageWeight ?? null) === (b.packageWeight ?? null);
+
 interface CartState {
   // State
   cart: Cart | null;
+  guestItems: GuestCartItem[];
   isLoading: boolean;
   error: string | null;
 
@@ -21,6 +37,12 @@ interface CartState {
   updateItemQuantity: (itemId: number, quantity: number) => void;
   clearCart: () => void;
 
+  // Guest cart actions
+  addGuestItem: (item: GuestCartItem) => void;
+  removeGuestItem: (productId: number, packageWeight?: number) => void;
+  updateGuestItemQuantity: (productId: number, quantity: number, packageWeight?: number) => void;
+  clearGuestItems: () => void;
+
   // Selectors (computed values)
   getTotalItems: () => number;
   getTotalPrice: () => number;
@@ -33,6 +55,7 @@ export const useCartStore = create<CartState>()(
       (set, get) => ({
         // Initial State
         cart: null,
+        guestItems: [],
         isLoading: false,
         error: null,
 
@@ -160,6 +183,54 @@ export const useCartStore = create<CartState>()(
             'clearCart'
           ),
 
+        addGuestItem: (newItem: GuestCartItem) =>
+          set(
+            (state) => {
+              const existing = state.guestItems.find((i) => isSameGuestItem(i, newItem));
+              if (existing) {
+                return {
+                  guestItems: state.guestItems.map((i) =>
+                    isSameGuestItem(i, newItem)
+                      ? { ...i, quantity: i.quantity + newItem.quantity }
+                      : i
+                  ),
+                };
+              }
+              return { guestItems: [...state.guestItems, newItem] };
+            },
+            false,
+            'addGuestItem'
+          ),
+
+        removeGuestItem: (productId: number, packageWeight?: number) =>
+          set(
+            (state) => ({
+              guestItems: state.guestItems.filter(
+                (i) => !isSameGuestItem(i, { productId, packageWeight })
+              ),
+            }),
+            false,
+            'removeGuestItem'
+          ),
+
+        updateGuestItemQuantity: (productId: number, quantity: number, packageWeight?: number) =>
+          set(
+            (state) => ({
+              guestItems:
+                quantity <= 0
+                  ? state.guestItems.filter(
+                      (i) => !isSameGuestItem(i, { productId, packageWeight })
+                    )
+                  : state.guestItems.map((i) =>
+                      isSameGuestItem(i, { productId, packageWeight }) ? { ...i, quantity } : i
+                    ),
+            }),
+            false,
+            'updateGuestItemQuantity'
+          ),
+
+        clearGuestItems: () => set({ guestItems: [] }, false, 'clearGuestItems'),
+
         getTotalItems: () => {
           const state = get();
           if (!state.cart) return 0;
@@ -182,6 +253,7 @@ export const useCartStore = create<CartState>()(
       name: 'cart-storage',
       partialize: (state) => ({
         cart: state.cart,
+        guestItems: state.guestItems,
       }),
     }
   )

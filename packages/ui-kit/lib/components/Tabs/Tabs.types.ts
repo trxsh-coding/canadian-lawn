@@ -3,6 +3,7 @@ export type TabsProps<O extends OptionEntity = OptionEntity> = {
   value: O | null;
   className?: string;
   tabItemClassName?: string;
+  titleClassName?: string;
   testId?: string;
   tabItemTestId?: string;
   view?: 'normal' | 'inverse';

@@ -18,6 +18,12 @@ const categorySchema = z.object({
   name: z.string().optional(),
 });
 
+const characteristicSchema = z.object({
+  id: z.number(),
+  name: z.string().nullable().optional(),
+  value: z.string().nullable().optional(),
+});
+
 const baseProductSchema = z.object({
   id: z.number(),
   documentId: z.string(),
@@ -37,6 +43,7 @@ const baseProductSchema = z.object({
   images: z.array(mediaSchema).nullable(),
   image: mediaSchema.nullable().optional(),
   categories: z.array(categorySchema).optional(),
+  features: z.array(categorySchema).optional(),
 
   createdAt: z.string(),
   updatedAt: z.string(),
@@ -46,22 +53,24 @@ const baseProductSchema = z.object({
 // Strict single-type schemas — used in productSchema discriminated union
 const lawnOnlySchema = baseProductSchema.extend({
   type: z.literal(ProductType.Lawn),
-  lawn: lawnSingleSchema,
+  lawn: lawnSingleSchema.nullable(),
 });
 
 const lawnMixOnlySchema = baseProductSchema.extend({
   type: z.literal(ProductType.LawnMix),
-  lawn: lawnSingleSchema,
+  lawn: lawnSingleSchema.nullable(),
 });
 
 export const techniqueProductSchema = baseProductSchema.extend({
   type: z.literal(ProductType.Technique),
-  lawn: z.null(),
+  lawn: z.null().optional(),
+  characteristic: z.array(characteristicSchema).nullable().optional(),
 });
 
 export const tractorProductSchema = baseProductSchema.extend({
   type: z.literal(ProductType.Tractor),
-  lawn: z.null(),
+  lawn: z.null().optional(),
+  characteristic: z.array(characteristicSchema).nullable().optional(),
 });
 
 // Schema for lawn + lawn-mix products (catalog listing & detail)
